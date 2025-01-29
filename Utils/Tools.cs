@@ -70,6 +70,7 @@ namespace GreenHat.Utils
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.WorkingDirectory = dir;
+                process.StartInfo.Verb = "runas";
                 process.Start();
                 return process.StandardOutput.ReadToEnd();
             }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GreenHat.Utils;
+using System;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -16,6 +17,10 @@ namespace GreenHat
             {
                 if (createdNew)
                 {
+                    Application.ThreadExit += (sender, e) =>
+                    {
+                        Engine.Dispose();
+                    };
                     Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                     AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
                     AntdUI.Localization.DefaultLanguage = "zh-CN";

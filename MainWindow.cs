@@ -165,6 +165,7 @@ namespace GreenHat
                                     CancelText = "继续保护",
                                     OnOk = config =>
                                     {
+                                        Engine.Dispose();
                                         Process.GetCurrentProcess().Kill();
                                         return true;
                                     }

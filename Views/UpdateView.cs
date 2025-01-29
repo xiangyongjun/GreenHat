@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
 using GreenHat.Utils;
+using System.Diagnostics;
 
 namespace GreenHat.Views
 {
@@ -30,6 +31,7 @@ namespace GreenHat.Views
             old_label.Text = $"当前版本：{oldVersion}";
             new_label.Text = $"最新版本：{newVersion}";
             if (newVersion.CompareTo(oldVersion) > 0) update_button.Enabled = true;
+            else update_button.Text = "已是最新";
         }
 
         private async Task<string> GetLatestVersionAsync()
@@ -56,7 +58,7 @@ namespace GreenHat.Views
 
         private async void update_button_Click(object sender, EventArgs e)
         {
-            string path = $"{Path.GetTempPath()}GreenHatSetup.exe";
+            string path = $"{Path.GetTempPath()}GreenHatSetup.msi";
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -64,6 +66,8 @@ namespace GreenHat.Views
                     update_button.Text = "正在更新";
                     update_button.Enabled = false;
                     update_button.Loading = true;
+                    download_label.Visible = true;
+                    progress.Visible = true;
                     if (File.Exists(path)) File.Delete(path);
                     HttpResponseMessage response = await client.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
                     response.EnsureSuccessStatusCode();
@@ -90,7 +94,10 @@ namespace GreenHat.Views
             finally
             {
                 update_button.Loading = false;
-                _ = Task.Run(() => Tools.ExecuteCommand(path));
+                _ = Task.Run(() => Tools.ExecuteCommand("msiexec.exe", $"/i \"{path}\""));
+                Tools.DeleteService("GreenHatService");
+                Engine.Dispose();
+                Process.GetCurrentProcess().Kill();
             }
         }
     }

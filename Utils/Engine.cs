@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Diagnostics.Tracing.StackSources;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -170,6 +171,18 @@ namespace GreenHat.Utils
             }
             catch { }
             return null;
+        }
+
+        public static void Dispose()
+        {
+            if (Process.GetProcessesByName("ANK_OEMSERVE").Length > 0)
+            {
+                Process[] processes = Process.GetProcessesByName("ANK_OEMSERVE");
+                foreach (Process processe in processes)
+                {
+                    processe.Kill();
+                }
+            }
         }
     }
 }

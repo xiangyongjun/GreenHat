@@ -33,7 +33,7 @@
             this.new_label = new AntdUI.Label();
             this.progress = new AntdUI.Progress();
             this.update_button = new AntdUI.Button();
-            this.label3 = new AntdUI.Label();
+            this.download_label = new AntdUI.Label();
             this.SuspendLayout();
             // 
             // old_label
@@ -60,6 +60,7 @@
             this.progress.Size = new System.Drawing.Size(421, 23);
             this.progress.TabIndex = 2;
             this.progress.Text = "";
+            this.progress.Visible = false;
             // 
             // update_button
             // 
@@ -76,17 +77,18 @@
             this.update_button.WaveSize = 0;
             this.update_button.Click += new System.EventHandler(this.update_button_Click);
             // 
-            // label3
+            // download_label
             // 
-            this.label3.Location = new System.Drawing.Point(3, 71);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 23);
-            this.label3.TabIndex = 45;
-            this.label3.Text = "下载进度：";
+            this.download_label.Location = new System.Drawing.Point(3, 71);
+            this.download_label.Name = "download_label";
+            this.download_label.Size = new System.Drawing.Size(67, 23);
+            this.download_label.TabIndex = 45;
+            this.download_label.Text = "下载进度：";
+            this.download_label.Visible = false;
             // 
             // UpdateView
             // 
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.download_label);
             this.Controls.Add(this.update_button);
             this.Controls.Add(this.progress);
             this.Controls.Add(this.new_label);
@@ -103,6 +105,6 @@
         private AntdUI.Label new_label;
         private AntdUI.Progress progress;
         private AntdUI.Button update_button;
-        private AntdUI.Label label3;
+        private AntdUI.Label download_label;
     }
 }
