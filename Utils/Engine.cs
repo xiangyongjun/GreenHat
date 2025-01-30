@@ -1,5 +1,4 @@
-﻿using Microsoft.Diagnostics.Tracing.StackSources;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -59,7 +58,7 @@ namespace GreenHat.Utils
                 if (virus.Length < 2 || string.IsNullOrEmpty(virus[1])) continue;
                 if (result[0].Length > 0) result[0] += "、";
                 result[0] += virus[0];
-                if (string.IsNullOrEmpty(result[1]) || result[1].StartsWith("Unknown.Virus")) result[1] = virus[1];
+                result[1] = virus[1];
             }
             return !string.IsNullOrEmpty(result[0]);
         }
@@ -82,7 +81,7 @@ namespace GreenHat.Utils
             {
                 string result = Tools.ExecuteCommand($"{basePath}KoloclassifyTool\\KoloclassifyTool.exe", $"--model model.joblib --file {path}", $"{basePath}KoloclassifyTool");
                 if (string.IsNullOrEmpty(result)) return null;
-                return result.Trim() == "1" ? "Unknown.Virus" : null;
+                return result.Trim() == "1" ? "Win/Malicious.KoloVD" : null;
             }
             catch { }
             return null;
@@ -94,7 +93,7 @@ namespace GreenHat.Utils
             {
                 string result = Tools.ExecuteCommand($"{basePath}Ank\\OEM_ANKCORE.exe", $"\"{path}\"", $"{basePath}Ank");
                 if (string.IsNullOrEmpty(result)) return null;
-                return double.Parse(result.Trim()) >= 0.9 ? "Unknown.Virus" : null;
+                return double.Parse(result.Trim()) >= 0.9 ? "Win/Malicious.ANK" : null;
             }
             catch {}
             return null;
@@ -151,7 +150,7 @@ namespace GreenHat.Utils
                     {
                         string responseBody = response.Content.ReadAsStringAsync().Result;
                         JObject obj = JObject.Parse(responseBody);
-                        return !obj.GetValue("result").ToString().Equals("safe") ? "Unknown.Virus" : null;
+                        return !obj.GetValue("result").ToString().Equals("safe") ? "Win/Malicious.CZK" : null;
                     }
                 }
             }
@@ -167,7 +166,7 @@ namespace GreenHat.Utils
                 if (string.IsNullOrEmpty(result)) return null;
                 JObject obj = JObject.Parse(result);
                 int score = (int)obj["Server"]["return"]["安全指数"];
-                return score < 70 ? "Unknown.Virus" : null;
+                return score < 70 ? "Win/Malicious.KCST" : null;
             }
             catch { }
             return null;
