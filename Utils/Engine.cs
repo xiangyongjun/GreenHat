@@ -115,22 +115,16 @@ namespace GreenHat.Utils
         {
             try
             {
-                string url = "https://pc120.lisect.com/scan/";
                 TOTP totp = new TOTP("");
-                Dictionary<string, string> formData = new Dictionary<string, string>
-                {
-                    { "token", totp.Now() },
-                    { "md5", Tools.GetMd5(path) }
-                };
+                string url = $"https://www.virusmark.com/scan_get?md5={Tools.GetMd5(path)}&token={totp.Now()}";
                 using (HttpClient client = new HttpClient())
                 {
-                    FormUrlEncodedContent content = new FormUrlEncodedContent(formData);
-                    HttpResponseMessage response = client.PostAsync(url, content).Result;
+                    HttpResponseMessage response = client.GetAsync(url).Result;
                     if (response.IsSuccessStatusCode)
                     {
                         string responseBody = response.Content.ReadAsStringAsync().Result;
                         JObject obj = JObject.Parse(responseBody);
-                        return (int)obj.GetValue("score") >= 80 ? obj.GetValue("tag").ToString().Replace("HDE:", "") : null;
+                        return (int)obj.GetValue("score") >= 80 ? obj.GetValue("tag").ToString().Replace("HDE:", "").Replace("DIN:", "") : null;
                     }
                 }
             }
