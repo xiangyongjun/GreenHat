@@ -23,7 +23,7 @@ namespace GreenHat.Utils
         public static void Next()
         {
             if (curForm != null) set.Remove(curForm.GetPath());
-            InterceptForm interceptForm = queue.Dequeue();
+            InterceptForm interceptForm = queue.Count > 0 ? queue.Dequeue() : null;
             curForm = interceptForm;
             if (interceptForm == null) return;
             set.Remove(interceptForm.GetPath());
