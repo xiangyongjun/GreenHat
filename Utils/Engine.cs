@@ -115,7 +115,7 @@ namespace GreenHat.Utils
         {
             try
             {
-                TOTP totp = new TOTP("VSF2OU6B2YAXZ7426372QOGV6Y");
+                TOTP totp = new TOTP("");
                 string url = $"https://www.virusmark.com/scan_get?md5={Tools.GetMd5(path)}&token={totp.Now()}";
                 using (HttpClient client = new HttpClient())
                 {
@@ -141,7 +141,7 @@ namespace GreenHat.Utils
                 {
                     { "form", "json" },
                     { "md5", Tools.GetMd5(path) },
-                    { "key", "bYuR1IoQiJLqlYOF9WAJMU5JIe7zt+h1GcGs2cLm6Kk=" }
+                    { "key", "" }
                 };
                 using (HttpClient client = new HttpClient())
                 {

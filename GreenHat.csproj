@@ -13,7 +13,7 @@
 		<Copyright>Copyright © XiangYongJun</Copyright>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<Version>2.0.1.0</Version>
+		<Version>2.0.2.0</Version>
 		<Authors>皮皮俊</Authors>
 		<Description>绿帽子安全防护</Description>
 		<PackageProjectUrl></PackageProjectUrl>
