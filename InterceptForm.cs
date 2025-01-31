@@ -73,5 +73,15 @@ namespace GreenHat
             File.Delete(path);
             Close();
         }
+
+        private void InterceptForm_FormClosed(object sender, System.Windows.Forms.FormClosedEventArgs e)
+        {
+            InterceptQueue.Next();
+        }
+
+        public string GetPath()
+        {
+            return path;
+        }
     }
 }

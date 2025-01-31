@@ -13,6 +13,13 @@ namespace GreenHat.Utils
 
         public static void Init()
         {
+            if (SysConfig.GetSetting("科洛机器学习引擎").Enabled)
+            {
+                Task.Run(() =>
+                {
+                    Tools.ExecuteCommand($"{basePath}KoloclassifyTool\\updateTool.exe", "--koloclassifytool", $"{basePath}KoloclassifyTool");
+                });
+            }
             if (SysConfig.GetSetting("ANK云雀轻量机学引擎").Enabled && Process.GetProcessesByName("ANK_OEMSERVE").Length == 0)
             {
                 Task.Run(() => 
@@ -109,7 +116,7 @@ namespace GreenHat.Utils
             try
             {
                 string url = "https://pc120.lisect.com/scan/";
-                TOTP totp = new TOTP("VSF2OU6B2YAXZ7426372QOGV6Y");
+                TOTP totp = new TOTP("");
                 Dictionary<string, string> formData = new Dictionary<string, string>
                 {
                     { "token", totp.Now() },
@@ -140,7 +147,7 @@ namespace GreenHat.Utils
                 {
                     { "form", "json" },
                     { "md5", Tools.GetMd5(path) },
-                    { "key", "bYuR1IoQiJLqlYOF9WAJMU5JIe7zt+h1GcGs2cLm6Kk=" }
+                    { "key", "" }
                 };
                 using (HttpClient client = new HttpClient())
                 {
@@ -174,13 +181,15 @@ namespace GreenHat.Utils
 
         public static void Dispose()
         {
+            if (Process.GetProcessesByName("updateTool").Length > 0)
+            {
+                Process[] processes = Process.GetProcessesByName("updateTool");
+                foreach (Process processe in processes) processe.Kill();
+            }
             if (Process.GetProcessesByName("ANK_OEMSERVE").Length > 0)
             {
                 Process[] processes = Process.GetProcessesByName("ANK_OEMSERVE");
-                foreach (Process processe in processes)
-                {
-                    processe.Kill();
-                }
+                foreach (Process processe in processes) processe.Kill();
             }
         }
     }

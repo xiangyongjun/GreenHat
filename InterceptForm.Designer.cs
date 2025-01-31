@@ -222,6 +222,7 @@
             this.Resizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GreenHat";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.InterceptForm_FormClosed);
             this.Shown += new System.EventHandler(this.InterceptForm_Shown);
             this.ResumeLayout(false);
 

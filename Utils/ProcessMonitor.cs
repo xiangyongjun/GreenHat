@@ -42,7 +42,7 @@ class ProcessMonitor
             {
                 Tools.SuspendProcess(process);
                 SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
-                new InterceptForm("进程实时监控", result[0], result[1], process).ShowDialog();
+                InterceptQueue.Add(new InterceptForm("进程实时监控", result[0], result[1], process));
             }
         }
         catch { }

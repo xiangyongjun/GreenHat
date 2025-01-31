@@ -55,7 +55,7 @@ namespace GreenHat.Utils
                 if (!SysConfig.IsWhite(path) && Engine.IsVirus(path, out result))
                 {
                     SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
-                    new InterceptForm("文件实时监控", name, path, result[0], result[1]).ShowDialog();
+                    InterceptQueue.Add(new InterceptForm("文件实时监控", name, path, result[0], result[1]));
                 }
             }
             catch { }
