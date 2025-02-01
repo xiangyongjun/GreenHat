@@ -1,50 +1,50 @@
 <div align="center">
   <img alt="logo" width="120" height="120" src="./icon.ico">
-  <h1>ÂÌÃ±×Ó°²È«·À»¤</h1>
+  <h1>ç»¿å¸½å­å®‰å…¨é˜²æŠ¤</h1>
 </div>
 
 [![github release](https://img.shields.io/github/v/release/xiangyongjun/GreenHat?style=flat)](https://github.com/xiangyongjun/GreenHat/releases)
 [![github stars](https://img.shields.io/github/stars/xiangyongjun/GreenHat?style=flat)](https://github.com/xiangyongjun/GreenHat/stargazers)
 
-## ¼ò½é
-Ò»¿î×¨Îª¹úÈË¶¨ÖÆ´òÔì£¬¼¯¶à¸ö¹ú²úÉ±¶¾ÒýÇæÓÚÒ»ÉíµÄ Windows ²Ù×÷ÏµÍ³°²È«·À»¤Èí¼þ
+## ç®€ä»‹
+ä¸€æ¬¾ä¸“ä¸ºå›½äººå®šåˆ¶æ‰“é€ ï¼Œé›†å¤šä¸ªå›½äº§æ€æ¯’å¼•æ“ŽäºŽä¸€èº«çš„ Windows æ“ä½œç³»ç»Ÿå®‰å…¨é˜²æŠ¤è½¯ä»¶
 
-## ¹¦ÄÜ
-* ²¡¶¾²éÉ±£¨¿ìËÙ²éÉ±¡¢È«ÅÌ²éÉ±¡¢×Ô¶¨Òå²éÉ±£©
-* µçÄÔÅäÖÃ²é¿´
-* ÈÕÖ¾²é¿´
-* ·À»¤ÉèÖÃ£¨½ø³Ì·À»¤¡¢ÎÄ¼þ·À»¤¡¢Òýµ¼·À»¤¡¢¿ª»úÆô¶¯¡¢²éÉ±ÒýÇæÉèÖÃµÈ£©
-* ÐÅÈÎÇø¹¦ÄÜ
-* ¸ôÀëÇø¹¦ÄÜ
-* ¸üÐÂ¹¦ÄÜ
+## åŠŸèƒ½
+* ç—…æ¯’æŸ¥æ€ï¼ˆå¿«é€ŸæŸ¥æ€ã€å…¨ç›˜æŸ¥æ€ã€è‡ªå®šä¹‰æŸ¥æ€ï¼‰
+* ç”µè„‘é…ç½®æŸ¥çœ‹
+* æ—¥å¿—æŸ¥çœ‹
+* é˜²æŠ¤è®¾ç½®ï¼ˆè¿›ç¨‹é˜²æŠ¤ã€æ–‡ä»¶é˜²æŠ¤ã€å¼•å¯¼é˜²æŠ¤ã€å¼€æœºå¯åŠ¨ã€æŸ¥æ€å¼•æ“Žè®¾ç½®ç­‰ï¼‰
+* ä¿¡ä»»åŒºåŠŸèƒ½
+* éš”ç¦»åŒºåŠŸèƒ½
+* æ›´æ–°åŠŸèƒ½
 
-## ÔËÐÐ»·¾³
-* ²Ù×÷ÏµÍ³£ºWindows 7¡¢8¡¢10¡¢11µÈ
-* ÔËÐÐÊ±£º.NET Framework 4.8+
-* ÔËÐÐÄÚ´æ£º1G+
-* Ó²ÅÌÈÝÁ¿£º500M+
+## è¿è¡ŒçŽ¯å¢ƒ
+* æ“ä½œç³»ç»Ÿï¼šWindows 7ã€8ã€10ã€11ç­‰
+* è¿è¡Œæ—¶ï¼š.NET Framework 4.8+
+* è¿è¡Œå†…å­˜ï¼š1G+
+* ç¡¬ç›˜å®¹é‡ï¼š500M+
 
-## ²éÉ±ÒýÇæ
-* [¿ÆÂå»úÆ÷Ñ§Ï°ÒýÇæ£¨±¾µØÒýÇæ£©](https://github.com/kelomina/KoloVirusDetector_ML)
-* [ANKÔÆÈ¸ÇáÁ¿»úÑ§ÒýÇæ£¨±¾µØÒýÇæ£©](https://www.ankml.top)
-* [T-Safety¹â»¡YARAÒýÇæ£¨ÔÝ²»¿ÉÓÃ£¬µÈ´ýÒýÇæ×÷ÕßÐÞ¸´£©](https://space.bilibili.com/3493145551571279)
-* [ÁÔ½£ÔÆÒýÇæ£¨ÔÆÒýÇæ£©](https://www.ankml.top)
-* [czkÉ±¶¾ÒýÇæ£¨ÔÆÒýÇæ£©](https://weilai.szczk.top/api/#introduction)
-* [¿ÆÂåÔÆ¶ËÍþÐ²Çé±¨ÖÐÐÄ£¨ÔÆÒýÇæ£©](https://github.com/kelomina/KoloVirusDetector_ML)
+## æŸ¥æ€å¼•æ“Ž
+* [ç§‘æ´›æœºå™¨å­¦ä¹ å¼•æ“Žï¼ˆæœ¬åœ°å¼•æ“Žï¼‰](https://github.com/kelomina/KoloVirusDetector_ML)
+* [ANKäº‘é›€è½»é‡æœºå­¦å¼•æ“Žï¼ˆæœ¬åœ°å¼•æ“Žï¼‰](https://www.ankml.top)
+* [T-Safetyå…‰å¼§YARAå¼•æ“Žï¼ˆæš‚ä¸å¯ç”¨ï¼Œç­‰å¾…å¼•æ“Žä½œè€…ä¿®å¤ï¼‰](https://space.bilibili.com/3493145551571279)
+* [çŒŽå‰‘äº‘å¼•æ“Žï¼ˆäº‘å¼•æ“Žï¼‰](https://www.virusmark.com)
+* [czkæ€æ¯’å¼•æ“Žï¼ˆäº‘å¼•æ“Žï¼‰](https://weilai.szczk.top/api/#introduction)
+* [ç§‘æ´›äº‘ç«¯å¨èƒæƒ…æŠ¥ä¸­å¿ƒï¼ˆäº‘å¼•æ“Žï¼‰](https://github.com/kelomina/KoloVirusDetector_ML)
 
-## ¼¼ÊõÕ»
+## æŠ€æœ¯æ ˆ
 * [C#](https://learn.microsoft.com/zh-cn/dotnet/csharp)
 * [.NET Framework 4.8](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net48)
 * [AntdUI](https://github.com/AntdUI/AntdUI)
 * [SqlSugar](https://github.com/DotNetNext/SqlSugar)
 
-## ±Ø¶Á£¨ÖØÒª£©
-> ±¾Ô´Âë²»º¬ ²éÉ±ÒýÇæ¡¢Êý¾Ý¿â¡¢¿ª»úÆô¶¯·þÎñ µÈÎÄ¼þ£¬Ðè[×ÔÐÐÏÂÔØ](https://github.com/xiangyongjun/GreenHat/releases)°²×°ºóÕÒµ½¶ÔÓ¦È±ÉÙµÄ engine¡¢Config.db¡¢GreenHatService.exe µÈÎÄ¼þ
+## å¿…è¯»ï¼ˆé‡è¦ï¼‰
+> æœ¬æºç ä¸å« æŸ¥æ€å¼•æ“Žã€æ•°æ®åº“ã€å¼€æœºå¯åŠ¨æœåŠ¡ ç­‰æ–‡ä»¶ï¼Œéœ€[è‡ªè¡Œä¸‹è½½](https://github.com/xiangyongjun/GreenHat/releases)å®‰è£…åŽæ‰¾åˆ°å¯¹åº”ç¼ºå°‘çš„ engineã€Config.dbã€GreenHatService.exe ç­‰æ–‡ä»¶
 
-## ½»Á÷
-> ×ÔÖÆÉ±ÈíQQ½»Á÷Èº£º753603544
+## äº¤æµ
+> è‡ªåˆ¶æ€è½¯QQäº¤æµç¾¤ï¼š753603544
 
-## Èí¼þ½ØÍ¼
+## è½¯ä»¶æˆªå›¾
 ![Alt](./Images/1.png)
 
 ![Alt](./Images/2.png)
