@@ -42,11 +42,12 @@
 	<ItemGroup>
 		<PackageReference Include="AntdUI" Version="1.8.6" />
 		<PackageReference Include="Hardware.Info" Version="101.0.0" />
-		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.18" />
+		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.19" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SqlSugar" Version="5.1.4.175" />
 		<PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+		<PackageReference Include="Vip.Notification" Version="1.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -60,24 +61,12 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Views\AboutView.cs">
-		  <SubType>UserControl</SubType>
-		</Compile>
-		<Compile Update="Views\UpdateView.cs">
-		  <SubType>UserControl</SubType>
-		</Compile>
-		<Compile Update="Views\WhiteView.cs">
-		  <SubType>UserControl</SubType>
-		</Compile>
-		<Compile Update="Views\SettingView.cs">
-		  <SubType>UserControl</SubType>
-		</Compile>
-		<Compile Update="Views\LogView.cs">
-		  <SubType>UserControl</SubType>
-		</Compile>
-		<Compile Update="Views\ScanView.cs">
-		  <SubType>UserControl</SubType>
-		</Compile>
+		<Compile Update="Views\AboutView.cs" />
+		<Compile Update="Views\UpdateView.cs" />
+		<Compile Update="Views\WhiteView.cs" />
+		<Compile Update="Views\SettingView.cs" />
+		<Compile Update="Views\LogView.cs" />
+		<Compile Update="Views\ScanView.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,7 +1,6 @@
 ﻿using AntdUI;
 using GreenHat.Utils;
 using System.Diagnostics;
-using System.IO;
 
 namespace GreenHat
 {
@@ -72,7 +71,7 @@ namespace GreenHat
             try
             {
                 if (process != null) process.Kill();
-                Tools.ForceDeleteFile(path);
+                SysConfig.AddBlack(path, type);
             }
             catch { }
             Close();

@@ -30,7 +30,7 @@ namespace GreenHat.Utils
                         EnableRaisingEvents = true
                     };
                     watcher.Created += FileHandle;
-                    watcher.Changed += FileHandle;
+                    //watcher.Changed += FileHandle;
                     watcher.Renamed += FileHandle;
                     fileWatchers.Add(watcher);
                 }
@@ -54,13 +54,19 @@ namespace GreenHat.Utils
                 string[] result;
                 if (!SysConfig.IsWhite(path) && Engine.IsVirus(path, out result))
                 {
-                    SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
                     if (SysConfig.GetSetting("静默模式").Enabled)
                     {
-                        Tools.ForceDeleteFile(path);
-                        SysConfig.AddLog("病毒防护", "删除病毒", $"文件：{path}");
+                        MainWindow.Instance.Invoke(new Action(() =>
+                        {
+                            Vip.Notification.Alert.ShowWarning($"病毒拦截：已隔离\n文件：{path}", 5000);
+                        }));
+                        SysConfig.AddBlack(path, result[1]);
                     }
-                    else InterceptQueue.Add(new InterceptForm("文件实时监控", name, path, result[0], result[1]));
+                    else
+                    {
+                        SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
+                        InterceptQueue.Add(new InterceptForm("文件实时监控", name, path, result[0], result[1]));
+                    }
                 }
             }
             catch { }

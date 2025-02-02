@@ -53,7 +53,7 @@ namespace GreenHat.Views
                                 else MbrProtect.Close();
                                 break;
                             case "开机启动":
-                                if (value) Tools.CreateAndStartService("GreenHatService", $"{AppDomain.CurrentDomain.BaseDirectory}\\GreenHatService.exe");
+                                if (value) Tools.CreateAndStartService("GreenHatService", $"{AppDomain.CurrentDomain.BaseDirectory}GreenHatService.exe");
                                 else Tools.DeleteService("GreenHatService");
                                 break;
                             default:

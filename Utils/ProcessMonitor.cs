@@ -43,9 +43,12 @@ class ProcessMonitor
 
                 if (SysConfig.GetSetting("静默模式").Enabled)
                 {
+                    MainWindow.Instance.Invoke(new Action(() =>
+                    {
+                        Vip.Notification.Alert.ShowWarning($"病毒拦截：已隔离\n文件：{path}", 5000);
+                    }));
                     process.Kill();
-                    Tools.ForceDeleteFile(path);
-                    SysConfig.AddLog("病毒防护", "删除病毒", $"文件：{path}");
+                    SysConfig.AddBlack(path, result[1]);
                 }
                 else
                 {
