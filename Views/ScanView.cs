@@ -134,7 +134,11 @@ namespace GreenHat.Views
                     {
                         
                         bool isQuiet = SysConfig.GetSetting("静默模式").Enabled;
-                        if (isQuiet) Tools.ForceDeleteFile(path);
+                        if (isQuiet)
+                        {
+                            Tools.ForceDeleteFile(path);
+                            SysConfig.AddLog("病毒防护", "删除病毒", $"文件：{path}");
+                        }
                         else SysConfig.AddBlack(path, result[1]);
                         tableList.Add(new ScanTable()
                         {
