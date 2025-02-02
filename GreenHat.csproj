@@ -13,13 +13,13 @@
 		<Copyright>Copyright © XiangYongJun</Copyright>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<Version>2.0.3.0</Version>
+		<Version>2.0.4.0</Version>
 		<Authors>皮皮俊</Authors>
 		<Description>绿帽子安全防护</Description>
 		<PackageProjectUrl></PackageProjectUrl>
 		<PackageIcon></PackageIcon>
 		<PackageReadmeFile></PackageReadmeFile>
-		<RepositoryUrl></RepositoryUrl>
+		<RepositoryUrl>https://github.com/xiangyongjun/GreenHat</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags></PackageTags>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
