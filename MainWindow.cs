@@ -14,6 +14,7 @@ namespace GreenHat
 {
     public partial class MainWindow : Window
     {
+        public static MainWindow Instance { get; private set; }
         private bool isLight = true;
         private List<UserControl> controls = new List<UserControl>();
         private bool firstHide = false;
@@ -22,7 +23,6 @@ namespace GreenHat
         {
             firstHide = hide;
             SysConfig.AddLog("其他", "程序启动", $"操作时间：{DateTime.Now.ToString()}");
-            Engine.Init();
             InitializeComponent();
             CheckEngine();
             CheckService();
@@ -32,6 +32,7 @@ namespace GreenHat
             GetVersion();
             InitTray();
             InitMonitor();
+            Engine.Init();
         }
 
         private void CheckEngine()
@@ -48,8 +49,13 @@ namespace GreenHat
 
         private void CheckService()
         {
+            string servicePath = $"{AppDomain.CurrentDomain.BaseDirectory}GreenHatService.exe";
+            if (!File.Exists(servicePath))
+            {
+                File.WriteAllBytes(servicePath, Properties.Resources.GreenHatService);
+            }
             if (SysConfig.GetSetting("开机启动").Enabled || Tools.ServiceExists("GreenHatService")) return;
-            Tools.CreateAndStartService("GreenHatService", $"{AppDomain.CurrentDomain.BaseDirectory}\\GreenHatService.exe");
+            Tools.CreateAndStartService("GreenHatService", servicePath);
         }
 
         private void InitData()
@@ -125,6 +131,7 @@ namespace GreenHat
 
         private void MainWindow_Shown(object sender, EventArgs e)
         {
+            Instance = this;
             segmented_SelectIndexChanged(null, new IntEventArgs(0));
             if (firstHide)
             {

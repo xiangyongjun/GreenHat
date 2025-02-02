@@ -12,9 +12,14 @@ namespace GreenHat.Utils
 
         static SysConfig()
         {
+            string configPath = $"{AppDomain.CurrentDomain.BaseDirectory}Config.db";
+            if (!File.Exists(configPath))
+            {
+                File.WriteAllBytes(configPath, Properties.Resources.Config);
+            }
             db = new SqlSugarClient(new ConnectionConfig()
             {
-                ConnectionString = $"Data Source={AppDomain.CurrentDomain.BaseDirectory}\\Config.db;Version=3;",
+                ConnectionString = $"Data Source={configPath};Version=3;",
                 DbType = DbType.Sqlite,
                 IsAutoCloseConnection = true,
                 InitKeyType = InitKeyType.Attribute,
@@ -58,7 +63,7 @@ namespace GreenHat.Utils
 
         public static bool AddLog(string type, string func, string desc)
         {
-            return db.CopyNew().Insertable(new Log()
+            return db.CopyNew().CopyNew().Insertable(new Log()
             {
                 Time = DateTime.Now,
                 Type = type,
@@ -106,20 +111,21 @@ namespace GreenHat.Utils
         {
             try
             {
+                if (db.CopyNew().Queryable<Black>().Where(it => it.Path.Equals(path)).Count() > 0) return false;
                 int id = db.CopyNew().Insertable(new Black()
                 {
                     Time = DateTime.Now,
                     Path = path,
                     Type = type
                 }).ExecuteReturnIdentity();
-                string dir = $"{AppDomain.CurrentDomain.BaseDirectory}\\backup\\";
+                string dir = $"{AppDomain.CurrentDomain.BaseDirectory}backup\\";
                 if (!Directory.Exists(dir))
                 {
                     Directory.CreateDirectory(dir);
                 }
                 AddLog("病毒防护", "添加隔离", $"文件：{path}");
                 Tools.EncryptFile(path, $"{dir}{id}.bak", "GreenHat12345678");
-                Tools.ForceDeleteFile(path);
+                File.Delete(path);
             }
             catch
             {
@@ -131,7 +137,7 @@ namespace GreenHat.Utils
         public static bool RestoreBlack(List<int> ids)
         {
             List<Black> blackList = db.Queryable<Black>().In(ids).ToList();
-            string dir = $"{AppDomain.CurrentDomain.BaseDirectory}\\backup\\";
+            string dir = $"{AppDomain.CurrentDomain.BaseDirectory}backup\\";
             foreach (Black item in blackList)
             {
                 Tools.DecryptFile($"{dir}{item.Id}.bak", item.Path, "GreenHat12345678");
@@ -143,7 +149,7 @@ namespace GreenHat.Utils
         public static bool RemoveBlack(List<int> ids)
         {
             List<Black> blackList = db.Queryable<Black>().In(ids).ToList();
-            string dir = $"{AppDomain.CurrentDomain.BaseDirectory}\\backup\\";
+            string dir = $"{AppDomain.CurrentDomain.BaseDirectory}backup\\";
             foreach (Black item in blackList)
             {
                 File.Delete($"{dir}{item.Id}.bak");
@@ -153,7 +159,7 @@ namespace GreenHat.Utils
 
         public static bool IsBlack(string path)
         {
-            return db.Queryable<Black>().Where(it => it.Path == path).Count() > 0;
+            return db.CopyNew().Queryable<Black>().Where(it => it.Path == path).Count() > 0;
         }
 
         public static int CountBlack()
