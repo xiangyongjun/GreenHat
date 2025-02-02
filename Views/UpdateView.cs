@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
 using GreenHat.Utils;
-using System.Diagnostics;
 
 namespace GreenHat.Views
 {
@@ -58,7 +57,7 @@ namespace GreenHat.Views
 
         private async void update_button_Click(object sender, EventArgs e)
         {
-            string path = $"{Path.GetTempPath()}GreenHatSetup.msi";
+            string path = $"{Path.GetTempPath()}update.zip";
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -94,10 +93,9 @@ namespace GreenHat.Views
             finally
             {
                 update_button.Loading = false;
-                _ = Task.Run(() => Tools.ExecuteCommand("msiexec.exe", $"/i \"{path}\""));
                 Tools.DeleteService("GreenHatService");
                 Engine.Dispose();
-                Process.GetCurrentProcess().Kill();
+                Tools.ExecuteCommand($"{AppDomain.CurrentDomain.BaseDirectory}update.bat", "", $"{AppDomain.CurrentDomain.BaseDirectory}");
             }
         }
     }
