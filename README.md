@@ -31,6 +31,7 @@
 * [猎剑云引擎（云引擎）](https://www.ankml.top)
 * [czk杀毒引擎（云引擎）](https://weilai.szczk.top/api/#introduction)
 * [科洛云端威胁情报中心（云引擎）](https://github.com/kelomina/KoloVirusDetector_ML)
+* [极速安全查杀云引擎](https://www.hkts.fun)
 
 ## 技术栈
 * [C#](https://learn.microsoft.com/zh-cn/dotnet/csharp)

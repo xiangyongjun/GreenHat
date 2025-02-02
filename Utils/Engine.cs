@@ -13,7 +13,7 @@ namespace GreenHat.Utils
 
         public static void Init()
         {
-            if (SysConfig.GetSetting("科洛机器学习引擎").Enabled)
+            if (SysConfig.GetSetting("科洛机器学习引擎").Enabled && Process.GetProcessesByName("updateTool").Length == 0)
             {
                 Task.Run(() =>
                 {
@@ -57,6 +57,10 @@ namespace GreenHat.Utils
             if (isScan && SysConfig.GetSetting("科洛云端威胁情报中心").Enabled)
             {
                 tasks.Add(Task.Run(() => $"科洛云端威胁情报中心\t{KcstScan(path)}"));
+            }
+            if (isScan && SysConfig.GetSetting("极速安全查杀云引擎").Enabled)
+            {
+                tasks.Add(Task.Run(() => $"极速安全查杀云引擎\t{HktsScan(path)}"));
             }
             Task.WaitAll(tasks.ToArray());
             foreach (Task<string> task in tasks)
@@ -115,7 +119,7 @@ namespace GreenHat.Utils
         {
             try
             {
-                TOTP totp = new TOTP("");
+                TOTP totp = new TOTP("VSF2OU6B2YAXZ7426372QOGV6Y");
                 string url = $"https://www.virusmark.com/scan_get?md5={Tools.GetMd5(path)}&token={totp.Now()}";
                 using (HttpClient client = new HttpClient())
                 {
@@ -141,7 +145,7 @@ namespace GreenHat.Utils
                 {
                     { "form", "json" },
                     { "md5", Tools.GetMd5(path) },
-                    { "key", "" }
+                    { "key", "bYuR1IoQiJLqlYOF9WAJMU5JIe7zt+h1GcGs2cLm6Kk=" }
                 };
                 using (HttpClient client = new HttpClient())
                 {
@@ -168,6 +172,26 @@ namespace GreenHat.Utils
                 JObject obj = JObject.Parse(result);
                 int score = (int)obj["Server"]["return"]["安全指数"];
                 return score < 70 ? "Win/Malicious.KCST" : null;
+            }
+            catch { }
+            return null;
+        }
+
+        public static string HktsScan(string path)
+        {
+            try
+            {
+                string url = $"https://api.hkts.us.kg/?key=PK7jDGr6Dq&Virus={Tools.GetMd5(path)}";
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = client.GetAsync(url).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string responseBody = response.Content.ReadAsStringAsync().Result;
+                        JObject obj = JObject.Parse(responseBody);
+                        return !obj.GetValue("status").ToString().Equals("Safe") ? "Win/Malicious.HKTS" : null;
+                    }
+                }
             }
             catch { }
             return null;
