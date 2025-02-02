@@ -104,20 +104,27 @@ namespace GreenHat.Utils
 
         public static bool AddBlack(string path, string type)
         {
-            int id = db.CopyNew().Insertable(new Black()
+            try
             {
-                Time = DateTime.Now,
-                Path = path,
-                Type = type
-            }).ExecuteReturnIdentity();
-            string dir = $"{AppDomain.CurrentDomain.BaseDirectory}\\backup\\";
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
+                int id = db.CopyNew().Insertable(new Black()
+                {
+                    Time = DateTime.Now,
+                    Path = path,
+                    Type = type
+                }).ExecuteReturnIdentity();
+                string dir = $"{AppDomain.CurrentDomain.BaseDirectory}\\backup\\";
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                AddLog("病毒防护", "添加隔离", $"文件：{path}");
+                Tools.EncryptFile(path, $"{dir}{id}.bak", "GreenHat12345678");
+                Tools.ForceDeleteFile(path);
             }
-            AddLog("病毒防护", "添加隔离", $"文件：{path}");
-            Tools.EncryptFile(path, $"{dir}{id}.bak", "GreenHat12345678");
-            File.Delete(path);
+            catch
+            {
+                return false;
+            }
             return true;
         }
 

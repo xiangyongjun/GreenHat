@@ -69,8 +69,12 @@ namespace GreenHat
 
         private void black_button_Click(object sender, System.EventArgs e)
         {
-            if (process != null) process.Kill();
-            File.Delete(path);
+            try
+            {
+                if (process != null) process.Kill();
+                Tools.ForceDeleteFile(path);
+            }
+            catch { }
             Close();
         }
 

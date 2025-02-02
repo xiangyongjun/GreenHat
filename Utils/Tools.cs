@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -144,6 +146,21 @@ namespace GreenHat.Utils
             string result = BitConverter.ToString(MD5.Create().ComputeHash(fileStream)).Replace("-", "").ToLowerInvariant();
             fileStream.Close();
             return result;
+        }
+
+        public static void ForceDeleteFile(string path)
+        {
+            List<Process> processes = Process.GetProcesses().ToList()
+            .Where(p => p.Modules.Cast<ProcessModule>()
+            .Any(m => m.FileName.Equals(path, StringComparison.OrdinalIgnoreCase)))
+            .ToList();
+            foreach (var process in processes)
+            {
+                process.Kill();
+                process.WaitForExit();
+                Console.WriteLine($"已终止进程: {process.ProcessName}");
+            }
+            File.Delete(path);
         }
     }
 }

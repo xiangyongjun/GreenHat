@@ -16,7 +16,8 @@ namespace GreenHat.Views
         private ManualResetEventSlim pauseEvent;
         private int time = 0;
         private int count = 0;
-        private AntList<Models.ScanTable> tableList = new AntList<Models.ScanTable>();
+        private int total = 0;
+        private AntList<ScanTable> tableList = new AntList<ScanTable>();
         private string type;
 
         public ScanView(MainWindow mainForm)
@@ -113,6 +114,7 @@ namespace GreenHat.Views
             count_label.Text = "威胁数量：0";
             time = 0;
             count = 0;
+            total = 0;
             quick_button.Enabled = false;
             full_button.Enabled = false;
             custom_button.Enabled = false;
@@ -122,22 +124,29 @@ namespace GreenHat.Views
             {
                 pauseEvent.Wait(cts.Token);
                 if (cts.Token.IsCancellationRequested) return false;
+                total++;
                 header.Description = path;
                 string[] result;
                 if (Engine.IsVirus(path, out result, true))
                 {
-                    count_label.Text = $"威胁数量：{count}";
-                    SysConfig.AddBlack(path, result[1]);
-                    tableList.Add(new ScanTable()
+                    try
                     {
-                        Path = path,
-                        Engine = result[0],
-                        Type = result[1],
-                        Detail = new CellLink(path, "查看详情"),
-                        State = new CellTag("已隔离", TTypeMini.Error)
-                    });
-                    count++;
-                    count_label.Text = $"威胁数量：{count}";
+                        count_label.Text = $"威胁数量：{count}";
+                        bool isQuiet = SysConfig.GetSetting("静默模式").Enabled;
+                        if (isQuiet) Tools.ForceDeleteFile(path);
+                        else SysConfig.AddBlack(path, result[1]);
+                        tableList.Add(new ScanTable()
+                        {
+                            Path = path,
+                            Engine = result[0],
+                            Type = result[1],
+                            Detail = new CellLink(path, "查看详情"),
+                            State = new CellTag(isQuiet ? "已删除" : "已隔离", TTypeMini.Error)
+                        });
+                        count++;
+                        count_label.Text = $"威胁数量：{count}";
+                    }
+                    catch { }
                 }
                 return true;
             });
