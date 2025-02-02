@@ -2,12 +2,11 @@
 using GreenHat.Models;
 using GreenHat.Utils;
 using Hardware.Info;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Management;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -185,11 +184,18 @@ namespace GreenHat.Views
 
         private void GetProtectDays()
         {
-            string assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            DateTime creationTime = File.GetCreationTime(assemblyLocation);
+            string registryPath = @"Software\GreenHat";
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(registryPath, true);
+            if (key == null || key.GetValue("installTime") == null)
+            {
+                key = Registry.CurrentUser.CreateSubKey(registryPath);
+                key.SetValue("installTime", DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffffff'Z'"));
+            }
+            DateTime creationTime = DateTime.Parse(key.GetValue("installTime").ToString());
             TimeSpan timeDifference = DateTime.Now - creationTime;
             int daysDifference = timeDifference.Days;
             header.Text = $"已保护 {daysDifference + 1} 天";
+            key.Close();
         }
 
         private void scan_button_SelectedValueChanged(object sender, ObjectNEventArgs e)

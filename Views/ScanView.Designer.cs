@@ -39,7 +39,6 @@
             this.time_label = new AntdUI.Label();
             this.table = new AntdUI.Table();
             this.scan_timer = new System.Windows.Forms.Timer(this.components);
-            this.count_label = new AntdUI.Label();
             this.continue_button = new AntdUI.Button();
             this.SuspendLayout();
             // 
@@ -52,6 +51,7 @@
             this.header.Name = "header";
             this.header.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.header.Size = new System.Drawing.Size(928, 74);
+            this.header.SubText = "";
             this.header.TabIndex = 29;
             this.header.Text = "病毒查杀";
             this.header.UseTitleFont = true;
@@ -136,7 +136,7 @@
             this.time_label.Name = "time_label";
             this.time_label.Size = new System.Drawing.Size(155, 23);
             this.time_label.TabIndex = 39;
-            this.time_label.Text = "已用时间：00:00:00";
+            this.time_label.Text = "";
             this.time_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // table
@@ -153,17 +153,6 @@
             // 
             this.scan_timer.Interval = 1000;
             this.scan_timer.Tick += new System.EventHandler(this.scan_timer_Tick);
-            // 
-            // count_label
-            // 
-            this.count_label.BackColor = System.Drawing.Color.Transparent;
-            this.count_label.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.count_label.Location = new System.Drawing.Point(565, 98);
-            this.count_label.Name = "count_label";
-            this.count_label.Size = new System.Drawing.Size(200, 23);
-            this.count_label.TabIndex = 41;
-            this.count_label.Text = "已扫描：0，威胁数量：0";
-            this.count_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // continue_button
             // 
@@ -183,7 +172,6 @@
             // ScanView
             // 
             this.Controls.Add(this.continue_button);
-            this.Controls.Add(this.count_label);
             this.Controls.Add(this.table);
             this.Controls.Add(this.time_label);
             this.Controls.Add(this.stop_button);
@@ -209,7 +197,6 @@
         private AntdUI.Label time_label;
         private AntdUI.Table table;
         private System.Windows.Forms.Timer scan_timer;
-        private AntdUI.Label count_label;
         private AntdUI.Button continue_button;
     }
 }
