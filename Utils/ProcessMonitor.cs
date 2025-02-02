@@ -40,9 +40,19 @@ class ProcessMonitor
             string[] result;
             if (!SysConfig.IsWhite(path) && Engine.IsVirus(path, out result))
             {
-                Tools.SuspendProcess(process);
-                SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
-                InterceptQueue.Add(new InterceptForm("进程实时监控", result[0], result[1], process));
+
+                if (SysConfig.GetSetting("静默模式").Enabled)
+                {
+                    process.Kill();
+                    Tools.ForceDeleteFile(path);
+                    SysConfig.AddLog("病毒防护", "删除病毒", $"文件：{path}");
+                }
+                else
+                {
+                    Tools.SuspendProcess(process);
+                    SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
+                    InterceptQueue.Add(new InterceptForm("进程实时监控", result[0], result[1], process));
+                }
             }
         }
         catch { }
