@@ -111,7 +111,7 @@ namespace GreenHat.Views
             tableList.Clear();
             pauseEvent = new ManualResetEventSlim(true);
             time_label.Text = "已用时间：00:00:00";
-            count_label.Text = "威胁数量：0";
+            count_label.Text = "已扫描：0，威胁数量：0";
             time = 0;
             count = 0;
             total = 0;
@@ -127,11 +127,12 @@ namespace GreenHat.Views
                 total++;
                 header.Description = path;
                 string[] result;
+                count_label.Text = $"已扫描：{total}，威胁数量：{count}";
                 if (Engine.IsVirus(path, out result, true))
                 {
                     try
                     {
-                        count_label.Text = $"威胁数量：{count}";
+                        
                         bool isQuiet = SysConfig.GetSetting("静默模式").Enabled;
                         if (isQuiet) Tools.ForceDeleteFile(path);
                         else SysConfig.AddBlack(path, result[1]);
@@ -144,7 +145,7 @@ namespace GreenHat.Views
                             State = new CellTag(isQuiet ? "已删除" : "已隔离", TTypeMini.Error)
                         });
                         count++;
-                        count_label.Text = $"威胁数量：{count}";
+                        count_label.Text = $"已扫描：{total}，威胁数量：{count}";
                     }
                     catch { }
                 }

@@ -158,11 +158,11 @@
             // 
             this.count_label.BackColor = System.Drawing.Color.Transparent;
             this.count_label.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.count_label.Location = new System.Drawing.Point(586, 98);
+            this.count_label.Location = new System.Drawing.Point(565, 98);
             this.count_label.Name = "count_label";
-            this.count_label.Size = new System.Drawing.Size(147, 23);
+            this.count_label.Size = new System.Drawing.Size(200, 23);
             this.count_label.TabIndex = 41;
-            this.count_label.Text = "威胁数量：0";
+            this.count_label.Text = "已扫描：0，威胁数量：0";
             this.count_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // continue_button
