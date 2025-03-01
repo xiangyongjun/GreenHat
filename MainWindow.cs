@@ -148,19 +148,23 @@ namespace GreenHat
             trayIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             trayIcon.DoubleClick += (sender, e) =>
             {
+                TopMost = true;
                 Show();
                 Focus();
+                TopMost = false;
             };
             trayIcon.MouseClick += (sender, e) =>
             {
                 if (e.Button == MouseButtons.Right)
                 {
+                    TopMost = true;
                     AntdUI.ContextMenuStrip.open(this, item => 
                     {
                         switch (item.Text)
                         {
                             case "打开绿帽子":
                                 Show();
+                                TopMost = false;
                                 break;
                             case "退出绿帽子":
                                 AntdUI.Modal.open(new Modal.Config(this, "绿帽子安全防护", "您确定要退出绿帽子安全防护吗？\n届时绿帽子将无法保护您的电脑安全，您的电脑存在被恶意程序攻击的风险。")

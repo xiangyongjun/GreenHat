@@ -13,10 +13,6 @@ namespace GreenHat.Utils
         static SysConfig()
         {
             string configPath = $"{AppDomain.CurrentDomain.BaseDirectory}Config.db";
-            if (!File.Exists(configPath))
-            {
-                File.WriteAllBytes(configPath, Properties.Resources.Config);
-            }
             db = new SqlSugarClient(new ConnectionConfig()
             {
                 ConnectionString = $"Data Source={configPath};Version=3;",
@@ -111,7 +107,6 @@ namespace GreenHat.Utils
         {
             try
             {
-                if (db.CopyNew().Queryable<Black>().Where(it => it.Path.Equals(path)).Count() > 0) return false;
                 int id = db.CopyNew().Insertable(new Black()
                 {
                     Time = DateTime.Now,

@@ -3,6 +3,7 @@ using GreenHat.Models;
 using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -31,6 +32,11 @@ namespace GreenHat.Views
         private void InitTableColumns()
         {
             table.Columns = new ColumnCollection() {
+                new ColumnCheck("Selected")
+                {
+                    Fixed = true,
+                    Width = "60"
+                },
                 new Column("Path", "文件路径", ColumnAlign.Left)
                 {
                     Width = "410"
@@ -41,7 +47,7 @@ namespace GreenHat.Views
                 },
                 new Column("Type", "病毒类型", ColumnAlign.Center)
                 {
-                    Width = "300"
+                    Width = "240"
                 },
                 new Column("State", "状态", ColumnAlign.Center)
                 {
@@ -117,8 +123,11 @@ namespace GreenHat.Views
             quick_button.Enabled = false;
             full_button.Enabled = false;
             custom_button.Enabled = false;
+            remove_button.Visible = false;
+            black_button.Visible = false;
             stop_button.Visible = true;
             pause_button.Visible = true;
+
             FileScan.Scan(paths, path =>
             {
                 pauseEvent.Wait(cts.Token);
@@ -131,14 +140,13 @@ namespace GreenHat.Views
                 {
                     try
                     {
-                        SysConfig.AddBlack(path, result[1]);
                         tableList.Add(new ScanTable()
                         {
                             Path = path,
                             Engine = result[0],
                             Type = result[1],
                             Detail = new CellLink(path, "查看详情"),
-                            State = new CellTag("已隔离", TTypeMini.Error)
+                            State = new CellTag("待处理", TTypeMini.Error)
                         });
                         count++;
                         header.SubText = $"已扫描：{total}，威胁数量：{count}";
@@ -176,6 +184,8 @@ namespace GreenHat.Views
             continue_button.Visible = false;
             pause_button.Visible = false;
             stop_button.Visible = false;
+            black_button.Visible = true;
+            remove_button.Visible = true;
             TimeSpan timeSpan = TimeSpan.FromMilliseconds(time);
             SysConfig.AddLog("病毒防护", type, $"查杀结束，找到 {count} 个威胁，用时：{(int)timeSpan.TotalHours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}");
             Modal.open(new Modal.Config(mainForm, "查杀完成", $"找到 {count} 个威胁，用时：{(int)timeSpan.TotalHours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}", TType.Success)
@@ -194,12 +204,47 @@ namespace GreenHat.Views
 
         private void table_CellClick(object sender, TableClickEventArgs e)
         {
-            if (e.ColumnIndex != 1) return;
+            if (e.ColumnIndex != 2) return;
             ScanTable scanTable = (ScanTable)e.Record;
             Modal.open(new Modal.Config(mainForm, "查杀引擎", scanTable.Engine, TType.Info)
             {
                 CloseIcon = true,
                 BtnHeight = 0
+            });
+        }
+
+        private void black_button_Click(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                foreach (ScanTable item in tableList)
+                {
+                    if (item.Selected && item.State.Text.Equals("待处理"))
+                    {
+                        SysConfig.AddBlack(item.Path, item.Type);
+                        item.State.Text = "已隔离";
+                        item.State.Type = TTypeMini.Warn;
+                    }
+                }
+                AntdUI.Message.success(mainForm, "隔离完毕！", autoClose: 3);
+            });
+        }
+
+        private void remove_button_Click(object sender, EventArgs e)
+        {
+            Task.Run(() =>
+            {
+                foreach (ScanTable item in tableList)
+                {
+                    if (item.Selected && item.State.Text.Equals("待处理"))
+                    {
+                        SysConfig.AddLog("其他", "删除查杀文件", $"操作时间：{DateTime.Now.ToString()}");
+                        File.Delete(item.Path);
+                        item.State.Text = "已删除";
+                        item.State.Type = TTypeMini.Success;
+                    }
+                }
+                AntdUI.Message.success(mainForm, "删除完毕！", autoClose: 3);
             });
         }
     }

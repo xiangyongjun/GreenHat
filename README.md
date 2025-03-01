@@ -10,6 +10,7 @@
 一款专为国人定制打造，集多个国产杀毒引擎于一身的 Windows 操作系统安全防护软件
 
 ## 功能
+* DeepSeek 恶意文件分析
 * 病毒查杀（快速查杀、全盘查杀、自定义查杀）
 * 电脑配置查看
 * 日志查看
@@ -25,13 +26,14 @@
 * 硬盘容量：500M+
 
 ## 查杀引擎
-* [科洛机器学习引擎（本地引擎）](https://github.com/kelomina/KoloVirusDetector_ML)
-* [ANK云雀轻量机学引擎（本地引擎）](https://www.ankml.top)
-* [T-Safety光弧YARA引擎（暂不可用，等待引擎作者修复）](https://space.bilibili.com/3493145551571279)
+* [绿帽子机器学习引擎（本地引擎，2.0.5新增自研引擎）](https://github.com/xiangyongjun/GreenHat)
+* [科洛机器学习引擎（本地引擎，2.0.4后已移除）](https://github.com/kelomina/KoloVirusDetector_ML)
+* [ANK云雀轻量机学引擎（本地引擎，2.0.4后已移除）](https://www.ankml.top)
+* [T-Safety光弧YARA引擎（本地引擎，2.0.4后已移除）](https://space.bilibili.com/3493145551571279)
 * [猎剑云引擎（云引擎）](https://www.virusmark.com)
-* [czk杀毒引擎（云引擎）](https://weilai.szczk.top/api/#introduction)
-* [科洛云端威胁情报中心（云引擎）](https://github.com/kelomina/KoloVirusDetector_ML)
-* [极速安全云引擎（云引擎）](https://www.hkts.fun)
+* [czk杀毒引擎（云引擎，2.0.4后已移除）](https://weilai.szczk.top/api/#introduction)
+* [科洛云端威胁情报中心（云引擎，2.0.4后已移除）](https://github.com/kelomina/KoloVirusDetector_ML)
+* [极速安全云引擎（云引擎，2.0.4后已移除）](https://www.hkts.fun)
 
 ## 技术栈
 * [C#](https://learn.microsoft.com/zh-cn/dotnet/csharp)
@@ -54,6 +56,10 @@
 
 ![Alt](./Images/4.png)
 
+![Alt](./Images/5.png)
+
+![Alt](./Images/6.png)
+
 ---
 
-![Alt](./Images/5.png)
+![Alt](./Images/7.png)

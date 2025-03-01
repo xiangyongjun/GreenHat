@@ -40,6 +40,8 @@
             this.table = new AntdUI.Table();
             this.scan_timer = new System.Windows.Forms.Timer(this.components);
             this.continue_button = new AntdUI.Button();
+            this.remove_button = new AntdUI.Button();
+            this.black_button = new AntdUI.Button();
             this.SuspendLayout();
             // 
             // header
@@ -169,8 +171,40 @@
             this.continue_button.WaveSize = 0;
             this.continue_button.Click += new System.EventHandler(this.continue_button_Click);
             // 
+            // remove_button
+            // 
+            this.remove_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.remove_button.IconSize = new System.Drawing.Size(15, 15);
+            this.remove_button.IconSvg = resources.GetString("remove_button.IconSvg");
+            this.remove_button.Location = new System.Drawing.Point(459, 91);
+            this.remove_button.Name = "remove_button";
+            this.remove_button.Size = new System.Drawing.Size(100, 32);
+            this.remove_button.TabIndex = 43;
+            this.remove_button.Text = "删除所选";
+            this.remove_button.Type = AntdUI.TTypeMini.Error;
+            this.remove_button.Visible = false;
+            this.remove_button.WaveSize = 0;
+            this.remove_button.Click += new System.EventHandler(this.remove_button_Click);
+            // 
+            // black_button
+            // 
+            this.black_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.black_button.IconSize = new System.Drawing.Size(15, 15);
+            this.black_button.IconSvg = resources.GetString("black_button.IconSvg");
+            this.black_button.Location = new System.Drawing.Point(345, 91);
+            this.black_button.Name = "black_button";
+            this.black_button.Size = new System.Drawing.Size(100, 32);
+            this.black_button.TabIndex = 44;
+            this.black_button.Text = "隔离所选";
+            this.black_button.Type = AntdUI.TTypeMini.Warn;
+            this.black_button.Visible = false;
+            this.black_button.WaveSize = 0;
+            this.black_button.Click += new System.EventHandler(this.black_button_Click);
+            // 
             // ScanView
             // 
+            this.Controls.Add(this.black_button);
+            this.Controls.Add(this.remove_button);
             this.Controls.Add(this.continue_button);
             this.Controls.Add(this.table);
             this.Controls.Add(this.time_label);
@@ -198,5 +232,7 @@
         private AntdUI.Table table;
         private System.Windows.Forms.Timer scan_timer;
         private AntdUI.Button continue_button;
+        private AntdUI.Button remove_button;
+        private AntdUI.Button black_button;
     }
 }

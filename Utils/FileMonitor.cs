@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Management;
 using System.Threading.Tasks;
@@ -50,23 +49,12 @@ namespace GreenHat.Utils
         {
             try
             {
-                if (string.IsNullOrEmpty(path) || path.ToLower().IndexOf($"{AppDomain.CurrentDomain.BaseDirectory.ToLower()}") == 0) return;
+                if (string.IsNullOrEmpty(path)) return;
                 string[] result;
                 if (!SysConfig.IsWhite(path) && Engine.IsVirus(path, out result))
                 {
-                    if (SysConfig.GetSetting("静默模式").Enabled)
-                    {
-                        MainWindow.Instance.Invoke(new Action(() =>
-                        {
-                            Vip.Notification.Alert.ShowWarning($"病毒拦截：已隔离\n文件：{path}", 5000);
-                        }));
-                        SysConfig.AddBlack(path, result[1]);
-                    }
-                    else
-                    {
-                        SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
-                        InterceptQueue.Add(new InterceptForm("文件实时监控", name, path, result[0], result[1]));
-                    }
+                    SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
+                    InterceptQueue.Add(new InterceptForm("文件实时监控", name, path, result[0], result[1]));
                 }
             }
             catch { }

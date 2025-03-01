@@ -57,7 +57,7 @@ namespace GreenHat.Views
 
         private async void update_button_Click(object sender, EventArgs e)
         {
-            string path = $"{Path.GetTempPath()}update.zip";
+            string path = $"{AppDomain.CurrentDomain.BaseDirectory}update.zip";
             try
             {
                 using (HttpClient client = new HttpClient())

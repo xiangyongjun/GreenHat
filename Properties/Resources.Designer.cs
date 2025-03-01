@@ -69,17 +69,5 @@ namespace GreenHat.Properties {
                 return ((byte[])(obj));
             }
         }
-
-        /// <summary>
-        ///   查找 System.Byte[] 类型的本地化资源。
-        /// </summary>
-        internal static byte[] Config
-        {
-            get
-            {
-                object obj = ResourceManager.GetObject("Config", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

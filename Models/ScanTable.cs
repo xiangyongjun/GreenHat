@@ -4,11 +4,23 @@ namespace GreenHat.Models
 {
     public class ScanTable : NotifyProperty
     {
+        private bool selected = false;
         private string path;
         private string engine;
         private string type;
         private CellLink detail;
         private CellTag state;
+
+        public bool Selected
+        {
+            get { return selected; }
+            set
+            {
+                if (selected == value) return;
+                selected = value;
+                OnPropertyChanged(nameof(Selected));
+            }
+        }
 
         public string Path
         {

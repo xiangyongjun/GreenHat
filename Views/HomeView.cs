@@ -218,5 +218,25 @@ namespace GreenHat.Views
                 Padding = new Size(15, 15)
             });
         }
+
+        private void github_button_Click(object sender, EventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/xiangyongjun/GreenHat",
+                UseShellExecute = true
+            });
+        }
+
+        private void deepseek_button_Click(object sender, EventArgs e)
+        {
+            Modal.open(new Modal.Config(mainForm, "DeepSeek 恶意文件分析", new DeepSeekView(mainForm))
+            {
+                CloseIcon = true,
+                BtnHeight = 0,
+                MaskClosable = false,
+                Padding = new Size(15, 15)
+            });
+        }
     }
 }

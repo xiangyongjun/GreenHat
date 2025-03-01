@@ -117,31 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="quick_button.IconSvg" xml:space="preserve">
-    <value>&lt;svg t="1737263253194" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="26559" width="200" height="200"&gt;&lt;path d="M582.91 98.77L175.1 506.58l386.34 103.89-329.11 317.75 604.55-360.67-409.83-132.13z" fill="#ffffff" p-id="26560"&gt;&lt;/path&gt;&lt;/svg&gt;</value>
-  </data>
-  <data name="full_button.IconSvg" xml:space="preserve">
-    <value>&lt;svg t="1737263353316" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="31343" width="200" height="200"&gt;&lt;path d="M472.615385 905.846154V472.615385h433.230769a433.230769 433.230769 0 1 0-433.230769 433.230769z" p-id="31344" fill="#ffffff"&gt;&lt;/path&gt;&lt;path d="M551.384615 984.615385h14.375385C796.947692 984.615385 984.615385 790.646154 984.615385 551.384615H551.384615z" p-id="31345" fill="#ffffff"&gt;&lt;/path&gt;&lt;/svg&gt;</value>
-  </data>
-  <data name="custom_button.IconSvg" xml:space="preserve">
-    <value>&lt;svg t="1737263397659" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="33416" width="200" height="200"&gt;&lt;path d="M913.066667 896c0 36.266667-29.866667 64-64 64H49.066667l113.066666-531.2c0-36.266667 29.866667-64 64-64H960c34.133333 0 64 27.733333 64 64L913.066667 896M177.066667 315.733333H896v-64c0-36.266667-29.866667-64-64-64H448V128c0-36.266667-29.866667-64-64-64H64C29.866667 64 0 91.733333 0 128v768l110.933333-516.266667c2.133333-36.266667 29.866667-66.133333 66.133334-64-2.133333 0-2.133333 0 0 0z" p-id="33417" fill="#ffffff"&gt;&lt;/path&gt;&lt;/svg&gt;</value>
-  </data>
-  <data name="pause_button.IconSvg" xml:space="preserve">
-    <value>&lt;svg t="1737263593718" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="34925" width="200" height="200"&gt;&lt;path d="M128 0h253.155556v1024H128V0z m512 0h256v1024h-256V0z" fill="#ffffff" p-id="34926"&gt;&lt;/path&gt;&lt;/svg&gt;</value>
-  </data>
-  <data name="stop_button.IconSvg" xml:space="preserve">
-    <value>&lt;svg t="1737263643410" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="36173" width="200" height="200"&gt;&lt;path d="M192.287933 862.398462c-15.953344 0-29.006637-13.053294-29.006637-29.007661l0-639.423111c0-15.954367 13.053294-29.007661 29.006637-29.007661l639.424134 0c15.954367 0 29.007661 13.053294 29.007661 29.007661l0 639.423111c0 15.954367-13.053294 29.007661-29.007661 29.007661L192.287933 862.398462z" fill="#ffffff" p-id="36174"&gt;&lt;/path&gt;&lt;/svg&gt;</value>
-  </data>
-  <metadata name="scan_timer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="continue_button.IconSvg" xml:space="preserve">
-    <value>&lt;svg t="1737887618158" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2264" width="200" height="200"&gt;&lt;path d="M944.564773 509.769921L78.769231 1019.434896V0.026236L944.564773 509.769921" fill="#ffffff" p-id="2265"&gt;&lt;/path&gt;&lt;/svg&gt;</value>
-  </data>
-  <data name="remove_button.IconSvg" xml:space="preserve">
-    <value>&lt;svg t="1737268798736" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="38558" width="200" height="200"&gt;&lt;path d="M687.6 96.4H336.4v91.2h351.1V96.4zM636.7 398v405.5h-73.9V398h73.9z m-175.5 0v405.5h-73.9V398h73.9z m332.1-119.2H230.7l27.9 648.8h506.7l28-648.8zM696.8 5.1c40.4 0 73.3 35.6 73.9 79.8v102.7h147.8c20.2 0 36.6 17.8 37 39.9v41.2c0 5.5-4 10-9 10.1h-70.1L848 941.6c-1.8 42.9-33.7 76.6-72.6 77.3H249.8c-39 0-71.3-33.4-73.7-76l-0.1-1.3-28.5-662.7H77.7c-5 0-9.1-4.4-9.2-9.8v-40.9c0-22.2 16.2-40.2 36.3-40.5h148.4V86.2c0-44.3 32.5-80.4 72.7-81.1h370.9z" fill="#ffffff" p-id="38559"&gt;&lt;/path&gt;&lt;/svg&gt;</value>
-  </data>
-  <data name="black_button.IconSvg" xml:space="preserve">
-    <value>&lt;svg t="1740802658097" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5784" width="200" height="200"&gt;&lt;path d="M797.055004 950.398812a36.799954 36.799954 0 0 1 5.631993 73.279908l-5.567993 0.32H226.943716a36.799954 36.799954 0 0 1-5.631993-73.215908l5.567993-0.384h570.175288zM892.158885 0a131.839835 131.839835 0 0 1 131.455835 121.407848L1023.99872 131.839835v557.951303a131.839835 131.839835 0 0 1-123.519846 131.583835l-8.319989 0.256H131.839835a131.839835 131.839835 0 0 1-131.583835-123.519846L0 689.855138V131.839835A131.839835 131.839835 0 0 1 123.519846 0.256L131.839835 0h760.31905z m0 73.599908H131.839835a58.239927 58.239927 0 0 0-57.791928 51.647935l-0.383999 6.591992v557.951303a58.239927 58.239927 0 0 0 51.839935 57.855927l6.399992 0.384H892.158885a58.239927 58.239927 0 0 0 57.855927-51.839935l0.32-6.399992V131.839835a58.239927 58.239927 0 0 0-58.239927-58.239927zM511.99936 159.9998a255.99968 255.99968 0 1 1 0 511.99936 255.99968 255.99968 0 0 1 0-511.99936zM361.023549 319.359601a179.199776 179.199776 0 0 0 247.67969 247.48769L360.959549 319.487601zM511.99936 236.799704c-35.583956 0-68.735914 10.367987-96.639879 28.223965l247.55169 247.67969A179.199776 179.199776 0 0 0 511.99936 236.799704z" fill="#ffffff" p-id="5785"&gt;&lt;/path&gt;&lt;/svg&gt;</value>
+  <data name="file_button.IconSvg" xml:space="preserve">
+    <value>&lt;svg t="1740841902750" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9954" width="200" height="200"&gt;&lt;path d="M0 139.636364a46.545455 46.545455 0 0 1 46.545455-46.545455h354.897454a51.2 51.2 0 0 1 47.057455 31.034182L473.6 182.679273 977.454545 182.690909a46.545455 46.545455 0 0 1 46.545455 46.545455v546.909091a46.545455 46.545455 0 0 1-46.545455 46.545454H46.545455a46.545455 46.545455 0 0 1-46.545455-46.545454V139.636364z" fill="#FFA000" p-id="9955"&gt;&lt;/path&gt;&lt;path d="M0 276.945455m46.545455 0l930.90909 0q46.545455 0 46.545455 46.545454l0 558.545455q0 46.545455-46.545455 46.545454l-930.90909 0q-46.545455 0-46.545455-46.545454l0-558.545455q0-46.545455 46.545455-46.545454Z" fill="#FFCA28" p-id="9956"&gt;&lt;/path&gt;&lt;/svg&gt;</value>
   </data>
 </root>

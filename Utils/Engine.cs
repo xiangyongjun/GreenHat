@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using GreenHat.utils;
+using Microsoft.ML;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -10,21 +12,18 @@ namespace GreenHat.Utils
     internal static class Engine
     {
         private static string basePath = $"{AppDomain.CurrentDomain.BaseDirectory}engine\\";
+        private static PredictionEngine<PEData, MalwarePrediction> greenHatEngine;
 
         public static void Init()
         {
-            if (SysConfig.GetSetting("科洛机器学习引擎").Enabled && Process.GetProcessesByName("updateTool").Length == 0)
+            if (SysConfig.GetSetting("绿帽子机器学习引擎").Enabled)
             {
                 Task.Run(() =>
                 {
-                    Tools.ExecuteCommand($"{basePath}KoloclassifyTool\\updateTool.exe", "--koloclassifytool", $"{basePath}KoloclassifyTool");
-                });
-            }
-            if (SysConfig.GetSetting("ANK云雀轻量机学引擎").Enabled && Process.GetProcessesByName("ANK_OEMSERVE").Length == 0)
-            {
-                Task.Run(() => 
-                {
-                    Tools.ExecuteCommand($"{basePath}Ank\\ANK_OEMSERVE.exe", "", $"{basePath}Ank");
+                    var mlContext = new MLContext();
+                    var stream = new FileStream($@"{basePath}Model.zip", FileMode.Open);
+                    var model = mlContext.Model.Load(stream, out var schema);
+                    greenHatEngine = mlContext.Model.CreatePredictionEngine<PEData, MalwarePrediction>(model);
                 });
             }
         }
@@ -32,35 +31,14 @@ namespace GreenHat.Utils
         public static bool IsVirus(string path, out string[] result, bool isScan = false)
         {
             result = new string[2] { "", "" };
-            if (IsSignature(path)) return false;
             List<Task<string>> tasks = new List<Task<string>>();
-            if (SysConfig.GetSetting("科洛机器学习引擎").Enabled)
+            if (SysConfig.GetSetting("绿帽子机器学习引擎").Enabled)
             {
-                tasks.Add(Task.Run(() => $"科洛机器学习引擎\t{KoloScan(path)}"));
-            }
-            if (SysConfig.GetSetting("ANK云雀轻量机学引擎").Enabled)
-            {
-                tasks.Add(Task.Run(() => $"ANK云雀轻量机学引擎\t{AnkScan(path)}"));
-            }
-            if (SysConfig.GetSetting("T-Safety光弧YARA引擎").Enabled)
-            {
-                tasks.Add(Task.Run(() => $"T-Safety光弧YARA引擎\t{TSafetyScan(path)}"));
+                tasks.Add(Task.Run(() => $"绿帽子机器学习引擎\t{GreenHatScan(path)}"));
             }
             if (isScan && SysConfig.GetSetting("猎剑云引擎").Enabled)
             {
                 tasks.Add(Task.Run(() => $"猎剑云引擎\t{LieJianScan(path)}" ));
-            }
-            if (isScan && SysConfig.GetSetting("czk杀毒引擎").Enabled)
-            {
-                tasks.Add(Task.Run(() => $"czk杀毒引擎\t{CzkScan(path)}"));
-            }
-            if (isScan && SysConfig.GetSetting("科洛云端威胁情报中心").Enabled)
-            {
-                tasks.Add(Task.Run(() => $"科洛云端威胁情报中心\t{KcstScan(path)}"));
-            }
-            if (isScan && SysConfig.GetSetting("极速安全查杀云引擎").Enabled)
-            {
-                tasks.Add(Task.Run(() => $"极速安全查杀云引擎\t{HktsScan(path)}"));
             }
             Task.WaitAll(tasks.ToArray());
             foreach (Task<string> task in tasks)
@@ -74,44 +52,18 @@ namespace GreenHat.Utils
             return !string.IsNullOrEmpty(result[0]);
         }
 
-        public static bool IsSignature(string path)
+        public static string GreenHatScan(string path)
         {
             try
             {
-                string result = Tools.ExecuteCommand($"{basePath}KoloclassifyTool\\signature.exe", path, $"{basePath}KoloclassifyTool");
-                if (string.IsNullOrEmpty(result)) return false;
-                return result.Trim() == "0";
+                var pe = PEFeatureExtractor.ExtractFeatures(path);
+                if (pe != null)
+                {
+                    var prediction = greenHatEngine.Predict(pe);
+                    return prediction.IsMalware && pe.TrustSigned != 1 && pe.HasDirSigned != 1 && prediction.Probability >= 0.8 ? $"Win/Malicious.GreenHat.{(int)(prediction.Probability * 100)}" : null;
+                }
             }
             catch { }
-            return false;
-        }
-
-        public static string KoloScan(string path)
-        {
-            try
-            {
-                string result = Tools.ExecuteCommand($"{basePath}KoloclassifyTool\\KoloclassifyTool.exe", $"--model model.joblib --file {path}", $"{basePath}KoloclassifyTool");
-                if (string.IsNullOrEmpty(result)) return null;
-                return result.Trim() == "1" ? "Win/Malicious.KoloVD" : null;
-            }
-            catch { }
-            return null;
-        }
-
-        public static string AnkScan(string path)
-        {
-            try
-            {
-                string result = Tools.ExecuteCommand($"{basePath}Ank\\OEM_ANKCORE.exe", $"\"{path}\"", $"{basePath}Ank");
-                if (string.IsNullOrEmpty(result)) return null;
-                return double.Parse(result.Trim()) >= 0.9 ? "Win/Malicious.ANK" : null;
-            }
-            catch {}
-            return null;
-        }
-
-        public static string TSafetyScan(string path)
-        {
             return null;
         }
 
@@ -119,7 +71,7 @@ namespace GreenHat.Utils
         {
             try
             {
-                TOTP totp = new TOTP("VSF2OU6B2YAXZ7426372QOGV6Y");
+                TOTP totp = new TOTP("");
                 string url = $"https://www.virusmark.com/scan_get?md5={Tools.GetMd5(path)}&token={totp.Now()}";
                 using (HttpClient client = new HttpClient())
                 {
@@ -136,79 +88,8 @@ namespace GreenHat.Utils
             return null;
         }
 
-        public static string CzkScan(string path)
-        {
-            try
-            {
-                string url = "https://weilai.szczk.top/api/cloud.php";
-                Dictionary<string, string> formData = new Dictionary<string, string>
-                {
-                    { "form", "json" },
-                    { "md5", Tools.GetMd5(path) },
-                    { "key", "bYuR1IoQiJLqlYOF9WAJMU5JIe7zt+h1GcGs2cLm6Kk=" }
-                };
-                using (HttpClient client = new HttpClient())
-                {
-                    FormUrlEncodedContent content = new FormUrlEncodedContent(formData);
-                    HttpResponseMessage response = client.PostAsync(url, content).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string responseBody = response.Content.ReadAsStringAsync().Result;
-                        JObject obj = JObject.Parse(responseBody);
-                        return !obj.GetValue("result").ToString().Equals("safe") ? "Win/Malicious.CZK" : null;
-                    }
-                }
-            }
-            catch { }
-            return null;
-        }
-
-        public static string KcstScan(string path)
-        {
-            try
-            {
-                string result = Tools.ExecuteCommand($"{basePath}KoloclassifyTool\\Kolocloud.exe", $"-g -f {path} -g", $"{basePath}KoloclassifyTool");
-                if (string.IsNullOrEmpty(result)) return null;
-                JObject obj = JObject.Parse(result);
-                int score = (int)obj["Server"]["return"]["安全指数"];
-                return score < 70 ? "Win/Malicious.KCST" : null;
-            }
-            catch { }
-            return null;
-        }
-
-        public static string HktsScan(string path)
-        {
-            try
-            {
-                string url = $"https://api.hkts.us.kg/?key=PK7jDGr6Dq&Virus={Tools.GetMd5(path)}";
-                using (HttpClient client = new HttpClient())
-                {
-                    HttpResponseMessage response = client.GetAsync(url).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string responseBody = response.Content.ReadAsStringAsync().Result;
-                        JObject obj = JObject.Parse(responseBody);
-                        return !obj.GetValue("status").ToString().Equals("Safe") ? "Win/Malicious.HKTS" : null;
-                    }
-                }
-            }
-            catch { }
-            return null;
-        }
-
         public static void Dispose()
         {
-            if (Process.GetProcessesByName("updateTool").Length > 0)
-            {
-                Process[] processes = Process.GetProcessesByName("updateTool");
-                foreach (Process processe in processes) processe.Kill();
-            }
-            if (Process.GetProcessesByName("ANK_OEMSERVE").Length > 0)
-            {
-                Process[] processes = Process.GetProcessesByName("ANK_OEMSERVE");
-                foreach (Process processe in processes) processe.Kill();
-            }
         }
     }
 }

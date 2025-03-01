@@ -2,7 +2,6 @@
 using GreenHat.Utils;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Session;
-using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -36,26 +35,13 @@ class ProcessMonitor
             Process process = Process.GetProcessById((int)data.PayloadByName("ProcessID"));
             string name = process.ProcessName;
             string path = process.MainModule?.FileName;
-            if (string.IsNullOrEmpty(path) || path.ToLower().IndexOf($"{AppDomain.CurrentDomain.BaseDirectory}".ToLower()) == 0) return;
+            if (string.IsNullOrEmpty(path)) return;
             string[] result;
             if (!SysConfig.IsWhite(path) && Engine.IsVirus(path, out result))
             {
-
-                if (SysConfig.GetSetting("静默模式").Enabled)
-                {
-                    MainWindow.Instance.Invoke(new Action(() =>
-                    {
-                        Vip.Notification.Alert.ShowWarning($"病毒拦截：已隔离\n文件：{path}", 5000);
-                    }));
-                    process.Kill();
-                    SysConfig.AddBlack(path, result[1]);
-                }
-                else
-                {
-                    Tools.SuspendProcess(process);
-                    SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
-                    InterceptQueue.Add(new InterceptForm("进程实时监控", result[0], result[1], process));
-                }
+                Tools.SuspendProcess(process);
+                SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
+                InterceptQueue.Add(new InterceptForm("进程实时监控", result[0], result[1], process));
             }
         }
         catch { }

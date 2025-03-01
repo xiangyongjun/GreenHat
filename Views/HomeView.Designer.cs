@@ -44,6 +44,8 @@
             this.disk_progress = new AntdUI.Progress();
             this.update_timer = new System.Windows.Forms.Timer(this.components);
             this.count_label = new AntdUI.Label();
+            this.github_button = new AntdUI.Button();
+            this.deepseek_button = new AntdUI.Dropdown();
             this.SuspendLayout();
             // 
             // header
@@ -216,9 +218,43 @@
             this.count_label.TabIndex = 55;
             this.count_label.Text = "隔离数量：0个";
             // 
+            // github_button
+            // 
+            this.github_button.BorderWidth = 2F;
+            this.github_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.github_button.Ghost = true;
+            this.github_button.IconSize = new System.Drawing.Size(15, 15);
+            this.github_button.IconSvg = resources.GetString("github_button.IconSvg");
+            this.github_button.Location = new System.Drawing.Point(493, 543);
+            this.github_button.Name = "github_button";
+            this.github_button.Size = new System.Drawing.Size(100, 38);
+            this.github_button.TabIndex = 56;
+            this.github_button.Text = "官方主页";
+            this.github_button.Type = AntdUI.TTypeMini.Success;
+            this.github_button.Click += new System.EventHandler(this.github_button_Click);
+            // 
+            // deepseek_button
+            // 
+            this.deepseek_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.deepseek_button.IconRatio = 1F;
+            this.deepseek_button.IconSize = new System.Drawing.Size(30, 30);
+            this.deepseek_button.IconSvg = resources.GetString("deepseek_button.IconSvg");
+            this.deepseek_button.ListAutoWidth = false;
+            this.deepseek_button.Location = new System.Drawing.Point(242, 101);
+            this.deepseek_button.Name = "deepseek_button";
+            this.deepseek_button.Placement = AntdUI.TAlignFrom.BR;
+            this.deepseek_button.Size = new System.Drawing.Size(291, 50);
+            this.deepseek_button.TabIndex = 57;
+            this.deepseek_button.Text = "DeepSeek 恶意文件分析";
+            this.deepseek_button.Type = AntdUI.TTypeMini.Success;
+            this.deepseek_button.WaveSize = 0;
+            this.deepseek_button.Click += new System.EventHandler(this.deepseek_button_Click);
+            // 
             // HomeView
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.deepseek_button);
+            this.Controls.Add(this.github_button);
             this.Controls.Add(this.count_label);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.disk_progress);
@@ -255,5 +291,7 @@
         private AntdUI.Progress disk_progress;
         private System.Windows.Forms.Timer update_timer;
         private AntdUI.Label count_label;
+        private AntdUI.Button github_button;
+        private AntdUI.Dropdown deepseek_button;
     }
 }
