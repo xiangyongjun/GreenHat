@@ -50,10 +50,6 @@ namespace GreenHat
         private void CheckService()
         {
             string servicePath = $"{AppDomain.CurrentDomain.BaseDirectory}GreenHatService.exe";
-            if (!File.Exists(servicePath))
-            {
-                File.WriteAllBytes(servicePath, Properties.Resources.GreenHatService);
-            }
             if (SysConfig.GetSetting("开机启动").Enabled || Tools.ServiceExists("GreenHatService")) return;
             Tools.CreateAndStartService("GreenHatService", servicePath);
         }
