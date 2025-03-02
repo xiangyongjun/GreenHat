@@ -29,7 +29,7 @@ namespace GreenHat.Views
 
             // 定义 API URL 和 Bearer Token
             string apiUrl = "https://api.siliconflow.cn/v1/chat/completions";
-            string token = "";
+            string token = "sk-ntruycdijbbxdzvitgbimmainapddcnqxfwvgkdwjpltcqvu";
 
             string peString = GetPEString(filePath);
 
@@ -39,7 +39,7 @@ namespace GreenHat.Views
                 model = "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
                 messages = new[]
                 {
-                    new { role = "user", content = String.IsNullOrEmpty(peString) ? $"帮我分析一下这个文件是不是恶意文件，文件名：{Path.GetFileName(filePath)}，MD5：{Tools.GetMd5(filePath)}，数据如下：{File.ReadAllText(filePath)}" : peString },
+                    new { role = "user", content = String.IsNullOrEmpty(peString) ? $"帮我分析一下这个文件是不是恶意文件，扩展名：{Path.GetExtension(filePath)}，数据如下：{File.ReadAllText(filePath)}" : peString },
                 },
                 stream = true,
                 stop = (string)null,
@@ -48,6 +48,7 @@ namespace GreenHat.Views
                 top_k = 50,
                 frequency_penalty = 0.5,
                 n = 1,
+                max_tokens = 16384,
                 response_format = new { type = "text" }
             };
 
@@ -147,7 +148,7 @@ namespace GreenHat.Views
                     exportTable = string.Join(", ", pe.ExportedFunctions.Select(item => item.Name));
                 }
 
-                return $"帮我分析一下这个PE文件是不是恶意文件，文件名：{Path.GetFileName(filePath)}，MD5：{Tools.GetMd5(filePath)}，文件头前8192字节的二进制数据转base64数据为：{GetPeHeaderAsBase64(filePath)}";
+                return $"帮我分析一下这个PE文件是不是恶意软件，文件头部分的base64数据为：{GetPeHeaderAsBase64(filePath)}，请解码分析后请用中文回答";
             }
             catch (Exception ex)
             {
@@ -161,7 +162,7 @@ namespace GreenHat.Views
             if (!File.Exists(filePath)) return "";
 
             // 定义读取的字节数
-            const int headerSize = 8192;
+            const int headerSize = 16384;
 
             // 读取文件头部字节
             byte[] headerBytes;

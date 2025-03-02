@@ -20,9 +20,6 @@ namespace GreenHat.utils
                 // 计算文件熵
                 data.FileEntropy = (float)CalculateEntropy(fileBytes);
 
-                // 计算文件大小（KB）
-                data.FileSize = pe.FileSize / 1024;
-
                 // 导入函数
                 if (pe.ImportedFunctions != null)
                 {
@@ -38,24 +35,24 @@ namespace GreenHat.utils
                 // 文件详细信息
                 if (pe.Resources?.VsVersionInfo?.StringFileInfo?.StringTable != null)
                 {
-                      foreach (var fileInfo in pe.Resources.VsVersionInfo.StringFileInfo.StringTable)
-                      {
-                            try
-                            {
-                                data.FileDescriptionLength = !String.IsNullOrEmpty(fileInfo.FileDescription) ? fileInfo.FileDescription.Length : 0;
-                                data.FileVersionLength = !String.IsNullOrEmpty(fileInfo.FileVersion) ? fileInfo.FileVersion.Length : 0;
-                                data.ProductNameLength = !String.IsNullOrEmpty(fileInfo.ProductName) ? fileInfo.ProductName.Length : 0;
-                                data.ProductVersionLength = !String.IsNullOrEmpty(fileInfo.ProductVersion) ? fileInfo.ProductVersion.Length : 0;
-                                data.CompanyNameLength = !String.IsNullOrEmpty(fileInfo.CompanyName) ? fileInfo.CompanyName.Length : 0;
-                                data.LegalCopyrightLength = !String.IsNullOrEmpty(fileInfo.LegalCopyright) ? fileInfo.LegalCopyright.Length : 0;
-                                data.SpecialBuildLength = !String.IsNullOrEmpty(fileInfo.SpecialBuild) ? fileInfo.SpecialBuild.Length : 0;
-                                data.PrivateBuildLength = !String.IsNullOrEmpty(fileInfo.PrivateBuild) ? fileInfo.PrivateBuild.Length : 0;
-                                data.CommentsLength = !String.IsNullOrEmpty(fileInfo.Comments) ? fileInfo.Comments.Length : 0;
-                                data.InternalNameLength = !String.IsNullOrEmpty(fileInfo.InternalName) ? fileInfo.InternalName.Length : 0;
-                                data.LegalTrademarksLength = !String.IsNullOrEmpty(fileInfo.LegalTrademarks) ? fileInfo.LegalTrademarks.Length : 0;
-                            }
-                            catch { }
-                      }
+                    foreach (var fileInfo in pe.Resources.VsVersionInfo.StringFileInfo.StringTable)
+                    {
+                        try
+                        {
+                            data.FileDescriptionLength = !String.IsNullOrEmpty(fileInfo.FileDescription) ? fileInfo.FileDescription.Length : 0;
+                            data.FileVersionLength = !String.IsNullOrEmpty(fileInfo.FileVersion) ? fileInfo.FileVersion.Length : 0;
+                            data.ProductNameLength = !String.IsNullOrEmpty(fileInfo.ProductName) ? fileInfo.ProductName.Length : 0;
+                            data.ProductVersionLength = !String.IsNullOrEmpty(fileInfo.ProductVersion) ? fileInfo.ProductVersion.Length : 0;
+                            data.CompanyNameLength = !String.IsNullOrEmpty(fileInfo.CompanyName) ? fileInfo.CompanyName.Length : 0;
+                            data.LegalCopyrightLength = !String.IsNullOrEmpty(fileInfo.LegalCopyright) ? fileInfo.LegalCopyright.Length : 0;
+                            data.SpecialBuildLength = !String.IsNullOrEmpty(fileInfo.SpecialBuild) ? fileInfo.SpecialBuild.Length : 0;
+                            data.PrivateBuildLength = !String.IsNullOrEmpty(fileInfo.PrivateBuild) ? fileInfo.PrivateBuild.Length : 0;
+                            data.CommentsLength = !String.IsNullOrEmpty(fileInfo.Comments) ? fileInfo.Comments.Length : 0;
+                            data.InternalNameLength = !String.IsNullOrEmpty(fileInfo.InternalName) ? fileInfo.InternalName.Length : 0;
+                            data.LegalTrademarksLength = !String.IsNullOrEmpty(fileInfo.LegalTrademarks) ? fileInfo.LegalTrademarks.Length : 0;
+                        }
+                        catch { }
+                    }
                 }
 
                 // 是否有调试模式
@@ -114,9 +111,6 @@ namespace GreenHat.utils
                 // 是否是64位程序
                 data.Is64Bit = pe.Is64Bit ? 1 : 0;
 
-                // 是否是.NET程序
-                data.IsDotNet = pe.IsDotNet ? 1 : 0;
-
                 // 签名是否有效
                 data.ValidSigned = pe.HasValidAuthenticodeSignature ? 1 : 0;
 
@@ -128,9 +122,6 @@ namespace GreenHat.utils
 
                 // 节区数量
                 data.SectionCount = pe.ImageSectionHeaders.Length;
-
-                // 图标数量
-                data.IconCount = pe.Resources?.Icons != null ? pe.Resources.Icons.Length : 0;
 
                 // 是否有目录签名
                 data.HasDirSigned = WinTrust.VerifyDirSignature(filePath) ? 1 : 0;
