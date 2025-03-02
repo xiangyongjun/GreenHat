@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace GreenHat.Utils
 {
@@ -13,26 +14,41 @@ namespace GreenHat.Utils
     {
         public static void Scan(List<string> paths, Func<string, bool> callback)
         {
-            if (paths.Count == 0) return;
-            foreach (string path in paths)
+            if (paths == null || paths.Count == 0) return;
+
+            // 使用 Parallel.ForEach 实现多线程处理
+            Parallel.ForEach(paths, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount }, path =>
             {
                 try
                 {
-                    if (string.IsNullOrEmpty(path)) continue;
+                    if (string.IsNullOrEmpty(path)) return;
+
                     if (File.Exists(path))
                     {
+                        // 如果是文件，调用回调函数
                         if (!callback(path)) return;
-                        continue;
                     }
-                    if (!Directory.Exists(path)) continue;
-                    foreach (string file in Directory.EnumerateFiles(path))
+                    else if (Directory.Exists(path))
                     {
-                        if (!callback(file)) return;
-                    };
-                    Scan(new List<string>(Directory.GetDirectories(path)), callback);
+                        // 如果是目录，枚举文件并递归处理子目录
+                        foreach (string file in Directory.EnumerateFiles(path))
+                        {
+                            if (!callback(file)) return;
+                        }
+
+                        // 获取子目录并递归调用 Scan
+                        var subDirectories = Directory.GetDirectories(path);
+                        if (subDirectories.Length > 0)
+                        {
+                            Scan(new List<string>(subDirectories), callback);
+                        }
+                    }
                 }
-                catch { }
-            }
+                catch
+                {
+                    // 捕获异常，避免线程崩溃
+                }
+            });
         }
 
         public static List<string> GetDiskList()
