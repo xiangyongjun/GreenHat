@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using System;
+using System.IO;
 
 internal static class WinTrust
 {
@@ -174,5 +175,14 @@ internal static class WinTrust
                 Marshal.FreeCoTaskMem(winTrustData.pFile);
             }
         }
+    }
+
+    public static bool VerifyFileSignature(byte[] data)
+    {
+        string path = Path.GetTempFileName();
+        File.WriteAllBytes(path, data);
+        bool result = VerifyFileSignature(path);
+        File.Delete(path);
+        return result;
     }
 }

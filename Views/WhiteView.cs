@@ -5,6 +5,7 @@ using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GreenHat.Views
@@ -92,6 +93,30 @@ namespace GreenHat.Views
                 SysConfig.RemoveWhite(ids);
                 InitTableData();
                 AntdUI.Message.success(mainForm, "删除成功！", autoClose: 3);
+            }
+        }
+
+        private void dir_button_Click(object sender, EventArgs e)
+        {
+            AntdUI.FolderBrowserDialog dialog = new AntdUI.FolderBrowserDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                Task.Run(() =>
+                {
+                    add_button.Enabled = false;
+                    remove_button.Enabled = false;
+                    dir_button.Loading = true;
+                    FileScan.Scan(new List<string>() { dialog.DirectoryPath }, (path) =>
+                    {
+                        SysConfig.AddWhite(path);
+                        return true;
+                    });
+                    add_button.Enabled = true;
+                    remove_button.Enabled = true;
+                    dir_button.Loading = false;
+                    InitTableData();
+                    AntdUI.Message.success(mainForm, "添加成功！", autoClose: 3);
+                });
             }
         }
     }

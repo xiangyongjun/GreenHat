@@ -59,7 +59,7 @@ namespace GreenHat.Utils
 
         public static bool AddLog(string type, string func, string desc)
         {
-            return db.CopyNew().CopyNew().Insertable(new Log()
+            return db.CopyNew().Insertable(new Log()
             {
                 Time = DateTime.Now,
                 Type = type,
@@ -160,6 +160,26 @@ namespace GreenHat.Utils
         public static int CountBlack()
         {
             return db.Queryable<Black>().Count();
+        }
+
+        public static List<Cloud> GetCloudList()
+        {
+            return db.Queryable<Cloud>().OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
+        }
+
+        public static bool AddCloud(Cloud cloud)
+        {
+            return db.Insertable(cloud).ExecuteCommand() > 0;
+        }
+
+        public static int CountCloud()
+        {
+            return db.Queryable<Cloud>().Count();
+        }
+
+        public static void ClearCloud()
+        {
+            db.Deleteable<Cloud>().ExecuteCommand();
         }
     }
 }

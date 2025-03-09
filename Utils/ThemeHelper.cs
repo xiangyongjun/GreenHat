@@ -5,11 +5,13 @@ namespace GreenHat.Utils
 {
     public class ThemeHelper
     {
+        private static bool isLightMode = IsSystemLightMode();
+
         /// <summary>
-        /// 判断是否浅色
+        /// 判断系统是否浅色
         /// </summary>
         /// <returns></returns>
-        public static bool IsLightMode()
+        public static bool IsSystemLightMode()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
             if (key != null)
@@ -25,12 +27,22 @@ namespace GreenHat.Utils
         }
 
         /// <summary>
+        /// 判断是否浅色
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsLightMode()
+        {
+            return isLightMode;
+        }
+
+        /// <summary>
         /// 设置明暗颜色
         /// </summary>
         /// <param name="window">父窗口</param>
         /// <param name="isLight">是否亮色</param>
         public static void SetColorMode(AntdUI.Window window, bool isLight)
         {
+            isLightMode = isLight;
             if (isLight)
             {
                 AntdUI.Config.IsLight = true;

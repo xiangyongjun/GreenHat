@@ -78,6 +78,13 @@ namespace GreenHat.Utils
             }
         }
 
+        public static void OpenFileInExplorer(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath)) return;
+            if (!File.Exists(filePath)) return;
+            Process.Start("explorer.exe", $"/select,\"{filePath}\"");
+        }
+
         public static void EncryptFile(string inputFile, string outputFile, string key)
         {
             try
@@ -146,6 +153,32 @@ namespace GreenHat.Utils
             string result = BitConverter.ToString(MD5.Create().ComputeHash(fileStream)).Replace("-", "").ToLowerInvariant();
             fileStream.Close();
             return result;
+        }
+
+        public static string GetSHA256(string filePath)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                using (var stream = File.OpenRead(filePath))
+                {
+                    byte[] hashBytes = sha256.ComputeHash(stream);
+                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
+        public static string GetIconBase64(string filePath)
+        {
+            Icon icon = Icon.ExtractAssociatedIcon(filePath);
+            using (Bitmap bitmap = icon.ToBitmap())
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                    byte[] iconBytes = ms.ToArray();
+                    return Convert.ToBase64String(iconBytes);
+                }
+            }
         }
     }
 }

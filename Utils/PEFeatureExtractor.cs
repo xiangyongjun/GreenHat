@@ -1,29 +1,47 @@
 ﻿using PeNet;
 using PeNet.Header.Pe;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace GreenHat.utils
 {
     public class PEFeatureExtractor
     {
-        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
         public static PEData ExtractFeatures(string filePath)
         {
+            var result = ExtractFeatures(File.ReadAllBytes(filePath));
+            if (result != null)
+            {
+                result.TrustSigned = WinTrust.VerifyFileSignature(filePath) ? 1 : 0;
+                result.HasDirSigned = WinTrust.VerifyDirSignature(filePath) ? 1 : 0;
+            }
+            return result;
+        }
+
+        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
+        public static PEData ExtractFeatures(byte[] fileBytes)
+        {
+            var data = new PEData();
+
             try
             {
-                if (!PeFile.IsPeFile(filePath)) return null;
-                var fileBytes = File.ReadAllBytes(filePath);
+                if (!PeFile.IsPeFile(fileBytes)) return null;
                 var pe = new PeFile(fileBytes);
-                var data = new PEData();
 
                 // 计算文件熵
                 data.FileEntropy = (float)CalculateEntropy(fileBytes);
 
                 // 导入函数
+                data.ImportFuncs = new HashSet<string>();
                 if (pe.ImportedFunctions != null)
                 {
                     data.ApiCount = pe.ImportedFunctions.Length;
+                    foreach (var func in pe.ImportedFunctions)
+                    {
+                        if (String.IsNullOrEmpty(func.Name)) continue;
+                        data.ImportFuncs.Add(func.Name);
+                    }
                 }
 
                 // 导出函数
@@ -115,7 +133,7 @@ namespace GreenHat.utils
                 data.ValidSigned = pe.HasValidAuthenticodeSignature ? 1 : 0;
 
                 // 签名是否信任
-                data.TrustSigned = WinTrust.VerifyFileSignature(filePath) ? 1 : 0;
+                data.TrustSigned = 0;
 
                 // 异常处理表数量
                 data.ExceptionCount = pe.ExceptionDirectory != null ? pe.ExceptionDirectory.Length : 0;
@@ -124,7 +142,7 @@ namespace GreenHat.utils
                 data.SectionCount = pe.ImageSectionHeaders.Length;
 
                 // 是否有目录签名
-                data.HasDirSigned = WinTrust.VerifyDirSignature(filePath) ? 1 : 0;
+                data.HasDirSigned = 0;
 
                 // PE 文件基本信息
                 data.Machine = (float)pe.ImageNtHeaders.FileHeader.Machine;
@@ -165,10 +183,9 @@ namespace GreenHat.utils
 
                 return data;
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"Error processing file: {filePath}. Exception: {ex.Message}");
-                return null;
+                return data;
             }
         }
 
@@ -177,7 +194,6 @@ namespace GreenHat.utils
             var frequencies = new int[256];
             foreach (var b in data)
                 frequencies[b]++;
-
             double entropy = 0;
             double dataSize = data.Length;
             foreach (var freq in frequencies)

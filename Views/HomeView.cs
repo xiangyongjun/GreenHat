@@ -1,12 +1,17 @@
 ﻿using AntdUI;
+using GreenHat.Entitys;
 using GreenHat.Models;
 using GreenHat.Utils;
 using Hardware.Info;
 using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Management;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -36,7 +41,10 @@ namespace GreenHat.Views
                 new SelectItem(" 全盘查杀"){
                     Online = 1
                 },
-                new SelectItem(" 自定义查杀"){
+                new SelectItem(" 查杀目录"){
+                    Online = 1
+                },
+                new SelectItem(" 查杀文件"){
                     Online = 1
                 }
             });
@@ -228,15 +236,9 @@ namespace GreenHat.Views
             });
         }
 
-        private void deepseek_button_Click(object sender, EventArgs e)
+        private void cloud_button_Click(object sender, EventArgs e)
         {
-            Modal.open(new Modal.Config(mainForm, "DeepSeek 恶意文件分析", new DeepSeekView(mainForm))
-            {
-                CloseIcon = true,
-                BtnHeight = 0,
-                MaskClosable = false,
-                Padding = new Size(15, 15)
-            });
+            new CloudMarkForm().ShowDialog();
         }
     }
 }

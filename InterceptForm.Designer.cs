@@ -160,6 +160,7 @@
             // path_label
             // 
             this.path_label.AutoEllipsis = true;
+            this.path_label.Cursor = System.Windows.Forms.Cursors.Hand;
             this.path_label.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.path_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
             this.path_label.Location = new System.Drawing.Point(93, 139);
@@ -167,6 +168,7 @@
             this.path_label.Size = new System.Drawing.Size(451, 23);
             this.path_label.TabIndex = 48;
             this.path_label.Text = "";
+            this.path_label.Click += new System.EventHandler(this.path_label_Click);
             // 
             // type_label
             // 
@@ -182,7 +184,7 @@
             // 
             this.engine_label.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.engine_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
-            this.engine_label.Location = new System.Drawing.Point(93, 208);
+            this.engine_label.Location = new System.Drawing.Point(93, 209);
             this.engine_label.Name = "engine_label";
             this.engine_label.Size = new System.Drawing.Size(451, 23);
             this.engine_label.TabIndex = 51;
@@ -215,7 +217,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.titlebar);
             this.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "InterceptForm";

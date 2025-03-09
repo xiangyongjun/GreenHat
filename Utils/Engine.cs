@@ -13,10 +13,16 @@ namespace GreenHat.Utils
     {
         private static string basePath = $"{AppDomain.CurrentDomain.BaseDirectory}engine\\";
         private static PredictionEngine<PEData, MalwarePrediction> greenHatEngine;
+        private static bool greenHatEnable = false;
+        private static bool lieJianEnable = false;
+        private static string lieJianKey = "";
 
         public static void Init()
         {
-            if (SysConfig.GetSetting("绿帽子机器学习引擎").Enabled)
+            greenHatEnable = SysConfig.GetSetting("绿帽子机器学习引擎").Enabled;
+            lieJianEnable = SysConfig.GetSetting("猎剑云引擎").Enabled;
+
+            if (greenHatEnable)
             {
                 Task.Run(() =>
                 {
@@ -32,13 +38,13 @@ namespace GreenHat.Utils
         {
             result = new string[2] { "", "" };
             List<Task<string>> tasks = new List<Task<string>>();
-            if (SysConfig.GetSetting("绿帽子机器学习引擎").Enabled)
+            if (greenHatEnable)
             {
                 tasks.Add(Task.Run(() => $"绿帽子机器学习引擎\t{GreenHatScan(path)}"));
             }
-            if (isScan && SysConfig.GetSetting("猎剑云引擎").Enabled)
+            if (isScan && lieJianEnable)
             {
-                tasks.Add(Task.Run(() => $"猎剑云引擎\t{LieJianScan(path)}" ));
+                tasks.Add(Task.Run(() => $"猎剑云引擎\t{LieJianScan(path)}"));
             }
             Task.WaitAll(tasks.ToArray());
             foreach (Task<string> task in tasks)
@@ -56,11 +62,39 @@ namespace GreenHat.Utils
         {
             try
             {
+                // 检测 msi 文件
+                if (MsiExtractor.IsMsi(path))
+                {
+                    if (WinTrust.VerifyFileSignature(path)) return null;
+                    string result = null;
+                    MsiExtractor.ExtractPeFiles(path, (byte[] buffer, bool isInsideCab) =>
+                    {
+                        var msiPe = PEFeatureExtractor.ExtractFeatures(buffer);
+                        if (msiPe != null)
+                        {
+                            if (msiPe.IsSigned != 0 && WinTrust.VerifyFileSignature(buffer)) return true;
+                            var prediction = greenHatEngine.Predict(msiPe);
+                            if (prediction.IsMalware && msiPe.TrustSigned != 1 && msiPe.HasDirSigned != 1 && prediction.Probability >= 0.8)
+                            {
+                                result = $"{MalwareClassifier.Classify(msiPe.ImportFuncs)}.{(int)(prediction.Probability * 100)}";
+                                return true;
+                            }
+                        }
+                        else if (isInsideCab && PEFeatureExtractor.CalculateEntropy(buffer) >= 7.9 && MsiExtractor.CheckPageStructure(buffer))
+                        {
+                            result = $"Trojan.AgentTesla.100";
+                            return false;
+                        }
+                        return true;
+                    });
+                    return result;
+                }
+                // 检测 pe 文件
                 var pe = PEFeatureExtractor.ExtractFeatures(path);
                 if (pe != null)
                 {
                     var prediction = greenHatEngine.Predict(pe);
-                    return prediction.IsMalware && pe.TrustSigned != 1 && pe.HasDirSigned != 1 && prediction.Probability >= 0.8 ? $"Win/Malicious.GreenHat.{(int)(prediction.Probability * 100)}" : null;
+                    return prediction.IsMalware && pe.TrustSigned != 1 && pe.HasDirSigned != 1 && prediction.Probability >= 0.8 ? $"{MalwareClassifier.Classify(pe.ImportFuncs)}.{(int)(prediction.Probability * 100)}" : null;
                 }
             }
             catch { }
@@ -71,8 +105,8 @@ namespace GreenHat.Utils
         {
             try
             {
-                TOTP totp = new TOTP("");
-                string url = $"https://www.virusmark.com/scan_get?md5={Tools.GetMd5(path)}&token={totp.Now()}";
+                TOTP totp = new TOTP(lieJianKey);
+                string url = $"https://www.virusmark.com/scan_get?sha256={Tools.GetSHA256(path)}&token={totp.Now()}";
                 using (HttpClient client = new HttpClient())
                 {
                     HttpResponseMessage response = client.GetAsync(url).Result;
@@ -80,12 +114,17 @@ namespace GreenHat.Utils
                     {
                         string responseBody = response.Content.ReadAsStringAsync().Result;
                         JObject obj = JObject.Parse(responseBody);
-                        return (int)obj.GetValue("score") >= 80 ? obj.GetValue("tag").ToString().Replace("HDE:", "").Replace("DIN:", "") : null;
+                        return (int)obj.GetValue("score") >= 70 ? $"{obj.GetValue("tag").ToString().Split('@')[0].Replace("Malware.", "")}" : null;
                     }
                 }
             }
             catch { }
             return null;
+        }
+
+        public static string GetLieJianKey()
+        {
+            return lieJianKey;
         }
 
         public static void Dispose()

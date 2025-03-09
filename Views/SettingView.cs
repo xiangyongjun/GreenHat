@@ -4,6 +4,7 @@ using GreenHat.Models;
 using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GreenHat.Views
@@ -57,7 +58,10 @@ namespace GreenHat.Views
                                 else Tools.DeleteService("GreenHatService");
                                 break;
                             default:
-                                Engine.Init();
+                                Task.Run(async () =>{
+                                    await Task.Delay(100);
+                                    Engine.Init();
+                                });
                                 break;
                         };
                         string state = value ? "开启" : "关闭";

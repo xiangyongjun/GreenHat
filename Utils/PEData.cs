@@ -1,4 +1,5 @@
 ﻿using Microsoft.ML.Data;
+using System.Collections.Generic;
 
 namespace GreenHat.utils
 {
@@ -75,6 +76,7 @@ namespace GreenHat.utils
         [LoadColumn(68)] public float WritableSections { get; set; } // 可写段
         [LoadColumn(69)] public float SectionCount { get; set; } // 段计数
         [LoadColumn(70)] public float SectionException { get; set; } // 段异常
+        [NoColumn] public HashSet<string> ImportFuncs { get; set; } // 导入函数
     }
 
     // 定义预测结果类

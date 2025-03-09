@@ -1,4 +1,5 @@
 ﻿using AntdUI;
+using GreenHat.Models;
 using GreenHat.Utils;
 using System.Diagnostics;
 
@@ -85,6 +86,11 @@ namespace GreenHat
         public string GetPath()
         {
             return path;
+        }
+
+        private void path_label_Click(object sender, System.EventArgs e)
+        {
+            Tools.OpenFileInExplorer(path);
         }
     }
 }

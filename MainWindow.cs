@@ -56,7 +56,7 @@ namespace GreenHat
 
         private void InitData()
         {
-            isLight = ThemeHelper.IsLightMode();
+            isLight = ThemeHelper.IsSystemLightMode();
             button_color.Toggle = !isLight;
             ThemeHelper.SetColorMode(this, isLight);
             Config.ShowInWindow = true;
@@ -215,8 +215,11 @@ namespace GreenHat
                 case "全盘查杀":
                     scanView.full_button_Click(null, null);
                     break;
-                case "自定义查杀":
-                    scanView.custom_button_Click(null, null);
+                case "查杀目录":
+                    scanView.dir_button_Click(null, null);
+                    break;
+                case "查杀文件":
+                    scanView.file_button_Click(null, null);
                     break;
             }
         }

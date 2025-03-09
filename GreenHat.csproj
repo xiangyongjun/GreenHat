@@ -13,7 +13,7 @@
 		<Copyright>Copyright © XiangYongJun</Copyright>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<Version>2.0.6.0</Version>
+		<Version>2.0.7.0</Version>
 		<Authors>皮皮俊</Authors>
 		<Description>绿帽子安全防护</Description>
 		<PackageProjectUrl></PackageProjectUrl>
@@ -48,14 +48,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AntdUI" Version="1.9.0" />
+		<PackageReference Include="AntdUI" Version="1.9.1" />
 		<PackageReference Include="Hardware.Info" Version="101.0.1" />
 		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.19" />
 		<PackageReference Include="Microsoft.ML" Version="4.0.2" />
 		<PackageReference Include="Microsoft.ML.LightGbm" Version="4.0.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="OpenMcdf" Version="2.4.1" />
+		<PackageReference Include="OpenMcdf.Extensions" Version="2.4.0" />
 		<PackageReference Include="PeNet" Version="4.1.1" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
+		<PackageReference Include="SevenZipExtractor" Version="1.0.19" />
 		<PackageReference Include="SqlSugar" Version="5.1.4.180" />
 		<PackageReference Include="System.Data.SQLite" Version="1.0.119" />
 	</ItemGroup>
@@ -66,6 +69,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="CloudMarkForm.cs">
+		  <SubType>Form</SubType>
+		</Compile>
 		<Compile Update="Properties\Resources.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -73,9 +79,6 @@
 		</Compile>
 		<Compile Update="Views\AboutView.cs" />
 		<Compile Update="Views\UpdateView.cs" />
-		<Compile Update="Views\DeepSeekView.cs">
-		  <SubType>UserControl</SubType>
-		</Compile>
 		<Compile Update="Views\WhiteView.cs" />
 		<Compile Update="Views\SettingView.cs" />
 		<Compile Update="Views\LogView.cs" />
@@ -91,6 +94,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Images\" />
+	  <Folder Include="Resources\" />
 	</ItemGroup>
 
 </Project>

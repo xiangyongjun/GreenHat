@@ -33,6 +33,7 @@
             this.add_button = new AntdUI.Button();
             this.remove_button = new AntdUI.Button();
             this.path_input = new AntdUI.Input();
+            this.dir_button = new AntdUI.Button();
             this.SuspendLayout();
             // 
             // table
@@ -63,7 +64,7 @@
             this.remove_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.remove_button.IconSize = new System.Drawing.Size(13, 13);
             this.remove_button.IconSvg = resources.GetString("remove_button.IconSvg");
-            this.remove_button.Location = new System.Drawing.Point(329, 15);
+            this.remove_button.Location = new System.Drawing.Point(442, 15);
             this.remove_button.Name = "remove_button";
             this.remove_button.Size = new System.Drawing.Size(100, 32);
             this.remove_button.TabIndex = 44;
@@ -86,8 +87,23 @@
             this.path_input.WaveSize = 0;
             this.path_input.TextChanged += new System.EventHandler(this.path_input_TextChanged);
             // 
+            // dir_button
+            // 
+            this.dir_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dir_button.IconSize = new System.Drawing.Size(20, 20);
+            this.dir_button.IconSvg = resources.GetString("dir_button.IconSvg");
+            this.dir_button.Location = new System.Drawing.Point(328, 15);
+            this.dir_button.Name = "dir_button";
+            this.dir_button.Size = new System.Drawing.Size(100, 32);
+            this.dir_button.TabIndex = 46;
+            this.dir_button.Text = "添加目录";
+            this.dir_button.Type = AntdUI.TTypeMini.Success;
+            this.dir_button.WaveSize = 0;
+            this.dir_button.Click += new System.EventHandler(this.dir_button_Click);
+            // 
             // WhiteView
             // 
+            this.Controls.Add(this.dir_button);
             this.Controls.Add(this.path_input);
             this.Controls.Add(this.remove_button);
             this.Controls.Add(this.add_button);
@@ -103,5 +119,6 @@
         private AntdUI.Button add_button;
         private AntdUI.Button remove_button;
         private AntdUI.Input path_input;
+        private AntdUI.Button dir_button;
     }
 }

@@ -3,10 +3,12 @@ using GreenHat.Models;
 using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace GreenHat.Views
 {
@@ -93,7 +95,7 @@ namespace GreenHat.Views
             });
         }
 
-        public void custom_button_Click(object sender, EventArgs e)
+        public void dir_button_Click(object sender, EventArgs e)
         {
             AntdUI.FolderBrowserDialog dialog = new AntdUI.FolderBrowserDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -103,6 +105,29 @@ namespace GreenHat.Views
                 SysConfig.AddLog("病毒防护", "自定义查杀", $"开始时间：{DateTime.Now.ToString()}");
                 scan_timer.Enabled = true;
                 list.Add(dialog.DirectoryPath);
+                Task.Run(() =>
+                {
+                    cts = new CancellationTokenSource();
+                    Task.Run(() => StartScan(list), cts.Token);
+                });
+            }
+        }
+
+        public void file_button_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "所有文件 (*.*)|*.*";
+            dialog.Multiselect = true;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                List<string> list = new List<string>();
+                type = "自定义查杀";
+                SysConfig.AddLog("病毒防护", "自定义查杀", $"开始时间：{DateTime.Now.ToString()}");
+                scan_timer.Enabled = true;
+                foreach (var fileName in dialog.FileNames)
+                {
+                    list.Add(fileName);
+                }
                 Task.Run(() =>
                 {
                     cts = new CancellationTokenSource();
@@ -122,7 +147,7 @@ namespace GreenHat.Views
             total = 0;
             quick_button.Enabled = false;
             full_button.Enabled = false;
-            custom_button.Enabled = false;
+            dir_button.Enabled = false;
             remove_button.Visible = false;
             black_button.Visible = false;
             stop_button.Visible = true;
@@ -177,7 +202,7 @@ namespace GreenHat.Views
             cts.Cancel();
             quick_button.Enabled = true;
             full_button.Enabled = true;
-            custom_button.Enabled = true;
+            dir_button.Enabled = true;
             header.Description = $"查杀结束 {DateTime.Now.ToString()}";
             scan_timer.Enabled= false;
             pause_button.Visible = true;
@@ -204,13 +229,21 @@ namespace GreenHat.Views
 
         private void table_CellClick(object sender, TableClickEventArgs e)
         {
-            if (e.ColumnIndex != 2) return;
+            if (e.ColumnIndex == 0) return;
             ScanTable scanTable = (ScanTable)e.Record;
-            Modal.open(new Modal.Config(mainForm, "查杀引擎", scanTable.Engine, TType.Info)
+            switch (e.ColumnIndex)
             {
-                CloseIcon = true,
-                BtnHeight = 0
-            });
+                case 1:
+                    Tools.OpenFileInExplorer(scanTable.Path);
+                    break;
+                case 2:
+                    Modal.open(new Modal.Config(mainForm, "查杀引擎", scanTable.Engine, TType.Info)
+                    {
+                        CloseIcon = true,
+                        BtnHeight = 0
+                    });
+                    break;
+            }
         }
 
         private void black_button_Click(object sender, EventArgs e)
