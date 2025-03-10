@@ -215,10 +215,10 @@ namespace GreenHat
                 case "全盘查杀":
                     scanView.full_button_Click(null, null);
                     break;
-                case "查杀目录":
+                case "目录查杀":
                     scanView.dir_button_Click(null, null);
                     break;
-                case "查杀文件":
+                case "文件查杀":
                     scanView.file_button_Click(null, null);
                     break;
             }

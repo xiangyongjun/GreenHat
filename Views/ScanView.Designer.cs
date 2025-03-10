@@ -96,7 +96,7 @@
             this.dir_button.Name = "dir_button";
             this.dir_button.Size = new System.Drawing.Size(100, 32);
             this.dir_button.TabIndex = 36;
-            this.dir_button.Text = "查杀目录";
+            this.dir_button.Text = "目录查杀";
             this.dir_button.Type = AntdUI.TTypeMini.Success;
             this.dir_button.WaveSize = 0;
             this.dir_button.Click += new System.EventHandler(this.dir_button_Click);
@@ -211,7 +211,7 @@
             this.file_button.Name = "file_button";
             this.file_button.Size = new System.Drawing.Size(100, 32);
             this.file_button.TabIndex = 45;
-            this.file_button.Text = "查杀文件";
+            this.file_button.Text = "文件查杀";
             this.file_button.Type = AntdUI.TTypeMini.Success;
             this.file_button.WaveSize = 0;
             this.file_button.Click += new System.EventHandler(this.file_button_Click);

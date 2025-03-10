@@ -41,10 +41,10 @@ namespace GreenHat.Views
                 new SelectItem(" 全盘查杀"){
                     Online = 1
                 },
-                new SelectItem(" 查杀目录"){
+                new SelectItem(" 目录查杀"){
                     Online = 1
                 },
-                new SelectItem(" 查杀文件"){
+                new SelectItem(" 文件查杀"){
                     Online = 1
                 }
             });

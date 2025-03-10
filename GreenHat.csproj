@@ -44,6 +44,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Resources\**" />
+	  <EmbeddedResource Remove="Resources\**" />
+	  <None Remove="Resources\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Content Include="icon.ico" />
 	</ItemGroup>
 
@@ -94,7 +100,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Images\" />
-	  <Folder Include="Resources\" />
 	</ItemGroup>
 
 </Project>

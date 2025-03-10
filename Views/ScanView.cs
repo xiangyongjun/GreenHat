@@ -3,12 +3,10 @@ using GreenHat.Models;
 using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace GreenHat.Views
 {
@@ -148,6 +146,7 @@ namespace GreenHat.Views
             quick_button.Enabled = false;
             full_button.Enabled = false;
             dir_button.Enabled = false;
+            file_button.Enabled = false;
             remove_button.Visible = false;
             black_button.Visible = false;
             stop_button.Visible = true;
@@ -203,6 +202,7 @@ namespace GreenHat.Views
             quick_button.Enabled = true;
             full_button.Enabled = true;
             dir_button.Enabled = true;
+            file_button.Enabled = true;
             header.Description = $"查杀结束 {DateTime.Now.ToString()}";
             scan_timer.Enabled= false;
             pause_button.Visible = true;
