@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
 using GreenHat.Utils;
+using AntdUI;
 
 namespace GreenHat.Views
 {
@@ -23,14 +24,17 @@ namespace GreenHat.Views
 
         private async void CheckVersion()
         {
+            old_label.Text = $"{Localization.Get("当前版本", "当前版本")}：";
+            new_label.Text = $"{Localization.Get("最新版本", "最新版本")}：";
+            update_button.Text = Localization.Get("立即更新", "立即更新");
             Assembly assembly = Assembly.GetExecutingAssembly();
             Version oldVersion = assembly.GetName().Version;
             string temp = await GetLatestVersionAsync();
             Version newVersion = Version.Parse((string.IsNullOrEmpty(temp) ? oldVersion.ToString() : temp));
-            old_label.Text = $"当前版本：{oldVersion}";
-            new_label.Text = $"最新版本：{newVersion}";
+            old_label.Text = $"{Localization.Get("当前版本", "当前版本")}：{oldVersion}";
+            new_label.Text = $"{Localization.Get("最新版本", "最新版本")}：{newVersion}";
             if (newVersion.CompareTo(oldVersion) > 0) update_button.Enabled = true;
-            else update_button.Text = "已是最新";
+            else update_button.Text = Localization.Get("已是最新", "已是最新");
         }
 
         private async Task<string> GetLatestVersionAsync()
@@ -62,7 +66,7 @@ namespace GreenHat.Views
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    update_button.Text = "正在更新";
+                    update_button.Text = Localization.Get("正在更新", "正在更新");
                     update_button.Enabled = false;
                     update_button.Loading = true;
                     download_label.Visible = true;

@@ -30,7 +30,7 @@ namespace GreenHat.Utils
 
         public static List<Setting> GetSettingList()
         {
-            return db.Queryable<Setting>().ToList();
+            return db.CopyNew().Queryable<Setting>().ToList();
         }
 
         public static Setting GetSetting(string name)
@@ -42,19 +42,19 @@ namespace GreenHat.Utils
         {
             Setting setting = db.Queryable<Setting>().Where(it => it.Name == name).First();
             setting.Enabled = enabled;
-            return db.Updateable(setting).UpdateColumns(it => new { it.Enabled }).ExecuteCommand() > 0;
+            return db.CopyNew().Updateable(setting).UpdateColumns(it => new { it.Enabled }).ExecuteCommand() > 0;
         }
 
         public static List<Log> GetLogList(string type)
         {
             if (type == "全部") type = "";
-            return db.Queryable<Log>().Where(it => it.Type.Contains(type)).OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
+            return db.CopyNew().Queryable<Log>().Where(it => it.Type.Contains(type)).OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
         }
 
         public static List<Log> GetLogList(string type, DateTime startDate, DateTime endDate)
         {
             if (type == "全部") type = "";
-            return db.Queryable<Log>().Where(it => it.Type.Contains(type) && it.Time >= startDate && it.Time <= endDate).OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
+            return db.CopyNew().Queryable<Log>().Where(it => it.Type.Contains(type) && it.Time >= startDate && it.Time <= endDate).OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
         }
 
         public static bool AddLog(string type, string func, string desc)
@@ -70,12 +70,12 @@ namespace GreenHat.Utils
 
         public static void ClearLog()
         {
-            db.Deleteable<Log>().ExecuteCommand();
+            db.CopyNew().Deleteable<Log>().ExecuteCommand();
         }
 
         public static List<White> GetWhiteList(string path = "")
         {
-            return db.Queryable<White>().Where(it => it.Path.Contains(path)).OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
+            return db.CopyNew().Queryable<White>().Where(it => it.Path.Contains(path)).OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
         }
 
         public static bool AddWhite(string path)
@@ -90,7 +90,7 @@ namespace GreenHat.Utils
 
         public static bool RemoveWhite(List<int> ids)
         {
-            return db.Deleteable<White>().In(ids).ExecuteCommand() > 0;
+            return db.CopyNew().Deleteable<White>().In(ids).ExecuteCommand() > 0;
         }
 
         public static bool IsWhite(string path)
@@ -131,7 +131,7 @@ namespace GreenHat.Utils
 
         public static bool RestoreBlack(List<int> ids)
         {
-            List<Black> blackList = db.Queryable<Black>().In(ids).ToList();
+            List<Black> blackList = db.CopyNew().Queryable<Black>().In(ids).ToList();
             string dir = $"{AppDomain.CurrentDomain.BaseDirectory}backup\\";
             foreach (Black item in blackList)
             {
@@ -159,27 +159,27 @@ namespace GreenHat.Utils
 
         public static int CountBlack()
         {
-            return db.Queryable<Black>().Count();
+            return db.CopyNew().Queryable<Black>().Count();
         }
 
         public static List<Cloud> GetCloudList()
         {
-            return db.Queryable<Cloud>().OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
+            return db.CopyNew().Queryable<Cloud>().OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
         }
 
         public static bool AddCloud(Cloud cloud)
         {
-            return db.Insertable(cloud).ExecuteCommand() > 0;
+            return db.CopyNew().Insertable(cloud).ExecuteCommand() > 0;
         }
 
         public static int CountCloud()
         {
-            return db.Queryable<Cloud>().Count();
+            return db.CopyNew().Queryable<Cloud>().Count();
         }
 
         public static void ClearCloud()
         {
-            db.Deleteable<Cloud>().ExecuteCommand();
+            db.CopyNew().Deleteable<Cloud>().ExecuteCommand();
         }
     }
 }

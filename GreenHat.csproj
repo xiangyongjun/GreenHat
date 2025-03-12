@@ -13,7 +13,7 @@
 		<Copyright>Copyright © XiangYongJun</Copyright>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<Version>2.0.7.0</Version>
+		<Version>2.0.8.0</Version>
 		<Authors>皮皮俊</Authors>
 		<Description>绿帽子安全防护</Description>
 		<PackageProjectUrl></PackageProjectUrl>
@@ -54,7 +54,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AntdUI" Version="1.9.1" />
+		<PackageReference Include="AntdUI" Version="1.9.2" />
 		<PackageReference Include="Hardware.Info" Version="101.0.1" />
 		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.19" />
 		<PackageReference Include="Microsoft.ML" Version="4.0.2" />

@@ -12,12 +12,12 @@ namespace GreenHat.Utils
 {
     internal static class FileScan
     {
-        public static void Scan(List<string> paths, Func<string, bool> callback)
+        public static void Scan(List<string> paths, Func<string, bool> callback, int MaxDegreeOfParallelism = 1)
         {
             if (paths == null || paths.Count == 0) return;
 
             // 使用 Parallel.ForEach 实现多线程处理
-            Parallel.ForEach(paths, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount }, path =>
+            Parallel.ForEach(paths, new ParallelOptions { MaxDegreeOfParallelism = MaxDegreeOfParallelism }, path =>
             {
                 try
                 {
@@ -40,7 +40,7 @@ namespace GreenHat.Utils
                         var subDirectories = Directory.GetDirectories(path);
                         if (subDirectories.Length > 0)
                         {
-                            Scan(new List<string>(subDirectories), callback);
+                            Scan(new List<string>(subDirectories), callback, MaxDegreeOfParallelism);
                         }
                     }
                 }

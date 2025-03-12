@@ -84,7 +84,7 @@
             this.type_select.List = true;
             this.type_select.Location = new System.Drawing.Point(317, 91);
             this.type_select.Name = "type_select";
-            this.type_select.PlaceholderText = "请选择类型";
+            this.type_select.PlaceholderText = "";
             this.type_select.SelectedIndex = 0;
             this.type_select.SelectedValue = "全部";
             this.type_select.Size = new System.Drawing.Size(150, 32);

@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            AntdUI.SegmentedItem segmentedItem6 = new AntdUI.SegmentedItem();
+            AntdUI.SegmentedItem segmentedItem1 = new AntdUI.SegmentedItem();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            AntdUI.SegmentedItem segmentedItem7 = new AntdUI.SegmentedItem();
-            AntdUI.SegmentedItem segmentedItem8 = new AntdUI.SegmentedItem();
-            AntdUI.SegmentedItem segmentedItem9 = new AntdUI.SegmentedItem();
-            AntdUI.SegmentedItem segmentedItem10 = new AntdUI.SegmentedItem();
+            AntdUI.SegmentedItem segmentedItem2 = new AntdUI.SegmentedItem();
+            AntdUI.SegmentedItem segmentedItem3 = new AntdUI.SegmentedItem();
+            AntdUI.SegmentedItem segmentedItem4 = new AntdUI.SegmentedItem();
+            AntdUI.SegmentedItem segmentedItem5 = new AntdUI.SegmentedItem();
             this.titlebar = new AntdUI.PageHeader();
+            this.dropdown_translate = new AntdUI.Dropdown();
             this.button_color = new AntdUI.Button();
             this.mainPanel = new AntdUI.Panel();
             this.segmented = new AntdUI.Segmented();
@@ -43,6 +44,7 @@
             // 
             // titlebar
             // 
+            this.titlebar.Controls.Add(this.dropdown_translate);
             this.titlebar.Controls.Add(this.button_color);
             this.titlebar.Dock = System.Windows.Forms.DockStyle.Top;
             this.titlebar.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -55,6 +57,26 @@
             this.titlebar.SubText = "";
             this.titlebar.TabIndex = 0;
             this.titlebar.Text = "绿帽子安全防护";
+            // 
+            // dropdown_translate
+            // 
+            this.dropdown_translate.Dock = System.Windows.Forms.DockStyle.Right;
+            this.dropdown_translate.Ghost = true;
+            this.dropdown_translate.IconRatio = 0.65F;
+            this.dropdown_translate.IconSvg = "TranslationOutlined";
+            this.dropdown_translate.Items.AddRange(new object[] {
+            "简体中文",
+            "繁体中文",
+            "English",
+            "Русский",
+            "日本語",
+            "한국어"});
+            this.dropdown_translate.Location = new System.Drawing.Point(838, 0);
+            this.dropdown_translate.Name = "dropdown_translate";
+            this.dropdown_translate.Size = new System.Drawing.Size(50, 40);
+            this.dropdown_translate.TabIndex = 4;
+            this.dropdown_translate.WaveSize = 0;
+            this.dropdown_translate.SelectedValueChanged += new AntdUI.ObjectNEventHandler(this.dropdown_translate_SelectedValueChanged);
             // 
             // button_color
             // 
@@ -84,66 +106,71 @@
             this.segmented.Cursor = System.Windows.Forms.Cursors.Hand;
             this.segmented.Font = new System.Drawing.Font("Microsoft YaHei UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.segmented.Full = true;
-            segmentedItem6.Badge = null;
-            segmentedItem6.BadgeAlign = AntdUI.TAlignFrom.TR;
-            segmentedItem6.BadgeBack = null;
-            segmentedItem6.BadgeMode = false;
-            segmentedItem6.BadgeOffsetX = 0;
-            segmentedItem6.BadgeOffsetY = 0;
-            segmentedItem6.BadgeSize = 0.6F;
-            segmentedItem6.BadgeSvg = null;
-            segmentedItem6.IconActiveSvg = "";
-            segmentedItem6.IconSvg = resources.GetString("segmentedItem6.IconSvg");
-            segmentedItem6.Text = "主页";
-            segmentedItem7.Badge = null;
-            segmentedItem7.BadgeAlign = AntdUI.TAlignFrom.TR;
-            segmentedItem7.BadgeBack = null;
-            segmentedItem7.BadgeMode = false;
-            segmentedItem7.BadgeOffsetX = 0;
-            segmentedItem7.BadgeOffsetY = 0;
-            segmentedItem7.BadgeSize = 0.6F;
-            segmentedItem7.BadgeSvg = null;
-            segmentedItem7.IconActiveSvg = "";
-            segmentedItem7.IconSvg = resources.GetString("segmentedItem7.IconSvg");
-            segmentedItem7.Text = "查杀";
-            segmentedItem8.Badge = null;
-            segmentedItem8.BadgeAlign = AntdUI.TAlignFrom.TR;
-            segmentedItem8.BadgeBack = null;
-            segmentedItem8.BadgeMode = false;
-            segmentedItem8.BadgeOffsetX = 0;
-            segmentedItem8.BadgeOffsetY = 0;
-            segmentedItem8.BadgeSize = 0.6F;
-            segmentedItem8.BadgeSvg = null;
-            segmentedItem8.IconActiveSvg = "";
-            segmentedItem8.IconSvg = resources.GetString("segmentedItem8.IconSvg");
-            segmentedItem8.Text = "日志";
-            segmentedItem9.Badge = null;
-            segmentedItem9.BadgeAlign = AntdUI.TAlignFrom.TR;
-            segmentedItem9.BadgeBack = null;
-            segmentedItem9.BadgeMode = false;
-            segmentedItem9.BadgeOffsetX = 0;
-            segmentedItem9.BadgeOffsetY = 0;
-            segmentedItem9.BadgeSize = 0.6F;
-            segmentedItem9.BadgeSvg = null;
-            segmentedItem9.IconActiveSvg = "";
-            segmentedItem9.IconSvg = resources.GetString("segmentedItem9.IconSvg");
-            segmentedItem9.Text = "设置";
-            segmentedItem10.Badge = null;
-            segmentedItem10.BadgeAlign = AntdUI.TAlignFrom.TR;
-            segmentedItem10.BadgeBack = null;
-            segmentedItem10.BadgeMode = false;
-            segmentedItem10.BadgeOffsetX = 0;
-            segmentedItem10.BadgeOffsetY = 0;
-            segmentedItem10.BadgeSize = 0.6F;
-            segmentedItem10.BadgeSvg = null;
-            segmentedItem10.IconActiveSvg = "";
-            segmentedItem10.IconSvg = resources.GetString("segmentedItem10.IconSvg");
-            segmentedItem10.Text = "关于";
-            this.segmented.Items.Add(segmentedItem6);
-            this.segmented.Items.Add(segmentedItem7);
-            this.segmented.Items.Add(segmentedItem8);
-            this.segmented.Items.Add(segmentedItem9);
-            this.segmented.Items.Add(segmentedItem10);
+            segmentedItem1.Badge = null;
+            segmentedItem1.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem1.BadgeBack = null;
+            segmentedItem1.BadgeMode = false;
+            segmentedItem1.BadgeOffsetX = 0;
+            segmentedItem1.BadgeOffsetY = 0;
+            segmentedItem1.BadgeSize = 0.6F;
+            segmentedItem1.BadgeSvg = null;
+            segmentedItem1.IconActiveSvg = "";
+            segmentedItem1.IconSvg = resources.GetString("segmentedItem1.IconSvg");
+            segmentedItem1.ID = "0";
+            segmentedItem1.Text = "主页";
+            segmentedItem2.Badge = null;
+            segmentedItem2.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem2.BadgeBack = null;
+            segmentedItem2.BadgeMode = false;
+            segmentedItem2.BadgeOffsetX = 0;
+            segmentedItem2.BadgeOffsetY = 0;
+            segmentedItem2.BadgeSize = 0.6F;
+            segmentedItem2.BadgeSvg = null;
+            segmentedItem2.IconActiveSvg = "";
+            segmentedItem2.IconSvg = resources.GetString("segmentedItem2.IconSvg");
+            segmentedItem2.ID = "1";
+            segmentedItem2.Text = "查杀";
+            segmentedItem3.Badge = null;
+            segmentedItem3.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem3.BadgeBack = null;
+            segmentedItem3.BadgeMode = false;
+            segmentedItem3.BadgeOffsetX = 0;
+            segmentedItem3.BadgeOffsetY = 0;
+            segmentedItem3.BadgeSize = 0.6F;
+            segmentedItem3.BadgeSvg = null;
+            segmentedItem3.IconActiveSvg = "";
+            segmentedItem3.IconSvg = resources.GetString("segmentedItem3.IconSvg");
+            segmentedItem3.ID = "2";
+            segmentedItem3.Text = "日志";
+            segmentedItem4.Badge = null;
+            segmentedItem4.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem4.BadgeBack = null;
+            segmentedItem4.BadgeMode = false;
+            segmentedItem4.BadgeOffsetX = 0;
+            segmentedItem4.BadgeOffsetY = 0;
+            segmentedItem4.BadgeSize = 0.6F;
+            segmentedItem4.BadgeSvg = null;
+            segmentedItem4.IconActiveSvg = "";
+            segmentedItem4.IconSvg = resources.GetString("segmentedItem4.IconSvg");
+            segmentedItem4.ID = "3";
+            segmentedItem4.Text = "设置";
+            segmentedItem5.Badge = null;
+            segmentedItem5.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem5.BadgeBack = null;
+            segmentedItem5.BadgeMode = false;
+            segmentedItem5.BadgeOffsetX = 0;
+            segmentedItem5.BadgeOffsetY = 0;
+            segmentedItem5.BadgeSize = 0.6F;
+            segmentedItem5.BadgeSvg = null;
+            segmentedItem5.IconActiveSvg = "";
+            segmentedItem5.IconSvg = resources.GetString("segmentedItem5.IconSvg");
+            segmentedItem5.ID = "4";
+            segmentedItem5.Text = "关于";
+            this.segmented.Items.Add(segmentedItem1);
+            this.segmented.Items.Add(segmentedItem2);
+            this.segmented.Items.Add(segmentedItem3);
+            this.segmented.Items.Add(segmentedItem4);
+            this.segmented.Items.Add(segmentedItem5);
             this.segmented.Location = new System.Drawing.Point(12, 50);
             this.segmented.Name = "segmented";
             this.segmented.SelectIndex = 0;
@@ -181,5 +208,6 @@
         private AntdUI.Button button_color;
         private AntdUI.Panel mainPanel;
         private AntdUI.Segmented segmented;
+        private AntdUI.Dropdown dropdown_translate;
     }
 }

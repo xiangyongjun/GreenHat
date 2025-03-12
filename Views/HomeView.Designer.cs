@@ -87,9 +87,9 @@
             this.update_button.Ghost = true;
             this.update_button.IconSize = new System.Drawing.Size(15, 15);
             this.update_button.IconSvg = resources.GetString("update_button.IconSvg");
-            this.update_button.Location = new System.Drawing.Point(599, 543);
+            this.update_button.Location = new System.Drawing.Point(575, 543);
             this.update_button.Name = "update_button";
-            this.update_button.Size = new System.Drawing.Size(100, 38);
+            this.update_button.Size = new System.Drawing.Size(110, 38);
             this.update_button.TabIndex = 32;
             this.update_button.Text = "检查更新";
             this.update_button.Type = AntdUI.TTypeMini.Success;
@@ -102,9 +102,9 @@
             this.white_button.Ghost = true;
             this.white_button.IconSize = new System.Drawing.Size(15, 15);
             this.white_button.IconSvg = resources.GetString("white_button.IconSvg");
-            this.white_button.Location = new System.Drawing.Point(705, 543);
+            this.white_button.Location = new System.Drawing.Point(689, 543);
             this.white_button.Name = "white_button";
-            this.white_button.Size = new System.Drawing.Size(100, 38);
+            this.white_button.Size = new System.Drawing.Size(110, 38);
             this.white_button.TabIndex = 33;
             this.white_button.Text = "信任区";
             this.white_button.Type = AntdUI.TTypeMini.Success;
@@ -117,9 +117,9 @@
             this.black_button.Ghost = true;
             this.black_button.IconSize = new System.Drawing.Size(15, 15);
             this.black_button.IconSvg = resources.GetString("black_button.IconSvg");
-            this.black_button.Location = new System.Drawing.Point(811, 543);
+            this.black_button.Location = new System.Drawing.Point(803, 543);
             this.black_button.Name = "black_button";
-            this.black_button.Size = new System.Drawing.Size(100, 38);
+            this.black_button.Size = new System.Drawing.Size(110, 38);
             this.black_button.TabIndex = 34;
             this.black_button.Text = "隔离区";
             this.black_button.Type = AntdUI.TTypeMini.Success;
@@ -162,9 +162,9 @@
             // 
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.label2.Location = new System.Drawing.Point(598, 176);
+            this.label2.Location = new System.Drawing.Point(585, 176);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 23);
+            this.label2.Size = new System.Drawing.Size(100, 23);
             this.label2.TabIndex = 51;
             this.label2.Text = "处理器占用";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -173,9 +173,9 @@
             // 
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.label3.Location = new System.Drawing.Point(717, 176);
+            this.label3.Location = new System.Drawing.Point(703, 176);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(74, 23);
+            this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 52;
             this.label3.Text = "内存占用";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -184,9 +184,9 @@
             // 
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 10F);
-            this.label4.Location = new System.Drawing.Point(835, 176);
+            this.label4.Location = new System.Drawing.Point(823, 176);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(74, 23);
+            this.label4.Size = new System.Drawing.Size(100, 23);
             this.label4.TabIndex = 54;
             this.label4.Text = "硬盘占用";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -225,9 +225,9 @@
             this.github_button.Ghost = true;
             this.github_button.IconSize = new System.Drawing.Size(15, 15);
             this.github_button.IconSvg = resources.GetString("github_button.IconSvg");
-            this.github_button.Location = new System.Drawing.Point(493, 543);
+            this.github_button.Location = new System.Drawing.Point(461, 543);
             this.github_button.Name = "github_button";
-            this.github_button.Size = new System.Drawing.Size(100, 38);
+            this.github_button.Size = new System.Drawing.Size(110, 38);
             this.github_button.TabIndex = 56;
             this.github_button.Text = "官方主页";
             this.github_button.Type = AntdUI.TTypeMini.Success;

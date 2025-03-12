@@ -6,6 +6,8 @@
 [![github release](https://img.shields.io/github/v/release/xiangyongjun/GreenHat?style=flat)](https://github.com/xiangyongjun/GreenHat/releases)
 [![github stars](https://img.shields.io/github/stars/xiangyongjun/GreenHat?style=flat)](https://github.com/xiangyongjun/GreenHat/stargazers)
 
+简体中文 | [English](./README.en_US.md)
+
 ## 简介
 一款专为国人定制打造，集多个国产杀毒引擎于一身的 Windows 操作系统安全防护软件
 
@@ -18,6 +20,7 @@
 * 信任区功能
 * 隔离区功能
 * 更新功能
+* 国家化多语言功能
 
 ## 运行环境
 * 操作系统：Windows 10+

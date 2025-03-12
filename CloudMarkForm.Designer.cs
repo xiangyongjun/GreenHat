@@ -40,9 +40,9 @@
             this.path_label = new AntdUI.Label();
             this.tag = new AntdUI.Tag();
             this.divider1 = new AntdUI.Divider();
-            this.label2 = new AntdUI.Label();
+            this.fileinfo_label = new AntdUI.Label();
             this.md5_label = new AntdUI.Label();
-            this.label4 = new AntdUI.Label();
+            this.filepath_label = new AntdUI.Label();
             this.table = new AntdUI.Table();
             this.divider2 = new AntdUI.Divider();
             this.open_button = new AntdUI.Button();
@@ -145,7 +145,7 @@
             // tag
             // 
             this.tag.AutoSizeMode = AntdUI.TAutoSize.Auto;
-            this.tag.Location = new System.Drawing.Point(121, 49);
+            this.tag.Location = new System.Drawing.Point(121, 47);
             this.tag.Name = "tag";
             this.tag.Size = new System.Drawing.Size(14, 8);
             this.tag.TabIndex = 21;
@@ -162,14 +162,14 @@
             this.divider1.TabIndex = 22;
             this.divider1.Text = "";
             // 
-            // label2
+            // fileinfo_label
             // 
-            this.label2.Font = new System.Drawing.Font("Microsoft YaHei UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(12, 134);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 32);
-            this.label2.TabIndex = 23;
-            this.label2.Text = "文件信息";
+            this.fileinfo_label.Font = new System.Drawing.Font("Microsoft YaHei UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.fileinfo_label.Location = new System.Drawing.Point(12, 134);
+            this.fileinfo_label.Name = "fileinfo_label";
+            this.fileinfo_label.Size = new System.Drawing.Size(230, 32);
+            this.fileinfo_label.TabIndex = 23;
+            this.fileinfo_label.Text = "文件信息";
             // 
             // md5_label
             // 
@@ -180,13 +180,13 @@
             this.md5_label.TabIndex = 24;
             this.md5_label.Text = "文件摘要：";
             // 
-            // label4
+            // filepath_label
             // 
-            this.label4.Location = new System.Drawing.Point(14, 88);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(84, 23);
-            this.label4.TabIndex = 25;
-            this.label4.Text = "文件路径：";
+            this.filepath_label.Location = new System.Drawing.Point(14, 88);
+            this.filepath_label.Name = "filepath_label";
+            this.filepath_label.Size = new System.Drawing.Size(84, 23);
+            this.filepath_label.TabIndex = 25;
+            this.filepath_label.Text = "文件路径：";
             // 
             // table
             // 
@@ -235,9 +235,9 @@
             this.Controls.Add(this.divider2);
             this.Controls.Add(this.table);
             this.Controls.Add(this.path_label);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.filepath_label);
             this.Controls.Add(this.md5_label);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.fileinfo_label);
             this.Controls.Add(this.divider1);
             this.Controls.Add(this.tag);
             this.Controls.Add(this.result_label);
@@ -274,9 +274,9 @@
         private AntdUI.Label path_label;
         private AntdUI.Tag tag;
         private AntdUI.Divider divider1;
-        private AntdUI.Label label2;
+        private AntdUI.Label fileinfo_label;
         private AntdUI.Label md5_label;
-        private AntdUI.Label label4;
+        private AntdUI.Label filepath_label;
         private AntdUI.Table table;
         private AntdUI.Divider divider2;
         private AntdUI.Button open_button;

@@ -16,11 +16,11 @@ namespace GreenHat.Views
         private void InitTableColumns()
         {
             table.Columns = new ColumnCollection() {
-                new Column("Name", "名称", ColumnAlign.Left)
+                new Column("Name", Localization.Get("名称", "名称"), ColumnAlign.Left)
                 {
                     Width = "150"
                 },
-                new Column("Desc", "描述", ColumnAlign.Left)
+                new Column("Desc", Localization.Get("描述", "描述"), ColumnAlign.Left)
                 {
                     Width = "755"
                 }
@@ -32,45 +32,53 @@ namespace GreenHat.Views
             AntList<SysTable> list = new AntList<SysTable>();
             list.Add(new SysTable()
             {
-                Name = "作者",
+                Name = Localization.Get("作者", "作者"),
                 Desc = "向永俊"
             });
             list.Add(new SysTable()
             {
-                Name = "QQ",
+                Name = Localization.Get("QQ", "QQ"),
                 Desc = "827514947"
             });
             list.Add(new SysTable()
             {
-                Name = "微信",
+                Name = Localization.Get("微信", "微信"),
                 Desc = "xyj0763"
             });
             list.Add(new SysTable()
             {
-                Name = "邮箱",
+                Name = Localization.Get("邮箱", "邮箱"),
                 Desc = "827514947@qq.com"
             });
             list.Add(new SysTable()
             {
-                Name = "Github地址",
+                Name = Localization.Get("Github地址", "Github地址"),
                 Desc = "https://github.com/xiangyongjun"
             });
             list.Add(new SysTable()
             {
-                Name = "Gitee地址",
+                Name = Localization.Get("Gitee地址", "Gitee地址"),
                 Desc = "https://gitee.com/xiangyongjun"
             });
             //list.Add(new SysInfo()
             //{
-            //    Name = "官方网站",
+            //    Name = Localization.Get("官方网站", "官方网站"),
             //    Desc = "https://greenhat.icu"
             //});
             list.Add(new SysTable()
             {
-                Name = "技术栈",
-                Desc = "C#  .NET Framework4.8  Antd UI SqlSugar"
+                Name = Localization.Get("技术栈", "技术栈"),
+                Desc = "C# - .NET Framework4.8 - Antd UI - SqlSugar"
             });
             table.Binding(list);
+        }
+
+        public override void Refresh()
+        {
+            header.Text = Localization.Get("关于作者", "关于作者");
+            InitTableColumns();
+            InitTableData();
+            base.Refresh();
         }
     }
 }

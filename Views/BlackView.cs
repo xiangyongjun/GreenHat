@@ -25,21 +25,25 @@ namespace GreenHat.Views
 
         private void InitTableColumns()
         {
+            restore_button.Text = Localization.Get("恢复文件", "恢复文件");
+            remove_button.Text = Localization.Get("删除所选", "删除所选");
+            path_input.PlaceholderText = Localization.Get("搜索", "搜索");
+            table.EmptyText = Localization.Get("暂无数据", "暂无数据");
             table.Columns = new ColumnCollection() {
                 new ColumnCheck("Selected")
                 {
                     Fixed = true, 
                     Width = "60"
                 },
-                new Column("Path", "文件路径", ColumnAlign.Left)
+                new Column("Path", Localization.Get("文件路径", "文件路径"), ColumnAlign.Left)
                 {
                     Width = "425"
                 },
-                new Column("Type", "类型", ColumnAlign.Center)
+                new Column("Type", Localization.Get("类型", "类型"), ColumnAlign.Center)
                 {
                     Width = "240"
                 },
-                new Column("Time", "隔离时间", ColumnAlign.Center)
+                new Column("Time", Localization.Get("隔离时间", "隔离时间"), ColumnAlign.Center)
                 {
                     Width = "200"
                 }
@@ -68,7 +72,7 @@ namespace GreenHat.Views
         {
             if (blackTable.Count == 0 || !blackTable.Any(it => it.Selected))
             {
-                AntdUI.Message.warn(mainForm, "请选择恢复的行！", autoClose: 3);
+                AntdUI.Message.warn(mainForm, $"{Localization.Get("请选择恢复的行", "请选择恢复的行")}！", autoClose: 3);
             }
             else
             {
@@ -84,7 +88,7 @@ namespace GreenHat.Views
                     SysConfig.RestoreBlack(ids);
                     InitTableData();
                     restore_button.Loading = false;
-                    AntdUI.Message.success(mainForm, "恢复成功！", autoClose: 3);
+                    AntdUI.Message.success(mainForm, $"{Localization.Get("恢复成功", "恢复成功")}！", autoClose: 3);
                 });
             }
         }
@@ -93,7 +97,7 @@ namespace GreenHat.Views
         {
             if (blackTable.Count == 0 || !blackTable.Any(it => it.Selected))
             {
-                AntdUI.Message.warn(mainForm, "请选择删除的行！", autoClose: 3);
+                AntdUI.Message.warn(mainForm, $"{Localization.Get("请选择删除的行", "请选择删除的行")}！", autoClose: 3);
             }
             else
             {
@@ -109,7 +113,7 @@ namespace GreenHat.Views
                     SysConfig.RemoveBlack(ids);
                     InitTableData();
                     remove_button.Loading = false;
-                    AntdUI.Message.success(mainForm, "删除成功！", autoClose: 3);
+                    AntdUI.Message.success(mainForm, $"{Localization.Get("删除成功", "删除成功")}！", autoClose: 3);
                 });
             }
         }

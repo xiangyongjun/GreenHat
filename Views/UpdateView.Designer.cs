@@ -68,9 +68,9 @@
             this.update_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.update_button.IconSize = new System.Drawing.Size(15, 15);
             this.update_button.IconSvg = resources.GetString("update_button.IconSvg");
-            this.update_button.Location = new System.Drawing.Point(397, 108);
+            this.update_button.Location = new System.Drawing.Point(369, 108);
             this.update_button.Name = "update_button";
-            this.update_button.Size = new System.Drawing.Size(100, 32);
+            this.update_button.Size = new System.Drawing.Size(128, 32);
             this.update_button.TabIndex = 44;
             this.update_button.Text = "立即更新";
             this.update_button.Type = AntdUI.TTypeMini.Success;

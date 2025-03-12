@@ -1,4 +1,5 @@
 ﻿using AntdUI;
+using GreenHat.Languages;
 using GreenHat.Utils;
 using GreenHat.Views;
 using Microsoft.Win32;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -18,11 +20,11 @@ namespace GreenHat
         private bool isLight = true;
         private List<UserControl> controls = new List<UserControl>();
         private bool firstHide = false;
+        private NotifyIcon trayIcon = new NotifyIcon();
 
         public MainWindow(bool hide = false)
         {
             firstHide = hide;
-            SysConfig.AddLog("其他", "程序启动", $"操作时间：{DateTime.Now.ToString()}");
             InitializeComponent();
             CheckEngine();
             CheckService();
@@ -32,14 +34,16 @@ namespace GreenHat
             GetVersion();
             InitTray();
             InitMonitor();
+            LoadLanguage();
             Engine.Init();
+            SysConfig.AddLog("其他", "程序启动", $"操作时间：{DateTime.Now.ToString()}");
         }
 
         private void CheckEngine()
         {
             if (!Directory.Exists($"{AppDomain.CurrentDomain.BaseDirectory}engine"))
             {
-                AntdUI.Modal.open(new Modal.Config(this, "警告", "检测到本地引擎丢失，防护功能将会失效！", TType.Warn)
+                AntdUI.Modal.open(new Modal.Config(this, Localization.Get("警告", "警告"), Localization.Get("检测到本地引擎丢失，防护功能将会失效！", "检测到本地引擎丢失，防护功能将会失效！"), TType.Warn)
                 {
                     CloseIcon = true,
                     BtnHeight = 0
@@ -138,9 +142,7 @@ namespace GreenHat
 
         private void InitTray()
         {
-            NotifyIcon trayIcon;
-            trayIcon = new NotifyIcon();
-            trayIcon.Text = "绿帽子安全防护";
+            trayIcon.Text = Localization.Get("绿帽子安全防护", "绿帽子安全防护");
             trayIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             trayIcon.DoubleClick += (sender, e) =>
             {
@@ -156,33 +158,32 @@ namespace GreenHat
                     TopMost = true;
                     AntdUI.ContextMenuStrip.open(this, item => 
                     {
-                        switch (item.Text)
+                        if (item.Text.Equals(Localization.Get("打开绿帽子", "打开绿帽子")))
                         {
-                            case "打开绿帽子":
-                                Show();
-                                TopMost = false;
-                                break;
-                            case "退出绿帽子":
-                                AntdUI.Modal.open(new Modal.Config(this, "绿帽子安全防护", "您确定要退出绿帽子安全防护吗？\n届时绿帽子将无法保护您的电脑安全，您的电脑存在被恶意程序攻击的风险。")
+                            Show();
+                            TopMost = false;
+                        }
+                        else if (item.Text.Equals(Localization.Get("退出绿帽子", "退出绿帽子")))
+                        {
+                            AntdUI.Modal.open(new Modal.Config(this, Localization.Get("绿帽子安全防护", "绿帽子安全防护"), Localization.Get("您确定要退出绿帽子安全防护吗？\n届时绿帽子将无法保护您的电脑安全，您的电脑存在被恶意程序攻击的风险。", "您确定要退出绿帽子安全防护吗？\n届时绿帽子将无法保护您的电脑安全，您的电脑存在被恶意程序攻击的风险。"))
+                            {
+                                Icon = TType.Info,
+                                CloseIcon = true,
+                                Mask = false,
+                                OkText = Localization.Get("仍然退出", "仍然退出"),
+                                CancelText = Localization.Get("继续保护", "继续保护"),
+                                OnOk = config =>
                                 {
-                                    Icon = TType.Info,
-                                    CloseIcon = true,
-                                    Mask = false,
-                                    OkText = "仍然退出",
-                                    CancelText = "继续保护",
-                                    OnOk = config =>
-                                    {
-                                        Engine.Dispose();
-                                        Process.GetCurrentProcess().Kill();
-                                        return true;
-                                    }
-                                });
-                                break;
+                                    Engine.Dispose();
+                                    Process.GetCurrentProcess().Kill();
+                                    return true;
+                                }
+                            });
                         }
                     }, 
                     new IContextMenuStripItem[] {
-                        new ContextMenuStripItem("打开绿帽子"),
-                        new ContextMenuStripItem("退出绿帽子")
+                        new ContextMenuStripItem(Localization.Get("打开绿帽子", "打开绿帽子")),
+                        new ContextMenuStripItem(Localization.Get("退出绿帽子", "退出绿帽子"))
                     });
                 }
             };
@@ -207,21 +208,101 @@ namespace GreenHat
             segmented.SelectIndex = 1;
             segmented_SelectIndexChanged(null, new IntEventArgs(1));
             ScanView scanView = (ScanView)controls[1];
-            switch (type)
+            if (type.Equals(Localization.Get("快速查杀", "快速查杀"))) scanView.quick_button_Click(null, null);
+            else if (type.Equals(Localization.Get("全盘查杀", "全盘查杀"))) scanView.full_button_Click(null, null);
+            else if (type.Equals(Localization.Get("目录查杀", "目录查杀"))) scanView.dir_button_Click(null, null);
+            else if (type.Equals(Localization.Get("文件查杀", "文件查杀"))) scanView.file_button_Click(null, null);
+        }
+
+        private void dropdown_translate_SelectedValueChanged(object sender, ObjectNEventArgs e)
+        {
+            LoadLanguage(e.Value.ToString());
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\GreenHat", true);
+            if (key != null)
             {
-                case "快速查杀":
-                    scanView.quick_button_Click(null, null);
+                key.SetValue("lang", e.Value.ToString());
+            }
+        }
+
+        private void LoadLanguage(string lang = null)
+        {
+            if (String.IsNullOrEmpty(lang))
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\GreenHat");
+                if (key != null && key.GetValue("lang") != null)
+                {
+                    lang = key.GetValue("lang").ToString();
+                }
+                else
+                {
+                    lang = CultureInfo.InstalledUICulture.Name
+                        .Replace("zh-TW", "繁体中文")
+                        .Replace("en-US", "English")
+                        .Replace("ru-RU", "Русский")
+                        .Replace("ja-JP", "日本語")
+                        .Replace("ko-KR", "한국어");
+                }
+            }
+            switch (lang)
+            {
+                case "繁体中文":
+                    Localization.Provider = new zh_TW();
+                    Localization.SetLanguage("zh-TW");
                     break;
-                case "全盘查杀":
-                    scanView.full_button_Click(null, null);
+                case "English":
+                    Localization.Provider = new en_US();
+                    Localization.SetLanguage("en-US");
                     break;
-                case "目录查杀":
-                    scanView.dir_button_Click(null, null);
+                case "Русский":
+                    Localization.Provider = new ru_RU();
+                    Localization.SetLanguage("ru-RU");
                     break;
-                case "文件查杀":
-                    scanView.file_button_Click(null, null);
+                case "日本語":
+                    Localization.Provider = new ja_JP();
+                    Localization.SetLanguage("ja-JP");
+                    break;
+                case "한국어":
+                    Localization.Provider = new ko_KR();
+                    Localization.SetLanguage("ko-KR");
+                    break;
+                default:
+                    Localization.Provider = null;
+                    Localization.SetLanguage("zh-CN");
                     break;
             }
+            Refresh();
+        }
+
+        override public void Refresh()
+        {
+            titlebar.Text = Localization.Get("绿帽子安全防护", "绿帽子安全防护");
+            trayIcon.Text = Localization.Get("绿帽子安全防护", "绿帽子安全防护");
+            segmented.Items.ForEach(item =>
+            {
+                switch (item.ID)
+                {
+                    case "0":
+                        item.Text = Localization.Get("主页", "主页");
+                        break;
+                    case "1":
+                        item.Text = Localization.Get("查杀", "查杀");
+                        break;
+                    case "2":
+                        item.Text = Localization.Get("日志", "日志");
+                        break;
+                    case "3":
+                        item.Text = Localization.Get("设置", "设置");
+                        break;
+                    case "4":
+                        item.Text = Localization.Get("关于", "关于");
+                        break;
+                }
+            });
+            foreach (var control in controls)
+            {
+                control.Refresh();
+            }
+            base.Refresh();
         }
     }
 }

@@ -25,17 +25,22 @@ namespace GreenHat.Views
 
         private void InitTableColumns()
         {
+            add_button.Text = Localization.Get("添加文件", "添加文件");
+            dir_button.Text = Localization.Get("添加目录", "添加目录");
+            remove_button.Text = Localization.Get("删除所选", "删除所选");
+            path_input.PlaceholderText = Localization.Get("搜索", "搜索");
+            table.EmptyText = Localization.Get("暂无数据", "暂无数据");
             table.Columns = new ColumnCollection() {
                 new ColumnCheck("Selected")
                 {
                     Fixed = true, 
                     Width = "60"
                 },
-                new Column("Path", "文件路径", ColumnAlign.Left)
+                new Column("Path", Localization.Get("文件路径", "文件路径"), ColumnAlign.Left)
                 {
                     Width = "665"
                 },
-                new Column("Time", "加入时间", ColumnAlign.Center)
+                new Column("Time", Localization.Get("加入时间", "加入时间"), ColumnAlign.Center)
                 {
                     Width = "200"
                 }
@@ -67,13 +72,13 @@ namespace GreenHat.Views
         private void add_button_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "所有文件 (*.*)|*.*";
+            openFileDialog.Filter = $"{Localization.Get("所有文件", "所有文件")} (*.*)|*.*";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = openFileDialog.FileName;
                 SysConfig.AddWhite(filePath);
                 InitTableData();
-                AntdUI.Message.success(mainForm, "添加成功！", autoClose: 3);
+                AntdUI.Message.success(mainForm, $"{Localization.Get("添加成功", "添加成功")}！", autoClose: 3);
             }
         }
 
@@ -81,7 +86,7 @@ namespace GreenHat.Views
         {
             if (whiteTable.Count == 0 || !whiteTable.Any(it => it.Selected))
             {
-                AntdUI.Message.warn(mainForm, "请选择要删除的行！", autoClose: 3);
+                AntdUI.Message.warn(mainForm, $"{Localization.Get("请选择要删除的行", "请选择要删除的行")}！", autoClose: 3);
             }
             else 
             {
@@ -92,7 +97,7 @@ namespace GreenHat.Views
                 }
                 SysConfig.RemoveWhite(ids);
                 InitTableData();
-                AntdUI.Message.success(mainForm, "删除成功！", autoClose: 3);
+                AntdUI.Message.success(mainForm, $"{Localization.Get("删除成功", "删除成功")}！", autoClose: 3);
             }
         }
 
@@ -115,7 +120,7 @@ namespace GreenHat.Views
                     remove_button.Enabled = true;
                     dir_button.Loading = false;
                     InitTableData();
-                    AntdUI.Message.success(mainForm, "添加成功！", autoClose: 3);
+                    AntdUI.Message.success(mainForm, $"{Localization.Get("添加成功", "添加成功")}！", autoClose: 3);
                 });
             }
         }

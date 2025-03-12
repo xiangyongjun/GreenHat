@@ -7,39 +7,27 @@ namespace GreenHat.Utils
     {
         private static bool isLightMode = IsSystemLightMode();
 
-        /// <summary>
-        /// 判断系统是否浅色
-        /// </summary>
-        /// <returns></returns>
         public static bool IsSystemLightMode()
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\GreenHat");
+            if (key != null && key.GetValue("isLightMode") != null)
+            {
+                return key.GetValue("isLightMode").ToString().Equals("1");
+            }
+            key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
             if (key != null)
             {
                 int appsUseLightTheme = (int)key.GetValue("AppsUseLightTheme", -1);
-                if (appsUseLightTheme == 1)
-                {
-                    return true;
-                }
-                return false;
+                return appsUseLightTheme == 1;
             }
             return true;
         }
 
-        /// <summary>
-        /// 判断是否浅色
-        /// </summary>
-        /// <returns></returns>
         public static bool IsLightMode()
         {
             return isLightMode;
         }
 
-        /// <summary>
-        /// 设置明暗颜色
-        /// </summary>
-        /// <param name="window">父窗口</param>
-        /// <param name="isLight">是否亮色</param>
         public static void SetColorMode(AntdUI.Window window, bool isLight)
         {
             isLightMode = isLight;
@@ -51,9 +39,14 @@ namespace GreenHat.Utils
             }
             else
             {
-                AntdUI.Config.IsDark = true;// 设置为深色模式
+                AntdUI.Config.IsDark = true;
                 window.BackColor = Color.FromArgb(31, 31, 31);
                 window.ForeColor = Color.White;
+            }
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\GreenHat", true);
+            if (key != null)
+            {
+                key.SetValue("isLightMode", isLightMode ? "1" : "0");
             }
         }
     }

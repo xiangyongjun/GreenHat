@@ -1,17 +1,12 @@
 ﻿using AntdUI;
-using GreenHat.Entitys;
 using GreenHat.Models;
 using GreenHat.Utils;
 using Hardware.Info;
 using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Management;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -35,16 +30,16 @@ namespace GreenHat.Views
         {
             scan_button.Items.Clear();
             scan_button.Items.AddRange(new SelectItem[] {
-                new SelectItem(" 快速查杀"){
+                new SelectItem($" {Localization.Get("快速查杀", "快速查杀")}"){
                     Online = 1
                 },
-                new SelectItem(" 全盘查杀"){
+                new SelectItem($" {Localization.Get("全盘查杀", "全盘查杀")}"){
                     Online = 1
                 },
-                new SelectItem(" 目录查杀"){
+                new SelectItem($" {Localization.Get("目录查杀", "目录查杀")}"){
                     Online = 1
                 },
-                new SelectItem(" 文件查杀"){
+                new SelectItem($" {Localization.Get("文件查杀", "文件查杀")}"){
                     Online = 1
                 }
             });
@@ -54,11 +49,11 @@ namespace GreenHat.Views
         private void InitTableColumns()
         {
             table.Columns = new ColumnCollection() {
-                new Column("Name", "名称", ColumnAlign.Left)
+                new Column("Name", Localization.Get("名称", "名称"), ColumnAlign.Left)
                 {
                     Width = "150"
                 },
-                new Column("Desc", "描述", ColumnAlign.Left)
+                new Column("Desc", Localization.Get("描述", "描述"), ColumnAlign.Left)
                 {
                     Width = "745"
                 }
@@ -77,17 +72,17 @@ namespace GreenHat.Views
             hardwareInfo.RefreshMonitorList();
             AntList<SysTable> list = new AntList<SysTable>();
             list.Add(new SysTable() { 
-                Name = "操作系统",
+                Name = Localization.Get("操作系统", "操作系统"),
                 Desc = hardwareInfo.OperatingSystem.Name
             });
             list.Add(new SysTable()
             {
-                Name = "处理器",
-                Desc = $"{hardwareInfo.CpuList[0].Name} {hardwareInfo.CpuList[0].NumberOfCores}核 {hardwareInfo.CpuList[0].NumberOfLogicalProcessors}线程"
+                Name = Localization.Get("处理器", "处理器"),
+                Desc = $"{hardwareInfo.CpuList[0].Name} {hardwareInfo.CpuList[0].NumberOfCores}{Localization.Get("核", "核")} {hardwareInfo.CpuList[0].NumberOfLogicalProcessors}{Localization.Get("线程", "线程")}"
             });
             list.Add(new SysTable()
             {
-                Name = "主板",
+                Name = Localization.Get("主板", "主板"),
                 Desc = $"{hardwareInfo.MotherboardList[0].Manufacturer} {hardwareInfo.MotherboardList[0].Product}"
             });
             int totalMem = 0;
@@ -102,22 +97,22 @@ namespace GreenHat.Views
             else if (hardwareInfo.MemoryList[0].Speed > 400) ddr = "2";
             list.Add(new SysTable()
             {
-                Name = "内存",
+                Name = Localization.Get("内存", "内存"),
                 Desc = $"{hardwareInfo.MemoryList[0].Manufacturer} DDR{ddr} {hardwareInfo.MemoryList[0].Speed}Mhz {totalMem.ToString()}GB"
             });
             list.Add(new SysTable()
             {
-                Name = "硬盘",
+                Name = Localization.Get("硬盘", "硬盘"),
                 Desc = $"{hardwareInfo.DriveList[0].Model} {hardwareInfo.DriveList[0].Size / 1024 / 1024 / 1024}GB"
             });
             list.Add(new SysTable()
             {
-                Name = "显卡",
+                Name = Localization.Get("显卡", "显卡"),
                 Desc = $"{hardwareInfo.VideoControllerList[0].Name} {hardwareInfo.VideoControllerList[0].AdapterRAM / 1024 / 1024 / 1024}GB"
             });
             list.Add(new SysTable()
             {
-                Name = "显示器",
+                Name = Localization.Get("显示器", "显示器"),
                 Desc = $"{hardwareInfo.MonitorList[0].ManufacturerName} {hardwareInfo.MonitorList[0].UserFriendlyName}"
             });
             table.Binding(list);
@@ -125,7 +120,7 @@ namespace GreenHat.Views
 
         private void white_button_Click(object sender, EventArgs e)
         {
-            Modal.open(new Modal.Config(mainForm, "信任区", new WhiteView(mainForm))
+            Modal.open(new Modal.Config(mainForm, Localization.Get("信任区", "信任区"), new WhiteView(mainForm))
             {
                 CloseIcon = true,
                 BtnHeight = 0,
@@ -136,7 +131,7 @@ namespace GreenHat.Views
 
         private void black_button_Click(object sender, EventArgs e)
         {
-            Modal.open(new Modal.Config(null, "隔离区", new BlackView(mainForm))
+            Modal.open(new Modal.Config(null, Localization.Get("隔离区", "隔离区"), new BlackView(mainForm))
             {
                 CloseIcon = true,
                 BtnHeight = 0,
@@ -202,23 +197,24 @@ namespace GreenHat.Views
             DateTime creationTime = DateTime.Parse(key.GetValue("installTime").ToString());
             TimeSpan timeDifference = DateTime.Now - creationTime;
             int daysDifference = timeDifference.Days;
-            header.Text = $"已保护 {daysDifference + 1} 天";
+            header.Text = $"{Localization.Get("已保护", "已保护")} {daysDifference + 1} {Localization.Get("天", "天")}";
+            header.Description = Localization.Get("绿帽子安全防护正在保护您的电脑安全", "绿帽子安全防护正在保护您的电脑安全");
             key.Close();
         }
 
         private void scan_button_SelectedValueChanged(object sender, ObjectNEventArgs e)
         {
-            mainForm.GoToScan(e.Value.ToString().Replace(" ", ""));
+            mainForm.GoToScan(e.Value.ToString().TrimStart());
         }
 
         public void UpdateCount()
         {
-            count_label.Text = $"隔离数量：{SysConfig.CountBlack()}个";
+            count_label.Text = $"{Localization.Get("隔离数量", "隔离数量")}：{SysConfig.CountBlack()}{Localization.Get("个", "个")}";
         }
 
         private void update_button_Click(object sender, EventArgs e)
         {
-            Modal.open(new Modal.Config(null, "检查更新", new UpdateView(mainForm))
+            Modal.open(new Modal.Config(null, Localization.Get("检查更新", "检查更新"), new UpdateView(mainForm))
             {
                 CloseIcon = true,
                 BtnHeight = 0,
@@ -239,6 +235,25 @@ namespace GreenHat.Views
         private void cloud_button_Click(object sender, EventArgs e)
         {
             new CloudMarkForm().ShowDialog();
+        }
+
+        override public void Refresh()
+        {
+            GetProtectDays();
+            scan_button.Text = Localization.Get("开始查杀", "开始查杀");
+            cloud_button.Text = Localization.Get("文件云鉴定器", "文件云鉴定器");
+            github_button.Text = Localization.Get("官方主页", "官方主页");
+            update_button.Text = Localization.Get("检查更新", "检查更新");
+            white_button.Text = Localization.Get("信任区", "信任区");
+            black_button.Text = Localization.Get("隔离区", "隔离区");
+            label2.Text = Localization.Get("处理器占用", "处理器占用");
+            label3.Text = Localization.Get("内存占用", "内存占用");
+            label4.Text = Localization.Get("硬盘占用", "硬盘占用");
+            table.EmptyText = Localization.Get("加载中", "加载中");
+            Task.Run(() => Home_Load(null, null));
+            Task.Run(InitTableColumns);
+            Task.Run(InitTableData);
+            base.Refresh();
         }
     }
 }
