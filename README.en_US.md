@@ -20,6 +20,7 @@ A security protection software for Windows operating systems, specifically custo
 * Trusted zone functionality
 * Quarantine zone functionality
 * Update feature
+* i18n
 
 ## System Requirements
 * Operating System: Windows 10+
