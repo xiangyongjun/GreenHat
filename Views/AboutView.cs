@@ -1,5 +1,6 @@
 ﻿using AntdUI;
 using GreenHat.Models;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace GreenHat.Views
@@ -29,7 +30,7 @@ namespace GreenHat.Views
 
         private void InitTableData()
         {
-            AntList<SysTable> list = new AntList<SysTable>();
+            BindingList<SysTable> list = new BindingList<SysTable>();
             list.Add(new SysTable()
             {
                 Name = Localization.Get("作者", "作者"),
@@ -52,7 +53,7 @@ namespace GreenHat.Views
             });
             list.Add(new SysTable()
             {
-                Name = Localization.Get("Github地址", "Github地址"),
+                Name = Localization.Get("GitHub地址", "GitHub地址"),
                 Desc = "https://github.com/xiangyongjun"
             });
             list.Add(new SysTable()
@@ -60,11 +61,11 @@ namespace GreenHat.Views
                 Name = Localization.Get("Gitee地址", "Gitee地址"),
                 Desc = "https://gitee.com/xiangyongjun"
             });
-            //list.Add(new SysInfo()
-            //{
-            //    Name = Localization.Get("官方网站", "官方网站"),
-            //    Desc = "https://greenhat.icu"
-            //});
+            list.Add(new SysTable()
+            {
+                Name = Localization.Get("官方网站", "官方网站"),
+                Desc = "https://greenhat.icu"
+            });
             list.Add(new SysTable()
             {
                 Name = Localization.Get("技术栈", "技术栈"),

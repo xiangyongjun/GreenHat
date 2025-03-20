@@ -44,10 +44,7 @@ namespace GreenHat.Utils
                         }
                     }
                 }
-                catch
-                {
-                    // 捕获异常，避免线程崩溃
-                }
+                catch { }
             });
         }
 

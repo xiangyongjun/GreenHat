@@ -4,6 +4,7 @@ using GreenHat.Models;
 using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,7 +14,7 @@ namespace GreenHat.Views
     public partial class BlackView : UserControl
     {
         private MainWindow mainForm;
-        AntList<BlackTable> blackTable;
+        BindingList<BlackTable> blackTable;
 
         public BlackView(MainWindow mainForm)
         {
@@ -53,7 +54,7 @@ namespace GreenHat.Views
         private void InitTableData()
         {
             List<Black> blackList = SysConfig.GetBlackList(path_input.Text);
-            blackTable = new AntList<BlackTable>();
+            blackTable = new BindingList<BlackTable>();
             foreach (Black item in blackList)
             {
                 blackTable.Add(new BlackTable()
@@ -78,6 +79,7 @@ namespace GreenHat.Views
             {
                 Task.Run(() =>
                 {
+                    if (SysConfig.GetSetting("文件防护").Enabled) FileMonitor.Stop();
                     SysConfig.AddLog("其他", "恢复隔离区文件", $"操作时间：{DateTime.Now.ToString()}");
                     restore_button.Loading = true;
                     List<int> ids = new List<int>();
@@ -89,6 +91,7 @@ namespace GreenHat.Views
                     InitTableData();
                     restore_button.Loading = false;
                     AntdUI.Message.success(mainForm, $"{Localization.Get("恢复成功", "恢复成功")}！", autoClose: 3);
+                    if (SysConfig.GetSetting("文件防护").Enabled) FileMonitor.Start();
                 });
             }
         }

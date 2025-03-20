@@ -36,12 +36,13 @@
                 case "加入时间": return "加入時間";
                 case "类型": return "類型";
                 case "隔离时间": return "隔離時間";
-                case "隔离数量": return "隔離數量";
+                case "模型版本": return "模型版本";
                 case "个": return "個";
                 case "效能模式": return "效能模式";
                 case "正常模式": return "一般模式";
                 case "性能模式": return "性能模式";
                 case "暂停查杀": return "暫停掃描";
+                case "停止查杀": return "停止掃描";
                 case "继续查杀": return "繼續掃描";
                 case "结束查杀": return "結束掃描";
                 case "已用时间": return "已用時間";
@@ -66,17 +67,13 @@
                 case "类别": return "類別";
                 case "功能": return "功能";
                 case "进程防护": return "程式防護";
-                case "进程防护描述": return "即時監控攔截所有正在執行的可疑程式";
+                case "进程实时监控": return "程式防護";
                 case "文件防护": return "檔案防護";
-                case "文件防护描述": return "即時監控攔截所有正在寫入的可疑檔案";
+                case "文件实时监控": return "檔案防護";
                 case "引导防护": return "開機防護";
-                case "引导防护描述": return "即時監控系統開機磁區是否被非法篡改";
                 case "开机启动": return "開機啟動";
-                case "开机启动描述": return "程式隨系統開機自動啟動";
                 case "绿帽子机器学习引擎": return "綠帽子機器學習引擎";
-                case "绿帽子机器学习引擎描述": return "自研惡意軟體檢測引擎（基於科洛技術框架，感謝獵劍雲提供樣本支援）";
                 case "猎剑云引擎": return "獵劍雲引擎";
-                case "猎剑云引擎描述": return "雲端鷹眼鑑定系統（雲端掃描時啟用）";
                 case "名称": return "名稱";
                 case "描述": return "描述";
                 case "是否启用": return "是否啟用";
@@ -84,7 +81,7 @@
                 case "关于作者": return "關於作者";
                 case "微信": return "微信";
                 case "邮箱": return "信箱";
-                case "Github地址": return "GitHub 網址";
+                case "GitHub地址": return "GitHub 網址";
                 case "Gitee地址": return "Gitee 網址";
                 case "技术栈": return "技術架構";
                 case "官方网站": return "官方網站";
@@ -119,10 +116,6 @@
                 case "继续保护": return "繼續保護";
                 case "警告": return "警告";
                 case "检测到本地引擎丢失，防护功能将会失效！": return "偵測到本地引擎遺失，防護功能即將失效！";
-                case "当前版本": return "目前版本";
-                case "最新版本": return "最新版本";
-                case "已是最新": return "已是最新版本";
-                case "正在更新": return "正在更新";
                 case "恢复成功": return "還原成功";
                 case "请选择恢复的行": return "請選擇要還原的項目";
                 case "请选择删除的行": return "請選擇要刪除的項目";
@@ -166,10 +159,14 @@
                 case "实时监控拦截所有正在写入的可疑文件": return "即時監控攔截所有正在寫入的可疑檔案";
                 case "实时监控系统引导扇区是否被非法篡改": return "即時監控系統開機磁區是否被非法篡改";
                 case "程序跟随系统开机启动": return "程式隨系統開機啟動";
-                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）":
-                    return "綠帽子自研的惡意軟體檢測引擎（基於科洛技術框架，感謝獵劍雲提供樣本支援）";
-                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）":
-                    return "鷹眼雲鑑定，秒速回應（僅雲端引擎掃描時啟用）";
+                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）": return "綠帽子自研的惡意軟體檢測引擎（基於科洛技術框架，感謝獵劍雲提供樣本支援）";
+                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）": return "鷹眼雲鑑定，秒速回應（僅雲端引擎掃描時啟用）";
+                case "当前": return "當前";
+                case "版本已是最新": return "版本已是最新";
+                case "当前最新版本为": return "當前最新版本為"; 
+                case "是否前去官网下载升级": return "是否前往官網下載升級";
+                case "取消": return "取消"; 
+                case "确定": return "確定";
                 default: return null;
             }
         }

@@ -4,6 +4,7 @@ using GreenHat.Models;
 using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,7 +14,7 @@ namespace GreenHat.Views
     public partial class WhiteView : UserControl
     {
         private MainWindow mainForm;
-        private AntList<WhiteTable> whiteTable;
+        private BindingList<WhiteTable> whiteTable;
 
         public WhiteView(MainWindow mainForm)
         {
@@ -50,7 +51,7 @@ namespace GreenHat.Views
         private void InitTableData()
         {
             List<White> whiteList = SysConfig.GetWhiteList(path_input.Text);
-            whiteTable = new AntList<WhiteTable>();
+            whiteTable = new BindingList<WhiteTable>();
             foreach (White item in whiteList)
             {
                 whiteTable.Add(new WhiteTable()

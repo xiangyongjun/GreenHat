@@ -1,6 +1,6 @@
 ﻿using OpenMcdf;
-using PeNet;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace GreenHat.Utils
@@ -12,26 +12,28 @@ namespace GreenHat.Utils
             bool end = false;
             using (var compoundFile = new CompoundFile(msiFilePath))
             {
-                compoundFile.RootStorage.VisitEntries(item =>
+                compoundFile.RootStorage.VisitEntries(entry =>
                 {
-                    if (!end && item.IsStream)
+                    try
                     {
-                        var stream = compoundFile.RootStorage.GetStream(item.Name);
-                        byte[] buffer = stream.GetData();
-                        if (PeFile.IsPeFile(buffer) && !callback(buffer, false)) end = true;
-                        else if (IsCab(buffer))
+                        if (!end && entry.IsStream)
                         {
-                            var files = ZipExtractor.ExtractFiles(buffer);
-                            foreach (var file in files)
+                            var stream = compoundFile.RootStorage.GetStream(entry.Name);
+                            byte[] buffer = stream.GetData();
+                            if (!callback(buffer, false)) end = true;
+                            else if (ZipExtractor.IsCompressedFile(buffer))
                             {
-                                if (!callback(file, true))
+                                ZipExtractor.Scan(buffer, (byte[] zipBuffer) =>
                                 {
-                                    end = true;
-                                    break;
-                                }
+                                    if (end) return false;
+                                    bool result = callback(buffer, true);
+                                    if (!result) end = true;
+                                    return result;
+                                });
                             }
                         }
                     }
+                    catch { }
                 }, false);
             }
         }
@@ -51,15 +53,6 @@ namespace GreenHat.Utils
                 }
             }
             return true;
-        }
-
-        public static bool IsCab(byte[] data)
-        {
-            if (data == null || data.Length < 4) return false;
-            return data[0] == 0x4D &&
-                   data[1] == 0x53 &&
-                   data[2] == 0x43 &&
-                   data[3] == 0x46;
         }
 
         public static bool CheckPageStructure(byte[] source)

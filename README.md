@@ -23,7 +23,7 @@
 * 国际化多语言功能
 
 ## 运行环境
-* 操作系统：Windows 10+
+* 操作系统：Windows 10 x64+
 * 运行时：.NET Framework 4.8+
 * 运行内存：1G+
 * 硬盘容量：500M+
@@ -45,7 +45,7 @@
 * [SqlSugar](https://github.com/DotNetNext/SqlSugar)
 
 ## 必读（重要）
-> 本源码不含 engine、Config.db、GreenHatService.exe 文件，需[自行下载](https://github.com/xiangyongjun/GreenHat/releases)解压后找到对应的文件
+> 本源码不含 engine、Config.db、GreenHatService.exe 等文件，需[自行下载](https://github.com/xiangyongjun/GreenHat/releases)解压后找到对应的文件
 
 ## 交流
 > 自制杀软QQ交流群：753603544

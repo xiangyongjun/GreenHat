@@ -54,8 +54,11 @@ namespace GreenHat
         private void CheckService()
         {
             string servicePath = $"{AppDomain.CurrentDomain.BaseDirectory}GreenHatService.exe";
-            if (SysConfig.GetSetting("开机启动").Enabled || Tools.ServiceExists("GreenHatService")) return;
-            Tools.CreateAndStartService("GreenHatService", servicePath);
+            if (SysConfig.GetSetting("开机启动").Enabled && !Tools.ServiceExists("GreenHatService")) Tools.CreateAndStartService("GreenHatService", servicePath);
+            else if (!SysConfig.GetSetting("开机启动").Enabled && Tools.ServiceExists("GreenHatService"))
+            {
+                Tools.DeleteService("GreenHatService");
+            } 
         }
 
         private void InitData()
@@ -118,10 +121,6 @@ namespace GreenHat
             mainPanel.Controls.Add(control);
             switch (e.Value)
             {
-                case 0:
-                    HomeView homeView = (HomeView)controls[e.Value];
-                    homeView.UpdateCount();
-                    break;
                 case 2:
                     LogView logView = (LogView)controls[e.Value];
                     logView.InitTableData();
@@ -144,16 +143,16 @@ namespace GreenHat
         {
             trayIcon.Text = Localization.Get("绿帽子安全防护", "绿帽子安全防护");
             trayIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
-            trayIcon.DoubleClick += (sender, e) =>
-            {
-                TopMost = true;
-                Show();
-                Focus();
-                TopMost = false;
-            };
             trayIcon.MouseClick += (sender, e) =>
             {
-                if (e.Button == MouseButtons.Right)
+                if (e.Button == MouseButtons.Left)
+                {
+                    TopMost = true;
+                    Show();
+                    Focus();
+                    TopMost = false;
+                }
+                else if (e.Button == MouseButtons.Right)
                 {
                     TopMost = true;
                     AntdUI.ContextMenuStrip.open(this, item => 
@@ -171,6 +170,7 @@ namespace GreenHat
                                 CloseIcon = true,
                                 Mask = false,
                                 OkText = Localization.Get("仍然退出", "仍然退出"),
+                                OkType = TTypeMini.Success,
                                 CancelText = Localization.Get("继续保护", "继续保护"),
                                 OnOk = config =>
                                 {

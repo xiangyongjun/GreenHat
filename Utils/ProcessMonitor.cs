@@ -1,4 +1,5 @@
-﻿using GreenHat;
+﻿using AntdUI;
+using GreenHat;
 using GreenHat.Utils;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Session;
@@ -41,7 +42,7 @@ class ProcessMonitor
             {
                 Tools.SuspendProcess(process);
                 SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
-                InterceptQueue.Add(new InterceptForm("进程实时监控", result[0], result[1], process));
+                InterceptQueue.Add(new InterceptForm(Localization.Get("进程实时监控", "进程实时监控"), result[0], result[1], process));
             }
         }
         catch { }

@@ -3,10 +3,14 @@ using GreenHat.Models;
 using GreenHat.Utils;
 using Hardware.Info;
 using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Management;
+using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -28,6 +32,7 @@ namespace GreenHat.Views
 
         private void Home_Load(object sender, EventArgs e)
         {
+            engine_label.Text = $"{Localization.Get("模型版本", "模型版本")}：{DateTimeOffset.FromUnixTimeSeconds(Engine.GetGreenHatModelVersion() + 28800).ToString("yyyy-MM-dd HH:mm")}";
             scan_button.Items.Clear();
             scan_button.Items.AddRange(new SelectItem[] {
                 new SelectItem($" {Localization.Get("快速查杀", "快速查杀")}"){
@@ -43,7 +48,6 @@ namespace GreenHat.Views
                     Online = 1
                 }
             });
-            UpdateCount();
         }
 
         private void InitTableColumns()
@@ -70,7 +74,7 @@ namespace GreenHat.Views
             hardwareInfo.RefreshDriveList();
             hardwareInfo.RefreshVideoControllerList();
             hardwareInfo.RefreshMonitorList();
-            AntList<SysTable> list = new AntList<SysTable>();
+            BindingList<SysTable> list = new BindingList<SysTable>();
             list.Add(new SysTable() { 
                 Name = Localization.Get("操作系统", "操作系统"),
                 Desc = hardwareInfo.OperatingSystem.Name
@@ -108,7 +112,7 @@ namespace GreenHat.Views
             list.Add(new SysTable()
             {
                 Name = Localization.Get("显卡", "显卡"),
-                Desc = $"{hardwareInfo.VideoControllerList[0].Name} {hardwareInfo.VideoControllerList[0].AdapterRAM / 1024 / 1024 / 1024}GB"
+                Desc = $"{hardwareInfo.VideoControllerList[0].Name} {Math.Ceiling((double)hardwareInfo.VideoControllerList[0].AdapterRAM / 1024 / 1024 / 1024)}GB"
             });
             list.Add(new SysTable()
             {
@@ -207,27 +211,52 @@ namespace GreenHat.Views
             mainForm.GoToScan(e.Value.ToString().TrimStart());
         }
 
-        public void UpdateCount()
+        private async void update_button_Click(object sender, EventArgs e)
         {
-            count_label.Text = $"{Localization.Get("隔离数量", "隔离数量")}：{SysConfig.CountBlack()}{Localization.Get("个", "个")}";
-        }
-
-        private void update_button_Click(object sender, EventArgs e)
-        {
-            Modal.open(new Modal.Config(null, Localization.Get("检查更新", "检查更新"), new UpdateView(mainForm))
+            try
             {
-                CloseIcon = true,
-                BtnHeight = 0,
-                MaskClosable = false,
-                Padding = new Size(15, 15)
-            });
+                update_button.Loading = true;
+                Engine.UpdateGreenHatEngine();
+                string temp = await GetLatestVersionAsync();
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                Version oldVersion = assembly.GetName().Version;
+                Version newVersion = Version.Parse((string.IsNullOrEmpty(temp) ? oldVersion.ToString() : temp));
+                bool hasNew = false;
+                string content = $"\n{Localization.Get("当前", "当前")} {oldVersion} {Localization.Get("版本已是最新", "版本已是最新")}！";
+                if (newVersion.CompareTo(oldVersion) > 0)
+                {
+                    hasNew = true;
+                    content = $"\n{Localization.Get("当前最新版本为", "当前最新版本为")} {newVersion}，{Localization.Get("是否前去官网下载升级", "是否前去官网下载升级")}？";
+                }
+                Modal.open(new Modal.Config(Localization.Get("检查更新", "检查更新"), content)
+                {
+                    Icon = hasNew ? TType.Info : TType.Success,
+                    Mask = true,
+                    CloseIcon = true,
+                    MaskClosable = false,
+                    Padding = new Size(15, 15),
+                    CancelText = Localization.Get("取消", "取消"),
+                    OkText = Localization.Get("确定", "确定"),
+                    OkType = TTypeMini.Success,
+                    OnOk = config =>
+                    {
+                        if (hasNew) website_button_Click(null, null);
+                        return true;
+                    }
+                });
+            }
+            finally
+            {
+                update_button.Loading = false;
+                engine_label.Text = $"{Localization.Get("模型版本", "模型版本")}：{DateTimeOffset.FromUnixTimeSeconds(Engine.GetGreenHatModelVersion() + 28800).ToString("yyyy-MM-dd HH:mm")}";
+            }
         }
 
-        private void github_button_Click(object sender, EventArgs e)
+        private void website_button_Click(object sender, EventArgs e)
         {
             Process.Start(new ProcessStartInfo
             {
-                FileName = "https://github.com/xiangyongjun/GreenHat",
+                FileName = "https://greenhat.icu/",
                 UseShellExecute = true
             });
         }
@@ -237,12 +266,33 @@ namespace GreenHat.Views
             new CloudMarkForm().ShowDialog();
         }
 
-        override public void Refresh()
+        private async Task<string> GetLatestVersionAsync()
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string url = "https://greenhat.icu/download/version.json";
+                    client.DefaultRequestHeaders.Add("User-Agent", "GreenHat");
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string json = await response.Content.ReadAsStringAsync();
+                        JObject versionInfo = JObject.Parse(json);
+                        return versionInfo["version"].ToString().ToLower().Replace("v", "");
+                    }
+                }
+            }
+            catch { }
+            return null;
+        }
+
+        public override void Refresh()
         {
             GetProtectDays();
             scan_button.Text = Localization.Get("开始查杀", "开始查杀");
             cloud_button.Text = Localization.Get("文件云鉴定器", "文件云鉴定器");
-            github_button.Text = Localization.Get("官方主页", "官方主页");
+            website_button.Text = Localization.Get("官方主页", "官方主页");
             update_button.Text = Localization.Get("检查更新", "检查更新");
             white_button.Text = Localization.Get("信任区", "信任区");
             black_button.Text = Localization.Get("隔离区", "隔离区");

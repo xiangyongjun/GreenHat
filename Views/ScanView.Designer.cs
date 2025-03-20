@@ -43,6 +43,7 @@
             this.black_button = new AntdUI.Button();
             this.custom_button = new AntdUI.Dropdown();
             this.performance_button = new AntdUI.Dropdown();
+            this.progress = new AntdUI.Progress();
             this.SuspendLayout();
             // 
             // header
@@ -65,7 +66,7 @@
             this.quick_button.IconGap = 0.5F;
             this.quick_button.IconSize = new System.Drawing.Size(18, 18);
             this.quick_button.IconSvg = resources.GetString("quick_button.IconSvg");
-            this.quick_button.Location = new System.Drawing.Point(3, 91);
+            this.quick_button.Location = new System.Drawing.Point(3, 89);
             this.quick_button.Name = "quick_button";
             this.quick_button.Size = new System.Drawing.Size(100, 32);
             this.quick_button.TabIndex = 34;
@@ -80,7 +81,7 @@
             this.full_button.IconGap = 0.5F;
             this.full_button.IconSize = new System.Drawing.Size(15, 15);
             this.full_button.IconSvg = resources.GetString("full_button.IconSvg");
-            this.full_button.Location = new System.Drawing.Point(117, 91);
+            this.full_button.Location = new System.Drawing.Point(117, 89);
             this.full_button.Name = "full_button";
             this.full_button.Size = new System.Drawing.Size(100, 32);
             this.full_button.TabIndex = 35;
@@ -95,7 +96,7 @@
             this.pause_button.IconGap = 0.5F;
             this.pause_button.IconSize = new System.Drawing.Size(12, 12);
             this.pause_button.IconSvg = resources.GetString("pause_button.IconSvg");
-            this.pause_button.Location = new System.Drawing.Point(495, 91);
+            this.pause_button.Location = new System.Drawing.Point(495, 89);
             this.pause_button.Name = "pause_button";
             this.pause_button.Size = new System.Drawing.Size(100, 32);
             this.pause_button.TabIndex = 37;
@@ -111,7 +112,7 @@
             this.stop_button.IconGap = 0.5F;
             this.stop_button.IconSize = new System.Drawing.Size(15, 15);
             this.stop_button.IconSvg = resources.GetString("stop_button.IconSvg");
-            this.stop_button.Location = new System.Drawing.Point(609, 91);
+            this.stop_button.Location = new System.Drawing.Point(609, 89);
             this.stop_button.Name = "stop_button";
             this.stop_button.Size = new System.Drawing.Size(100, 32);
             this.stop_button.TabIndex = 38;
@@ -125,7 +126,7 @@
             // 
             this.time_label.BackColor = System.Drawing.Color.Transparent;
             this.time_label.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.time_label.Location = new System.Drawing.Point(760, 98);
+            this.time_label.Location = new System.Drawing.Point(760, 96);
             this.time_label.Name = "time_label";
             this.time_label.Size = new System.Drawing.Size(155, 23);
             this.time_label.TabIndex = 39;
@@ -136,15 +137,14 @@
             // 
             this.table.EmptyHeader = true;
             this.table.EmptyText = "暂无数据";
-            this.table.Location = new System.Drawing.Point(3, 139);
+            this.table.Location = new System.Drawing.Point(3, 152);
             this.table.Name = "table";
-            this.table.Size = new System.Drawing.Size(912, 443);
+            this.table.Size = new System.Drawing.Size(912, 427);
             this.table.TabIndex = 40;
             this.table.CellClick += new AntdUI.Table.ClickEventHandler(this.table_CellClick);
             // 
             // scan_timer
             // 
-            this.scan_timer.Interval = 1000;
             this.scan_timer.Tick += new System.EventHandler(this.scan_timer_Tick);
             // 
             // continue_button
@@ -153,7 +153,7 @@
             this.continue_button.IconGap = 0.5F;
             this.continue_button.IconSize = new System.Drawing.Size(12, 12);
             this.continue_button.IconSvg = resources.GetString("continue_button.IconSvg");
-            this.continue_button.Location = new System.Drawing.Point(495, 91);
+            this.continue_button.Location = new System.Drawing.Point(495, 89);
             this.continue_button.Name = "continue_button";
             this.continue_button.Size = new System.Drawing.Size(100, 32);
             this.continue_button.TabIndex = 42;
@@ -169,7 +169,7 @@
             this.remove_button.IconGap = 0.5F;
             this.remove_button.IconSize = new System.Drawing.Size(15, 15);
             this.remove_button.IconSvg = resources.GetString("remove_button.IconSvg");
-            this.remove_button.Location = new System.Drawing.Point(609, 91);
+            this.remove_button.Location = new System.Drawing.Point(609, 89);
             this.remove_button.Name = "remove_button";
             this.remove_button.Size = new System.Drawing.Size(100, 32);
             this.remove_button.TabIndex = 43;
@@ -185,7 +185,7 @@
             this.black_button.IconGap = 0.5F;
             this.black_button.IconSize = new System.Drawing.Size(15, 15);
             this.black_button.IconSvg = resources.GetString("black_button.IconSvg");
-            this.black_button.Location = new System.Drawing.Point(495, 91);
+            this.black_button.Location = new System.Drawing.Point(495, 89);
             this.black_button.Name = "black_button";
             this.black_button.Size = new System.Drawing.Size(100, 32);
             this.black_button.TabIndex = 44;
@@ -207,7 +207,7 @@
             "third menu item",
             "fourth menu item",
             "fifth menu item"});
-            this.custom_button.Location = new System.Drawing.Point(231, 91);
+            this.custom_button.Location = new System.Drawing.Point(231, 89);
             this.custom_button.MaxCount = 5;
             this.custom_button.Name = "custom_button";
             this.custom_button.Placement = AntdUI.TAlignFrom.BR;
@@ -228,7 +228,7 @@
             this.performance_button.IconGap = 0.5F;
             this.performance_button.IconSize = new System.Drawing.Size(13, 13);
             this.performance_button.IconSvg = resources.GetString("performance_button.IconSvg");
-            this.performance_button.Location = new System.Drawing.Point(371, 91);
+            this.performance_button.Location = new System.Drawing.Point(371, 89);
             this.performance_button.MaxCount = 5;
             this.performance_button.Name = "performance_button";
             this.performance_button.Placement = AntdUI.TAlignFrom.BR;
@@ -241,8 +241,20 @@
             this.performance_button.WaveSize = 0;
             this.performance_button.SelectedValueChanged += new AntdUI.ObjectNEventHandler(this.performance_button_SelectedValueChanged);
             // 
+            // progress
+            // 
+            this.progress.IconRatio = -0.5F;
+            this.progress.Location = new System.Drawing.Point(3, 131);
+            this.progress.Name = "progress";
+            this.progress.Size = new System.Drawing.Size(910, 17);
+            this.progress.State = AntdUI.TType.Success;
+            this.progress.TabIndex = 49;
+            this.progress.Text = "";
+            this.progress.TextUnit = "";
+            // 
             // ScanView
             // 
+            this.Controls.Add(this.progress);
             this.Controls.Add(this.performance_button);
             this.Controls.Add(this.custom_button);
             this.Controls.Add(this.black_button);
@@ -277,5 +289,6 @@
         private AntdUI.Button black_button;
         private AntdUI.Dropdown custom_button;
         private AntdUI.Dropdown performance_button;
+        private AntdUI.Progress progress;
     }
 }

@@ -5,6 +5,7 @@ using GreenHat.Utils;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Net.Http;
@@ -64,7 +65,7 @@ namespace GreenHat
                 table.SelectedIndex = 1;
                 SetCloudInfo(cloudList[0]);
             }
-            AntList<CloudTable> list = new AntList<CloudTable>();
+            BindingList<CloudTable> list = new BindingList<CloudTable>();
             foreach (Cloud item in cloudList)
             {
                 list.Add(new CloudTable()
@@ -145,7 +146,7 @@ namespace GreenHat
                         open_button.Loading = true;
                         clear_button.Enabled = false;
                         string sha256 = Tools.GetSHA256(openFileDialog.FileName);
-                        TOTP totp = new TOTP(Engine.GetLieJianKey());
+                        TOTP totp = new TOTP(Engine.GetTalonflameKey());
                         string url = $"https://www.virusmark.com/scan_get?sha256={sha256}&token={totp.Now()}";
                         using (HttpClient client = new HttpClient())
                         {
@@ -207,7 +208,7 @@ namespace GreenHat
         {
             try
             {
-                TOTP totp = new TOTP(Engine.GetLieJianKey());
+                TOTP totp = new TOTP(Engine.GetTalonflameKey());
                 using (var content = new MultipartFormDataContent())
                 {
                     content.Add(new StringContent(totp.Now()), "token");

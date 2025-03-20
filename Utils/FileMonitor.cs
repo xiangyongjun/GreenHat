@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AntdUI;
+using System.Collections.Generic;
 using System.IO;
 using System.Management;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace GreenHat.Utils
                 }
             }
             usbWatcher = new ManagementEventWatcher("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2");
-            usbWatcher.EventArrived += new EventArrivedEventHandler((object sender, EventArrivedEventArgs e) => restart());
+            usbWatcher.EventArrived += new EventArrivedEventHandler((object sender, EventArrivedEventArgs e) => Restart());
             usbWatcher.Start();
         }
 
@@ -54,7 +55,7 @@ namespace GreenHat.Utils
                 if (!SysConfig.IsWhite(path) && Engine.IsVirus(path, out result))
                 {
                     SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
-                    InterceptQueue.Add(new InterceptForm("文件实时监控", name, path, result[0], result[1]));
+                    InterceptQueue.Add(new InterceptForm(Localization.Get("文件实时监控", "文件实时监控"), name, path, result[0], result[1]));
                 }
             }
             catch { }
@@ -70,7 +71,7 @@ namespace GreenHat.Utils
             fileWatchers.Clear();
         }
 
-        public static void restart()
+        public static void Restart()
         {
             Stop();
             Start();

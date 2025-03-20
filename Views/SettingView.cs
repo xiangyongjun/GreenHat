@@ -4,6 +4,7 @@ using GreenHat.Models;
 using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -65,16 +66,17 @@ namespace GreenHat.Views
                            if (value) Tools.CreateAndStartService("GreenHatService", $"{AppDomain.CurrentDomain.BaseDirectory}GreenHatService.exe");
                            else Tools.DeleteService("GreenHatService");
                         }
-                        else if (settingTable.Name.Equals(Localization.Get("绿帽子机机器学习引擎", "绿帽子机机器学习引擎")))
+                        else if (settingTable.Name.Equals(Localization.Get("绿帽子机器学习引擎", "绿帽子机器学习引擎")))
                         {
-                            name = "绿帽子机机器学习引擎";
+                            name = "绿帽子机器学习引擎";
+                            Task.Run(async () =>{
+                                await Task.Delay(100);
+                                Engine.Init();
+                            });
                         }
                         else if (settingTable.Name.Equals(Localization.Get("猎剑云引擎", "猎剑云引擎")))
                         {
                             name = "猎剑云引擎";
-                        }
-                        else
-                        {
                             Task.Run(async () =>{
                                 await Task.Delay(100);
                                 Engine.Init();
@@ -91,7 +93,7 @@ namespace GreenHat.Views
         private void InitTableData()
         {
             List<Setting> settingList = SysConfig.GetSettingList();
-            AntList<SettingTable> list = new AntList<SettingTable>();
+            BindingList<SettingTable> list = new BindingList<SettingTable>();
             foreach (Setting item in settingList)
             {
                 list.Add(new SettingTable()

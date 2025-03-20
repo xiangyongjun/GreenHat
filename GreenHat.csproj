@@ -13,7 +13,7 @@
 		<Copyright>Copyright © XiangYongJun</Copyright>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<Version>2.0.8.0</Version>
+		<Version>2.0.9.0</Version>
 		<Authors>皮皮俊</Authors>
 		<Description>绿帽子安全防护</Description>
 		<PackageProjectUrl></PackageProjectUrl>
@@ -25,6 +25,7 @@
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<Platforms>AnyCPU;x64</Platforms>
 		<SignAssembly>False</SignAssembly>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -54,7 +55,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AntdUI" Version="1.9.2" />
+		<PackageReference Include="AntdUI" Version="1.9.4" />
+		<PackageReference Include="ComputeSharp" Version="3.1.1" />
+		<PackageReference Include="DiscUtils" Version="0.16.13" />
 		<PackageReference Include="Hardware.Info" Version="101.0.1" />
 		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.19" />
 		<PackageReference Include="Microsoft.ML" Version="4.0.2" />
@@ -62,16 +65,17 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="OpenMcdf" Version="2.4.1" />
 		<PackageReference Include="OpenMcdf.Extensions" Version="2.4.0" />
-		<PackageReference Include="PeNet" Version="4.1.1" />
+		<PackageReference Include="PeNet" Version="4.1.2" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SevenZipExtractor" Version="1.0.19" />
-		<PackageReference Include="SqlSugar" Version="5.1.4.180" />
+		<PackageReference Include="SqlSugar" Version="5.1.4.185" />
 		<PackageReference Include="System.Data.SQLite" Version="1.0.119" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Reference Include="System.Management" />
 	  <Reference Include="System.Net.Http" />
+	  <Reference Include="UIAutomationClient" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -84,7 +88,6 @@
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Views\AboutView.cs" />
-		<Compile Update="Views\UpdateView.cs" />
 		<Compile Update="Views\WhiteView.cs" />
 		<Compile Update="Views\SettingView.cs" />
 		<Compile Update="Views\LogView.cs" />

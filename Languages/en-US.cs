@@ -24,7 +24,7 @@
                 case "处理器占用": return "CPU Usage";
                 case "内存占用": return "RAM Usage";
                 case "硬盘占用": return "Disk Usage";
-                case "官方主页": return "Github";
+                case "官方主页": return "Website";
                 case "检查更新": return "Updates";
                 case "信任区": return "Trusted";
                 case "隔离区": return "Quarantine";
@@ -36,12 +36,13 @@
                 case "加入时间": return "Added Time";
                 case "类型": return "Type";
                 case "隔离时间": return "Quarantine Time";
-                case "隔离数量": return "Quarantined";
+                case "模型版本": return "Model Version";
                 case "个": return " Items";
                 case "效能模式": return "Slow";
                 case "正常模式": return "Normal";
                 case "性能模式": return "Fast";
                 case "暂停查杀": return "Pause Scan";
+                case "停止查杀": return "Stop Scan";
                 case "继续查杀": return "Resume Scan";
                 case "结束查杀": return "Stop Scan";
                 case "已用时间": return "Time Used";
@@ -66,17 +67,13 @@
                 case "类别": return "Category";
                 case "功能": return "Features";
                 case "进程防护": return "Process Protection";
-                case "进程防护描述": return "Block suspicious running processes";
+                case "进程实时监控": return "Process Protection";
                 case "文件防护": return "File Protection";
-                case "文件防护描述": return "Block suspicious file modifications";
+                case "文件实时监控": return "File Protection";
                 case "引导防护": return "Boot Protection";
-                case "引导防护描述": return "Monitor system boot sector integrity";
                 case "开机启动": return "Launch at Startup";
-                case "开机启动描述": return "Start with Windows";
                 case "绿帽子机器学习引擎": return "GreenHat ML Engine";
-                case "绿帽子机器学习引擎描述": return "AI-powered malware detection";
-                case "猎剑云引擎": return "LieJian Cloud Engine";
-                case "猎剑云引擎描述": return "Cloud-based file analysis";
+                case "猎剑云引擎": return "Talonflame Cloud Engine";
                 case "名称": return "Name";
                 case "描述": return "Description";
                 case "是否启用": return "Enabled";
@@ -84,7 +81,7 @@
                 case "关于作者": return "About Author";
                 case "微信": return "WeChat";
                 case "邮箱": return "Email";
-                case "Github地址": return "GitHub";
+                case "GitHub地址": return "GitHub";
                 case "Gitee地址": return "Gitee";
                 case "技术栈": return "Tech Stack";
                 case "官方网站": return "Website";
@@ -101,7 +98,7 @@
                 case "清空鉴定记录": return "Clear History";
                 case "病毒文件": return "Malware";
                 case "未知文件": return "Unknown";
-                case "猎剑文件鉴定云": return "LieJian Cloud Scan";
+                case "猎剑文件鉴定云": return "Talonflame Cloud Scan";
                 case "操作系统": return "OS";
                 case "处理器": return "CPU";
                 case "主板": return "Motherboard";
@@ -119,10 +116,6 @@
                 case "继续保护": return "Keep Protecting";
                 case "警告": return "Warning";
                 case "检测到本地引擎丢失，防护功能将会失效！": return "Engine missing! Protection disabled!";
-                case "当前版本": return "Current Version";
-                case "最新版本": return "Latest Version";
-                case "已是最新": return "Up to Date";
-                case "正在更新": return "Updating...";
                 case "恢复成功": return "Restored";
                 case "请选择恢复的行": return "Select to restore";
                 case "请选择删除的行": return "Select to delete";
@@ -165,10 +158,14 @@
                 case "实时监控拦截所有正在写入的可疑文件": return "Block suspicious file writes";
                 case "实时监控系统引导扇区是否被非法篡改": return "Monitor boot sector integrity";
                 case "程序跟随系统开机启动": return "Start with Windows";
-                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）":
-                    return "AI engine for malware detection";
-                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）":
-                    return "Cloud-based instant analysis";
+                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）": return "AI engine for malware detection";
+                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）": return "Hunter Sword Cloud Engine (Cloud engine)";
+                case "当前": return "Current";
+                case "版本已是最新": return "The version is already up to date";
+                case "当前最新版本为": return "The latest version is ";
+                case "是否前去官网下载升级": return "Go to the official website to download the update";
+                case "取消": return "Cancel";
+                case "确定": return "OK";
                 default: return null;
             }
         }

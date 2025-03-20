@@ -36,12 +36,13 @@
                 case "加入时间": return "Дата добавления";
                 case "类型": return "Тип";
                 case "隔离时间": return "Дата изоляции";
-                case "隔离数量": return "Количество";
+                case "模型版本": return "Версия модели";
                 case "个": return " шт.";
                 case "效能模式": return "Эконом";
                 case "正常模式": return "Стандарт";
                 case "性能模式": return "Максимум";
                 case "暂停查杀": return "Пауза";
+                case "停止查杀": return "Остановить";
                 case "继续查杀": return "Продолжить";
                 case "结束查杀": return "Стоп";
                 case "已用时间": return "Время";
@@ -66,17 +67,13 @@
                 case "类别": return "Категория";
                 case "功能": return "Функция";
                 case "进程防护": return "Процессы";
-                case "进程防护描述": return "Блокировка подозрительных процессов";
+                case "进程实时监控": return "Процессы";
                 case "文件防护": return "Файлы";
-                case "文件防护描述": return "Контроль изменений файлов";
+                case "文件实时监控": return "Файлы";
                 case "引导防护": return "Загрузка";
-                case "引导防护描述": return "Защита MBR/GPT";
                 case "开机启动": return "Автозагрузка";
-                case "开机启动描述": return "Запуск с Windows";
                 case "绿帽子机器学习引擎": return "AI-анализ";
-                case "绿帽子机器学习引擎描述": return "Обнаружение угроз через ML";
-                case "猎剑云引擎": return "LieJian Cloud Engine";
-                case "猎剑云引擎描述": return "Облачная проверка";
+                case "猎剑云引擎": return "Talonflame Cloud Engine";
                 case "名称": return "Название";
                 case "描述": return "Описание";
                 case "是否启用": return "Включено";
@@ -84,7 +81,7 @@
                 case "关于作者": return "О разработчике";
                 case "微信": return "WeChat";
                 case "邮箱": return "Email";
-                case "Github地址": return "GitHub";
+                case "GitHub地址": return "GitHub";
                 case "Gitee地址": return "Gitee";
                 case "技术栈": return "Технологии";
                 case "官方网站": return "Сайт";
@@ -101,7 +98,7 @@
                 case "清空鉴定记录": return "Очистить историю";
                 case "病毒文件": return "Вирусы";
                 case "未知文件": return "Неизвестные";
-                case "猎剑文件鉴定云": return "LieJian Cloud проверка";
+                case "猎剑文件鉴定云": return "Talonflame Cloud проверка";
                 case "操作系统": return "ОС";
                 case "处理器": return "CPU";
                 case "主板": return "Материнская плата";
@@ -119,10 +116,6 @@
                 case "继续保护": return "Остаться";
                 case "警告": return "Внимание!";
                 case "检测到本地引擎丢失，防护功能将会失效！": return "Движок поврежден!";
-                case "当前版本": return "Версия";
-                case "最新版本": return "Доступно";
-                case "已是最新": return "Актуальная";
-                case "正在更新": return "Обновление...";
                 case "恢复成功": return "Восстановлено";
                 case "请选择恢复的行": return "Выберите для восстановления";
                 case "请选择删除的行": return "Выберите для удаления";
@@ -166,10 +159,14 @@
                 case "实时监控拦截所有正在写入的可疑文件": return "Блокировка записи";
                 case "实时监控系统引导扇区是否被非法篡改": return "Защита загрузчика";
                 case "程序跟随系统开机启动": return "Автозагрузка с Windows";
-                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）":
-                    return "AI-детектирование угроз";
-                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）":
-                    return "Мгновенный облачный анализ";
+                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）": return "AI-детектирование угроз";
+                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）": return "Мгновенный облачный анализ";
+                case "当前": return "Текущий";
+                case "版本已是最新": return "Версия уже актуальная";
+                case "当前最新版本为": return "Последняя версия";
+                case "是否前去官网下载升级": return "Перейти на официальный сайт для обновления";
+                case "取消": return "Отмена";
+                case "确定": return "ОК";
                 default: return null;
             }
         }

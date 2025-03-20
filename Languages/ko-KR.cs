@@ -36,12 +36,13 @@
                 case "加入时间": return "추가 시간";
                 case "类型": return "유형";
                 case "隔离时间": return "격리 시간";
-                case "隔离数量": return "격리 수";
+                case "模型版本": return "모델 버전";
                 case "个": return "개";
                 case "效能模式": return "성능 모드";
                 case "正常模式": return "일반 모드";
                 case "性能模式": return "고성능 모드";
-                case "暂停查杀": return "일시중지";
+                case "暂停查杀": return "일시 중지";
+                case "停止查杀": return "사살 중지";
                 case "继续查杀": return "계속 검사";
                 case "结束查杀": return "검사 종료";
                 case "已用时间": return "소요 시간";
@@ -66,17 +67,13 @@
                 case "类别": return "분류";
                 case "功能": return "기능";
                 case "进程防护": return "프로세스 보호";
-                case "进程防护描述": return "실행 중인 의심 프로세스 실시간 차단";
+                case "进程实时监控": return "프로세스 보호";
                 case "文件防护": return "파일 보호";
-                case "文件防护描述": return "쓰기 작업 중인 의심 파일 실시간 차단";
+                case "文件实时监控": return "파일 보호";
                 case "引导防护": return "부팅 보호";
-                case "引导防护描述": return "부팅 섹터 무결성 감시";
                 case "开机启动": return "자동 시작";
-                case "开机启动描述": return "시스템 시작 시 자동 실행";
                 case "绿帽子机器学习引擎": return "GreenHat ML 엔진";
-                case "绿帽子机器学习引擎描述": return "자체 개발 악성코드 탐지 엔진 (LieJian 샘플 지원)";
-                case "猎剑云引擎": return "LieJian 클라우드 엔진";
-                case "猎剑云引擎描述": return "클라우드 기반 고속 분석 시스템";
+                case "猎剑云引擎": return "Talonflame 클라우드 엔진";
                 case "名称": return "이름";
                 case "描述": return "설명";
                 case "是否启用": return "활성화 여부";
@@ -84,7 +81,7 @@
                 case "关于作者": return "제작자 정보";
                 case "微信": return "WeChat";
                 case "邮箱": return "이메일";
-                case "Github地址": return "GitHub 주소";
+                case "GitHub地址": return "GitHub 주소";
                 case "Gitee地址": return "Gitee 주소";
                 case "技术栈": return "기술 스택";
                 case "官方网站": return "공식 웹사이트";
@@ -119,10 +116,6 @@
                 case "继续保护": return "계속 보호";
                 case "警告": return "경고";
                 case "检测到本地引擎丢失，防护功能将会失效！": return "로컬 엔진 오류! 보호 기능 중단됨";
-                case "当前版本": return "현재 버전";
-                case "最新版本": return "최신 버전";
-                case "已是最新": return "최신 버전입니다";
-                case "正在更新": return "업데이트 중";
                 case "恢复成功": return "복원 성공";
                 case "请选择恢复的行": return "복원할 항목 선택";
                 case "请选择删除的行": return "삭제할 항목 선택";
@@ -165,10 +158,14 @@
                 case "实时监控拦截所有正在写入的可疑文件": return "쓰기 중인 의심 파일 차단";
                 case "实时监控系统引导扇区是否被非法篡改": return "부팅 섹터 변조 감시";
                 case "程序跟随系统开机启动": return "시스템 시작 시 자동 실행";
-                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）":
-                    return "GreenHat ML 엔진 (LieJian 샘플 지원)";
-                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）":
-                    return "초고속 클라우드 분석 (클라우드 엔진 사용 시)";
+                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）": return "GreenHat ML 엔진 (LieJian 샘플 지원)";
+                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）": return "초고속 클라우드 분석 (클라우드 엔진 사용 시)";
+                case "当前": return "현재";
+                case "版本已是最新": return "버전이 최신입니다";
+                case "当前最新版本为": return "현재 최신 버전은";
+                case "是否前去官网下载升级": return "공식 홈페이지에서 업데이트 하시겠습니까";
+                case "取消": return "취소";
+                case "确定": return "확인";
                 default: return null;
             }
         }

@@ -43,8 +43,8 @@
             this.label4 = new AntdUI.Label();
             this.disk_progress = new AntdUI.Progress();
             this.update_timer = new System.Windows.Forms.Timer(this.components);
-            this.count_label = new AntdUI.Label();
-            this.github_button = new AntdUI.Button();
+            this.engine_label = new AntdUI.Label();
+            this.website_button = new AntdUI.Button();
             this.cloud_button = new AntdUI.Dropdown();
             this.SuspendLayout();
             // 
@@ -208,30 +208,30 @@
             this.update_timer.Interval = 3000;
             this.update_timer.Tick += new System.EventHandler(this.update_timer_Tick);
             // 
-            // count_label
+            // engine_label
             // 
-            this.count_label.BackColor = System.Drawing.Color.Transparent;
-            this.count_label.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.count_label.Location = new System.Drawing.Point(10, 551);
-            this.count_label.Name = "count_label";
-            this.count_label.Size = new System.Drawing.Size(235, 23);
-            this.count_label.TabIndex = 55;
-            this.count_label.Text = "隔离数量：0个";
+            this.engine_label.BackColor = System.Drawing.Color.Transparent;
+            this.engine_label.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.engine_label.Location = new System.Drawing.Point(10, 551);
+            this.engine_label.Name = "engine_label";
+            this.engine_label.Size = new System.Drawing.Size(374, 23);
+            this.engine_label.TabIndex = 55;
+            this.engine_label.Text = "模型版本：";
             // 
-            // github_button
+            // website_button
             // 
-            this.github_button.BorderWidth = 2F;
-            this.github_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.github_button.Ghost = true;
-            this.github_button.IconSize = new System.Drawing.Size(15, 15);
-            this.github_button.IconSvg = resources.GetString("github_button.IconSvg");
-            this.github_button.Location = new System.Drawing.Point(461, 543);
-            this.github_button.Name = "github_button";
-            this.github_button.Size = new System.Drawing.Size(110, 38);
-            this.github_button.TabIndex = 56;
-            this.github_button.Text = "官方主页";
-            this.github_button.Type = AntdUI.TTypeMini.Success;
-            this.github_button.Click += new System.EventHandler(this.github_button_Click);
+            this.website_button.BorderWidth = 2F;
+            this.website_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.website_button.Ghost = true;
+            this.website_button.IconSize = new System.Drawing.Size(15, 15);
+            this.website_button.IconSvg = resources.GetString("website_button.IconSvg");
+            this.website_button.Location = new System.Drawing.Point(461, 543);
+            this.website_button.Name = "website_button";
+            this.website_button.Size = new System.Drawing.Size(110, 38);
+            this.website_button.TabIndex = 56;
+            this.website_button.Text = "官方主页";
+            this.website_button.Type = AntdUI.TTypeMini.Success;
+            this.website_button.Click += new System.EventHandler(this.website_button_Click);
             // 
             // cloud_button
             // 
@@ -254,8 +254,8 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.cloud_button);
-            this.Controls.Add(this.github_button);
-            this.Controls.Add(this.count_label);
+            this.Controls.Add(this.website_button);
+            this.Controls.Add(this.engine_label);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.disk_progress);
             this.Controls.Add(this.label3);
@@ -290,8 +290,8 @@
         private AntdUI.Label label4;
         private AntdUI.Progress disk_progress;
         private System.Windows.Forms.Timer update_timer;
-        private AntdUI.Label count_label;
-        private AntdUI.Button github_button;
+        private AntdUI.Label engine_label;
+        private AntdUI.Button website_button;
         private AntdUI.Dropdown cloud_button;
     }
 }

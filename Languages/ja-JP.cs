@@ -36,12 +36,13 @@
                 case "加入时间": return "追加日時";
                 case "类型": return "タイプ";
                 case "隔离时间": return "隔離日時";
-                case "隔离数量": return "隔離数";
+                case "模型版本": return "モデルバージョン";
                 case "个": return "件";
                 case "效能模式": return "省エネ";
                 case "正常模式": return "通常";
                 case "性能模式": return "高性能";
                 case "暂停查杀": return "一時停止";
+                case "停止查杀": return "ていし";
                 case "继续查杀": return "再開";
                 case "结束查杀": return "終了";
                 case "已用时间": return "経過時間";
@@ -66,17 +67,13 @@
                 case "类别": return "カテゴリ";
                 case "功能": return "機能";
                 case "进程防护": return "プロセス保護";
-                case "进程防护描述": return "不審プロセスをブロック";
+                case "进程实时监控": return "プロセス保護";
                 case "文件防护": return "ファイル保護";
-                case "文件防护描述": return "不審ファイルをブロック";
+                case "文件实时监控": return "ファイル保護";
                 case "引导防护": return "ブート保護";
-                case "引导防护描述": return "起動セクタ監視";
                 case "开机启动": return "起動時実行";
-                case "开机启动描述": return "自動起動設定";
                 case "绿帽子机器学习引擎": return "GreenHat 機械学習AI";
-                case "绿帽子机器学习引擎描述": return "独自AIエンジン";
-                case "猎剑云引擎": return "LieJian クラウド";
-                case "猎剑云引擎描述": return "クラウド高速判定";
+                case "猎剑云引擎": return "Talonflame クラウド";
                 case "名称": return "名称";
                 case "描述": return "説明";
                 case "是否启用": return "有効";
@@ -84,7 +81,7 @@
                 case "关于作者": return "作者情報";
                 case "微信": return "WeChat";
                 case "邮箱": return "メール";
-                case "Github地址": return "GitHub";
+                case "GitHub地址": return "GitHub";
                 case "Gitee地址": return "Gitee";
                 case "技术栈": return "技術構成";
                 case "官方网站": return "公式サイト";
@@ -101,7 +98,7 @@
                 case "清空鉴定记录": return "履歴クリア";
                 case "病毒文件": return "ウイルス";
                 case "未知文件": return "不明";
-                case "猎剑文件鉴定云": return "LieJian クラウド鑑定";
+                case "猎剑文件鉴定云": return "Talonflame クラウド鑑定";
                 case "操作系统": return "OS";
                 case "处理器": return "CPU";
                 case "主板": return "マザー";
@@ -119,10 +116,6 @@
                 case "继续保护": return "保護継続";
                 case "警告": return "警告";
                 case "检测到本地引擎丢失，防护功能将会失效！": return "エンジン異常！";
-                case "当前版本": return "現在バージョン";
-                case "最新版本": return "最新版";
-                case "已是最新": return "最新です";
-                case "正在更新": return "更新中...";
                 case "恢复成功": return "復元成功";
                 case "请选择恢复的行": return "対象選択";
                 case "请选择删除的行": return "削除対象";
@@ -169,6 +162,18 @@
                     return "独自AIエンジン";
                 case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）":
                     return "クラウド高速判定";
+                case "当前":
+                    return "現在";
+                case "版本已是最新":
+                    return "バージョンは最新です";
+                case "当前最新版本为":
+                    return "現在の最新バージョンは";
+                case "是否前去官网下载升级":
+                    return "公式サイトでアップデートしますか";
+                case "取消":
+                    return "キャンセル";
+                case "确定":
+                    return "OK";
                 default: return null;
             }
         }

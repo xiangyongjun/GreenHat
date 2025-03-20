@@ -4,8 +4,8 @@ using GreenHat.Models;
 using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GreenHat.Views
@@ -13,7 +13,7 @@ namespace GreenHat.Views
     public partial class LogView : UserControl
     {
         private MainWindow mainForm;
-        private AntList<LogTable> tableList;
+        private BindingList<LogTable> tableList;
 
         public LogView(MainWindow mainForm)
         {
@@ -50,7 +50,7 @@ namespace GreenHat.Views
             List<Log> logList = date_range.Value?.Length == 2 ?
                 SysConfig.GetLogList(type_select.SelectedValue.ToString(), date_range.Value[0], date_range.Value[1])
                 : SysConfig.GetLogList(type_select.SelectedValue.ToString());
-            tableList = new AntList<LogTable>();
+            tableList = new BindingList<LogTable>();
             foreach (Log item in logList)
             {
                 tableList.Add(new LogTable()
@@ -62,7 +62,6 @@ namespace GreenHat.Views
                 });
             }
             table.Binding(tableList);
-            count_label.Text = $"{Localization.Get("日志条数", "日志条数")}：{tableList.Count}";
         }
 
         private void date_range_ValueChanged(object sender, DateTimesEventArgs e)
