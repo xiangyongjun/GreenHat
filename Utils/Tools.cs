@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -91,10 +89,6 @@ namespace GreenHat.Utils
             {
                 byte[] keyBytes = Encoding.UTF8.GetBytes(key);
                 byte[] iv = new byte[16];
-                using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
-                {
-                    rng.GetBytes(iv);
-                }
                 using (Aes aes = Aes.Create())
                 {
                     aes.Key = keyBytes;

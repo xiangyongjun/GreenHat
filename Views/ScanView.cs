@@ -32,7 +32,7 @@ namespace GreenHat.Views
             this.mainForm = mainForm;
             InitializeComponent();
             InitTableColumns();
-            InitTableData();       
+            InitTableData();
         }
 
         private void InitTableColumns()
@@ -359,6 +359,7 @@ namespace GreenHat.Views
                     OnlineCustom = Color.FromArgb(22, 119, 255)
                 }
             });
+            performance_button.SelectedValue = $" {Localization.Get("性能模式", "性能模式")}";
         }
 
         private void custom_button_SelectedValueChanged(object sender, ObjectNEventArgs e)
@@ -366,6 +367,7 @@ namespace GreenHat.Views
             string name = e.Value.ToString().TrimStart();
             if (name.Equals(Localization.Get("目录查杀", "目录查杀"))) dir_button_Click(null, null);
             else if (name.Equals(Localization.Get("文件查杀", "文件查杀"))) file_button_Click(null, null);
+            custom_button.SelectedValue = null;
         }
 
         private void performance_button_SelectedValueChanged(object sender, ObjectNEventArgs e)

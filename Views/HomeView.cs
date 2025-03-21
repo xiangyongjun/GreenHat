@@ -28,6 +28,7 @@ namespace GreenHat.Views
             GetProtectDays();
             Task.Run(InitTableData);
             update_timer_Tick(null, null);
+            Task.Run(UpdateEngine);
         }
 
         private void Home_Load(object sender, EventArgs e)
@@ -209,6 +210,7 @@ namespace GreenHat.Views
         private void scan_button_SelectedValueChanged(object sender, ObjectNEventArgs e)
         {
             mainForm.GoToScan(e.Value.ToString().TrimStart());
+            scan_button.SelectedValue = null;
         }
 
         private async void update_button_Click(object sender, EventArgs e)
@@ -216,7 +218,7 @@ namespace GreenHat.Views
             try
             {
                 update_button.Loading = true;
-                Engine.UpdateGreenHatEngine();
+                await UpdateEngine();
                 string temp = await GetLatestVersionAsync();
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 Version oldVersion = assembly.GetName().Version;
@@ -248,7 +250,6 @@ namespace GreenHat.Views
             finally
             {
                 update_button.Loading = false;
-                engine_label.Text = $"{Localization.Get("模型版本", "模型版本")}：{DateTimeOffset.FromUnixTimeSeconds(Engine.GetGreenHatModelVersion() + 28800).ToString("yyyy-MM-dd HH:mm")}";
             }
         }
 
@@ -285,6 +286,13 @@ namespace GreenHat.Views
             }
             catch { }
             return null;
+        }
+
+        private async Task UpdateEngine()
+        {
+            await Engine.UpdateGreenHatEngine();
+            await Task.Delay(100);
+            engine_label.Text = $"{Localization.Get("模型版本", "模型版本")}：{DateTimeOffset.FromUnixTimeSeconds(Engine.GetGreenHatModelVersion() + 28800).ToString("yyyy-MM-dd HH:mm")}";
         }
 
         public override void Refresh()

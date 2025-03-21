@@ -1,6 +1,5 @@
 ﻿using OpenMcdf;
 using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace GreenHat.Utils
@@ -53,13 +52,6 @@ namespace GreenHat.Utils
                 }
             }
             return true;
-        }
-
-        public static bool CheckPageStructure(byte[] source)
-        {
-            if (source == null && source.Length < 140) return false;
-            byte[] target = { 0x56, 0xf7, 0x70, 0x7d };
-            return source.AsSpan().LastIndexOf(target) != -1;
         }
     }
 }

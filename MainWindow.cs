@@ -16,7 +16,6 @@ namespace GreenHat
 {
     public partial class MainWindow : Window
     {
-        public static MainWindow Instance { get; private set; }
         private bool isLight = true;
         private List<UserControl> controls = new List<UserControl>();
         private bool firstHide = false;
@@ -130,7 +129,6 @@ namespace GreenHat
 
         private void MainWindow_Shown(object sender, EventArgs e)
         {
-            Instance = this;
             segmented_SelectIndexChanged(null, new IntEventArgs(0));
             if (firstHide)
             {
@@ -270,6 +268,7 @@ namespace GreenHat
                     Localization.SetLanguage("zh-CN");
                     break;
             }
+            dropdown_translate.SelectedValue = lang;
             Refresh();
         }
 

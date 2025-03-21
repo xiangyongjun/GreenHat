@@ -20,14 +20,7 @@ namespace GreenHat.Utils
         private static bool talonflameEnable = false;
 
         private static PredictionEngine<PEData, MalwarePrediction> greenHatEngine;
-        private static int greenHatModelVersion;
         private static string talonflameKey = "";
-
-        static Engine()
-        {
-            JObject version = JObject.Parse(File.ReadAllText($"{basePath}model.json"));
-            greenHatModelVersion = (int)version.GetValue("version");
-        }
 
         public static void Init()
         {
@@ -113,11 +106,6 @@ namespace GreenHat.Utils
                                     }
                                 }
                             }
-                            else if (isInsideZip && PEFeatureExtractor.CalculateEntropy(buffer) >= 7 && MsiExtractor.CheckPageStructure(buffer))
-                            {
-                                result = $"Trojan.AgentTesla.100";
-                                return false;
-                            }
                         }
                         catch { }
                         finally
@@ -199,10 +187,11 @@ namespace GreenHat.Utils
 
         public static int GetGreenHatModelVersion()
         {
-            return greenHatModelVersion;
+            JObject version = JObject.Parse(File.ReadAllText($"{basePath}model.json"));
+            return (int)version.GetValue("version");
         }
 
-        public static async void UpdateGreenHatEngine()
+        public static async Task UpdateGreenHatEngine()
         {
             try
             {
@@ -213,7 +202,7 @@ namespace GreenHat.Utils
                     if (!response.IsSuccessStatusCode) return;
                     string json = await response.Content.ReadAsStringAsync();
                     JObject versionInfo = JObject.Parse(json);
-                    if ((int)versionInfo["version"] <= greenHatModelVersion) return;
+                    if ((int)versionInfo["version"] <= GetGreenHatModelVersion()) return;
                     Type type = new PEData().GetType();
                     FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                     if (greenHatEngine.OutputSchema.Count - 1 < (int)versionInfo["schema"]) return;

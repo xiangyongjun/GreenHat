@@ -58,7 +58,6 @@ namespace GreenHat.utils
             }
         }
 
-        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
         public static PEData ExtractFeatures(string filePath)
         {
             var data = new PEData();
@@ -116,38 +115,47 @@ namespace GreenHat.utils
                     // 计算.text节数据熵
                     if (section.Name.Equals(".text"))
                     {
-                        byte[] result = new byte[section.SizeOfRawData];
-                        Array.Copy(fileBytes, section.PointerToRawData, result, 0, section.SizeOfRawData);
-                        data.TextSection = (float)CalculateEntropy(result);
-                        data.TextSizeRatio = result.Length / pe.FileSize;
+                        ReadOnlySpan<byte> sectionData = fileBytes.AsSpan(
+                            (int)section.PointerToRawData,
+                            (int)section.SizeOfRawData
+                        );
+                        data.TextSection = (float)CalculateEntropy(sectionData.ToArray());
+                        data.TextSizeRatio = sectionData.Length / pe.FileSize;
                     }
                     // 计算.data节数据熵
                     else if (section.Name.Equals(".data"))
                     {
-                        byte[] result = new byte[section.SizeOfRawData];
-                        Array.Copy(fileBytes, section.PointerToRawData, result, 0, section.SizeOfRawData);
-                        data.DataSection = (float)CalculateEntropy(result);
-                        data.DataSizeRatio = result.Length / pe.FileSize;
+                        ReadOnlySpan<byte> sectionData = fileBytes.AsSpan(
+                            (int)section.PointerToRawData,
+                            (int)section.SizeOfRawData
+                        );
+                        data.DataSection = (float)CalculateEntropy(sectionData.ToArray());
+                        data.DataSizeRatio = sectionData.Length / pe.FileSize;
                     }
                     // 计算.rsrc节数据熵
                     else if (section.Name.Equals(".rsrc"))
                     {
-                        byte[] result = new byte[section.SizeOfRawData];
-                        Array.Copy(fileBytes, section.PointerToRawData, result, 0, section.SizeOfRawData);
-                        data.IsAdmin = HasTargetStringInBytes(result, "requireAdministrator", 1024) ? 1 : 0;
-                        data.RsrcSection = (float)CalculateEntropy(result);
-                        data.RsrcSizeRatio = result.Length / pe.FileSize;
-                        if (data.IsInstall != 1) data.IsInstall = HasTargetStringInBytes(result, "Nullsoft.NSIS.exehead", 2048) ? 1 : 0;
-                        if (data.IsInstall != 1) data.IsInstall = HasTargetStringInBytes(result, "JR.Inno.Setup", 2048) ? 1 : 0;
-                        if (data.IsInstall != 1) data.IsInstall = HasTargetStringInBytes(result, "7-Zip.7zipInstall", 2048) ? 1 : 0;
-                        if (data.IsInstall != 1) data.IsInstall = HasTargetStringInBytes(result, "WinRAR SFX", 2048) ? 1 : 0;
+                        ReadOnlySpan<byte> sectionData = fileBytes.AsSpan(
+                            (int)section.PointerToRawData,
+                            (int)section.SizeOfRawData
+                        );
+                        data.DataSection = (float)CalculateEntropy(sectionData.ToArray());
+                        data.RsrcSection = (float)CalculateEntropy(sectionData.ToArray());
+                        data.RsrcSizeRatio = sectionData.Length / pe.FileSize;
+                        if (data.IsAdmin != 1) data.IsAdmin = HasTargetStringInBytes(sectionData.ToArray(), "requireAdministrator", 1024) ? 1 : 0;
+                        if (data.IsInstall != 1) data.IsInstall = HasTargetStringInBytes(sectionData.ToArray(), "Nullsoft.NSIS.exehead", 2048) ? 1 : 0;
+                        if (data.IsInstall != 1) data.IsInstall = HasTargetStringInBytes(sectionData.ToArray(), "JR.Inno.Setup", 2048) ? 1 : 0;
+                        if (data.IsInstall != 1) data.IsInstall = HasTargetStringInBytes(sectionData.ToArray(), "7-Zip.7zipInstall", 2048) ? 1 : 0;
+                        if (data.IsInstall != 1) data.IsInstall = HasTargetStringInBytes(sectionData.ToArray(), "WinRAR SFX", 2048) ? 1 : 0;
                     }
                     else
                     {
                         if (section.Name.Length < 3 || !section.Name.StartsWith(".") || section.Name.Contains(" ")) data.HasNonStandardSection = 1;
-                        byte[] result = new byte[section.SizeOfRawData];
-                        Array.Copy(fileBytes, section.PointerToRawData, result, 0, section.SizeOfRawData);
-                        if (CalculateEntropy(result) > 7.0)
+                        ReadOnlySpan<byte> sectionData = fileBytes.AsSpan(
+                            (int)section.PointerToRawData,
+                            (int)section.SizeOfRawData
+                        );
+                        if (CalculateEntropy(sectionData.ToArray()) > 7.0)
                         {
                             data.HighEntropySections += 1;
                         }
