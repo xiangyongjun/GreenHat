@@ -10,22 +10,26 @@
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<ApplicationIcon>icon.ico</ApplicationIcon>
 		<PlatformTarget>x64</PlatformTarget>
-		<Copyright>Copyright © XiangYongJun</Copyright>
+		<Copyright>Copyright © 向永俊</Copyright>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<Version>2.0.9.0</Version>
-		<Authors>皮皮俊</Authors>
-		<Description>绿帽子安全防护</Description>
-		<PackageProjectUrl></PackageProjectUrl>
+		<Version>2.1.0.0</Version>
+		<Authors>向永俊</Authors>
+		<Description>GreenHat</Description>
+		<PackageProjectUrl>https://github.com/xiangyongjun/GreenHat</PackageProjectUrl>
 		<PackageIcon></PackageIcon>
-		<PackageReadmeFile></PackageReadmeFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/xiangyongjun/GreenHat</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags></PackageTags>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageTags>绿帽子,安全,防护,杀毒,GreenHat</PackageTags>
+		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
 		<Platforms>AnyCPU;x64</Platforms>
 		<SignAssembly>False</SignAssembly>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<IncludeSymbols>False</IncludeSymbols>
+		<Title>GreenHat</Title>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -103,6 +107,17 @@
 
 	<ItemGroup>
 	  <Folder Include="Images\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="LICENSE">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Update="README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>

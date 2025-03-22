@@ -95,7 +95,6 @@ namespace GreenHat.Utils
                             var msiPe = PEFeatureExtractor.ExtractFeatures(tempPath);
                             if (msiPe != null)
                             {
-                                if (msiPe.IsSigned != 0 && WinTrust.VerifyFileSignature(buffer)) return true;
                                 lock (greenHatEngine)
                                 {
                                     var prediction = greenHatEngine.Predict(msiPe);
@@ -128,7 +127,6 @@ namespace GreenHat.Utils
                             File.WriteAllBytes(tempPath, buffer);
                             var zipPe = PEFeatureExtractor.ExtractFeatures(tempPath);
                             if (zipPe == null) return true;
-                            if (zipPe.IsSigned != 0 && WinTrust.VerifyFileSignature(buffer)) return true;
                             lock (greenHatEngine)
                             {
                                 var prediction = greenHatEngine.Predict(zipPe);
@@ -160,7 +158,6 @@ namespace GreenHat.Utils
                             File.WriteAllBytes(tempPath, buffer);
                             var isoPe = PEFeatureExtractor.ExtractFeatures(tempPath);
                             if (isoPe == null) return true;
-                            if (isoPe.IsSigned != 0 && WinTrust.VerifyFileSignature(buffer)) return true;
                             lock (greenHatEngine)
                             {
                                 var prediction = greenHatEngine.Predict(isoPe);

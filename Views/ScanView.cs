@@ -151,15 +151,15 @@ namespace GreenHat.Views
                     pause_button.Visible = true;
                 }));
 
+                // 扫描模式
                 int processorCount = Environment.ProcessorCount;
                 if (performance_button.Text == Localization.Get("效能模式", "效能模式"))
                     processorCount = 1;
                 else if (performance_button.Text == Localization.Get("正常模式", "正常模式"))
-                    processorCount = 2;
-
-                var fileQueue = new BlockingCollection<string>();
+                    processorCount = Math.Max(1, processorCount / 4);
 
                 // 生产者任务
+                var fileQueue = new BlockingCollection<string>();
                 Task producer = Task.Run(() =>
                 {
                     FileScan.Scan(paths, filePath =>
@@ -185,24 +185,25 @@ namespace GreenHat.Views
                                 pauseEvent.Wait(token);
 
                                 Interlocked.Increment(ref total);
-
                                 curPath = path;
-
                                 if (Engine.IsVirus(path, out string[] result, true))
                                 {
                                     Interlocked.Increment(ref count);
-                                    Invoke(new Action(() =>
+                                    Task.Run(() =>
                                     {
-                                        tableList.Add(new ScanTable
+                                        lock (tableList)
                                         {
-                                            Path = path,
-                                            Engine = result[0],
-                                            Type = result[1],
-                                            Detail = new CellLink(path, Localization.Get("查看详情", "查看详情")),
-                                            State = new CellTag(Localization.Get("待处理", "待处理"), TTypeMini.Error)
-                                        });
-                                        SysConfig.AddLog("病毒防护", "发现病毒", $"文件：{path}");
-                                    }));
+                                            tableList.Add(new ScanTable
+                                            {
+                                                Path = path,
+                                                Engine = result[0],
+                                                Type = result[1],
+                                                Detail = new CellLink(path, Localization.Get("查看详情", "查看详情")),
+                                                State = new CellTag(Localization.Get("待处理", "待处理"), TTypeMini.Error)
+                                            });
+                                            SysConfig.AddLog("病毒防护", "发现病毒", $"文件：{path}");
+                                        }
+                                    });
                                 }
                             }
                             catch { }
@@ -359,7 +360,7 @@ namespace GreenHat.Views
                     OnlineCustom = Color.FromArgb(22, 119, 255)
                 }
             });
-            performance_button.SelectedValue = $" {Localization.Get("性能模式", "性能模式")}";
+            performance_button.SelectedValue = $" {Localization.Get("正常模式", "正常模式")}";
         }
 
         private void custom_button_SelectedValueChanged(object sender, ObjectNEventArgs e)
@@ -383,7 +384,7 @@ namespace GreenHat.Views
             quick_button.Text = Localization.Get("快速查杀", "快速查杀");
             full_button.Text = Localization.Get("全盘查杀", "全盘查杀");
             custom_button.Text = Localization.Get("自定义查杀", "自定义查杀");
-            performance_button.Text = Localization.Get("性能模式", "性能模式");
+            performance_button.Text = Localization.Get("正常模式", "正常模式");
             black_button.Text = Localization.Get("隔离所选", "隔离所选");
             remove_button.Text = Localization.Get("删除所选", "删除所选");
             continue_button.Text = Localization.Get("继续查杀", "继续查杀");

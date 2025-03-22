@@ -12,7 +12,7 @@ namespace GreenHat.Utils
 
         static SysConfig()
         {
-            string configPath = $"{AppDomain.CurrentDomain.BaseDirectory}Config.db";
+            string configPath = $"{AppDomain.CurrentDomain.BaseDirectory}Config.db;Pooling=True;";
             db = new SqlSugarClient(new ConnectionConfig()
             {
                 ConnectionString = $"Data Source={configPath};Version=3;",

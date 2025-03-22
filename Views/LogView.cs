@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GreenHat.Views
@@ -20,7 +21,7 @@ namespace GreenHat.Views
             this.mainForm = mainForm;
             InitializeComponent();
             InitTableColumns();
-            InitTableData();
+            Task.Run(InitTableData);
         }
 
         private void InitTableColumns()
@@ -114,7 +115,7 @@ namespace GreenHat.Views
             type_select.Items.Add(Localization.Get("其他", "其他"));
             table.EmptyText = Localization.Get("暂无数据", "暂无数据");
             InitTableColumns();
-            InitTableData();
+            Task.Run(InitTableData);
             base.Refresh();
         }
     }
