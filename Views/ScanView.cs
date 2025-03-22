@@ -70,26 +70,22 @@ namespace GreenHat.Views
         public void quick_button_Click(object sender, EventArgs e)
         {
             type = Localization.Get("快速查杀", "快速查杀");
-            Task.Run(() =>
-            {
-                cts = new CancellationTokenSource();
-                List<string> list = new List<string>();
-                list.AddRange(FileScan.GetStartupList());
-                list.AddRange(FileScan.GetProcessList());
-                list.AddRange(FileScan.GetServiceList());
-                list.Add(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
-                list.Add(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
-                list.Add(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-                list.Add(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-                InitializeScan(list);
-            });
+            cts = new CancellationTokenSource();
+            List<string> list = new List<string>();
+            list.AddRange(FileScan.GetStartupList());
+            list.AddRange(FileScan.GetProcessList());
+            list.AddRange(FileScan.GetServiceList());
+            list.Add(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+            list.Add(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+            list.Add(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            list.Add(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            InitializeScan(list);
         }
 
         public void full_button_Click(object sender, EventArgs e)
         {
             type = Localization.Get("全盘查杀", "全盘查杀");
             SysConfig.AddLog("病毒防护", "全盘查杀", $"开始时间：{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
-            scan_timer.Enabled = true;
             cts = new CancellationTokenSource();
             InitializeScan(FileScan.GetDiskList());
         }
