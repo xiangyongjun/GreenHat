@@ -23,7 +23,7 @@ A security protection software for Windows operating systems, specifically custo
 * i18n
 
 ## System Requirements
-* Operating System: Windows 10 x64+
+* Operating System: Windows 7 x64+
 * Runtime: .NET Framework 4.8+
 * RAM: 1GB+
 * Disk Space: 500MB+
