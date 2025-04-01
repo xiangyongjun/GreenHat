@@ -52,9 +52,9 @@ namespace GreenHat.Utils
             {
                 if (string.IsNullOrEmpty(path)) return;
                 string[] result;
-                if (!SysConfig.IsWhite(path) && Engine.IsVirus(path, out result))
+                if (!Database.IsWhite(path) && Engine.IsVirus(path, out result))
                 {
-                    SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
+                    Database.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
                     InterceptQueue.Add(new InterceptForm(Localization.Get("文件实时监控", "文件实时监控"), name, path, result[0], result[1]));
                 }
             }

@@ -110,8 +110,7 @@
                 case "线程": return "스레드";
                 case "打开绿帽子": return "GreenHat 열기";
                 case "退出绿帽子": return "GreenHat 종료";
-                case "您确定要退出绿帽子安全防护吗？\n届时绿帽子将无法保护您的电脑安全，您的电脑存在被恶意程序攻击的风险。":
-                    return "GreenHat을 종료하시겠습니까?\nPC 보호가 중단되어 위험할 수 있습니다";
+                case "您确定要退出绿帽子安全防护吗？\n届时绿帽子将无法保护您的电脑安全，您的电脑存在被恶意程序攻击的风险。": return "GreenHat을 종료하시겠습니까?\nPC 보호가 중단되어 위험할 수 있습니다";
                 case "仍然退出": return "강제 종료";
                 case "继续保护": return "계속 보호";
                 case "警告": return "경고";
@@ -166,6 +165,18 @@
                 case "是否前去官网下载升级": return "공식 홈페이지에서 업데이트 하시겠습니까";
                 case "取消": return "취소";
                 case "确定": return "확인";
+                case "打开文件所在目录": return "파일이 있는 폴더 열기";
+                case "添加信任": return "신뢰 추가";
+                case "加入隔离": return "격리 추가";
+                case "删除文件": return "파일 삭제";
+                case "右键菜单": return "오른쪽 버튼 메뉴";
+                case "添加文件右键菜单，一键快速查杀": return "파일 오른쪽 버튼 메뉴 추가, 한 번 클릭으로 빠른 검사";
+                case "已删除": return "삭제됨";
+                case "已信任": return "신뢰됨";
+                case "已处理": return "처리됨";
+                case "一键导出选中文件": return "선택한 파일 내보내기";
+                case "导出完毕": return "내보내기 완료";
+                case "使用文件云鉴定": return "파일 클라우드 감정";
                 default: return null;
             }
         }

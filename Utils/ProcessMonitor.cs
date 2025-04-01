@@ -37,12 +37,16 @@ class ProcessMonitor
             string name = process.ProcessName;
             string path = process.MainModule?.FileName;
             if (string.IsNullOrEmpty(path)) return;
+            Tools.SuspendProcess(process);
             string[] result;
-            if (!SysConfig.IsWhite(path) && Engine.IsVirus(path, out result))
+            if (!Database.IsWhite(path) && Engine.IsVirus(path, out result))
             {
-                Tools.SuspendProcess(process);
-                SysConfig.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
+                Database.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
                 InterceptQueue.Add(new InterceptForm(Localization.Get("进程实时监控", "进程实时监控"), result[0], result[1], process));
+            }
+            else
+            { 
+                Tools.ResumeProcess(process);
             }
         }
         catch { }

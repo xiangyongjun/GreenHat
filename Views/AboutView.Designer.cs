@@ -36,6 +36,7 @@
             // 
             this.header.DividerShow = true;
             this.header.Dock = System.Windows.Forms.DockStyle.Top;
+            this.header.Enabled = false;
             this.header.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
             this.header.Location = new System.Drawing.Point(0, 0);
             this.header.Name = "header";
@@ -55,11 +56,11 @@
             this.table.TabIndex = 41;
             this.table.VisibleHeader = false;
             // 
-            // About
+            // AboutView
             // 
             this.Controls.Add(this.table);
             this.Controls.Add(this.header);
-            this.Name = "About";
+            this.Name = "AboutView";
             this.Size = new System.Drawing.Size(928, 598);
             this.ResumeLayout(false);
 

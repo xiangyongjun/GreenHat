@@ -53,6 +53,7 @@
             this.header.Description = "绿帽子安全防护正在保护您的电脑安全";
             this.header.DividerShow = true;
             this.header.Dock = System.Windows.Forms.DockStyle.Top;
+            this.header.Enabled = false;
             this.header.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
             this.header.Location = new System.Drawing.Point(0, 0);
             this.header.Name = "header";

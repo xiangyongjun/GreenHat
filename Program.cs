@@ -1,5 +1,6 @@
 ﻿using GreenHat.Utils;
 using System;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -28,10 +29,26 @@ namespace GreenHat
                     AntdUI.Config.SetCorrectionTextRendering("Microsoft YaHei UI");
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    mainWindow = new MainWindow(args.Length > 0 && args[0].Equals("--hide"));
+                    mainWindow = new MainWindow(args);
                     Application.Run(mainWindow);
                 }
-                else Environment.Exit(1);
+                else
+                {
+                    if (args.Length > 0)
+                    {
+                        if (File.Exists(args[0]) || Directory.Exists(args[0]))
+                        {
+                            NamedPipeClient.Connect();
+                            NamedPipeClient.SendMessage($"Scan\0{args[0]}");
+                        }
+                    }
+                    else
+                    {
+                        NamedPipeClient.Connect();
+                        NamedPipeClient.SendMessage($"Show\0Show");
+                    }
+                    Environment.Exit(1);
+                }
             }
         }
 

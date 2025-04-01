@@ -56,14 +56,14 @@ namespace GreenHat
         private void pass_button_Click(object sender, System.EventArgs e)
         {
             if (process != null) Tools.ResumeProcess(process);
-            SysConfig.AddLog("病毒防护", "暂不处理", $"文件：{path}");
+            Database.AddLog("病毒防护", "暂不处理", $"文件：{path}");
             Close();
         }
 
         private void white_button_Click(object sender, System.EventArgs e)
         {
             if (process != null) Tools.ResumeProcess(process);
-            SysConfig.AddWhite(path);
+            Database.AddWhite(path);
             Close();
         }
 
@@ -72,7 +72,7 @@ namespace GreenHat
             try
             {
                 if (process != null) process.Kill();
-                SysConfig.AddBlack(path, type);
+                Database.AddBlack(path, type);
             }
             catch { }
             Close();

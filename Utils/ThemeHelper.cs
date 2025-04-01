@@ -10,16 +10,20 @@ namespace GreenHat.Utils
         public static bool IsSystemLightMode()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\GreenHat");
-            if (key != null && key.GetValue("isLightMode") != null)
+            try
             {
-                return key.GetValue("isLightMode").ToString().Equals("1");
+                if (key != null && key.GetValue("isLightMode") != null)
+                {
+                    return (int)key.GetValue("isLightMode") == 1;
+                }
+                key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+                if (key != null)
+                {
+                    int appsUseLightTheme = (int)key.GetValue("AppsUseLightTheme", -1);
+                    return appsUseLightTheme == 1;
+                }
             }
-            key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
-            if (key != null)
-            {
-                int appsUseLightTheme = (int)key.GetValue("AppsUseLightTheme", -1);
-                return appsUseLightTheme == 1;
-            }
+            catch { }
             return true;
         }
 
@@ -46,7 +50,7 @@ namespace GreenHat.Utils
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\GreenHat", true);
             if (key != null)
             {
-                key.SetValue("isLightMode", isLightMode ? "1" : "0");
+                key.SetValue("isLightMode", isLightMode ? 1 : 0);
             }
         }
     }

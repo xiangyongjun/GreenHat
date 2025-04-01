@@ -110,8 +110,7 @@
                 case "线程": return "Threads";
                 case "打开绿帽子": return "Open GreenHat";
                 case "退出绿帽子": return "Exit GreenHat";
-                case "您确定要退出绿帽子安全防护吗？\n届时绿帽子将无法保护您的电脑安全，您的电脑存在被恶意程序攻击的风险。":
-                    return "Exit GreenHat Security?\nYour computer will lose real-time protection.";
+                case "您确定要退出绿帽子安全防护吗？\n届时绿帽子将无法保护您的电脑安全，您的电脑存在被恶意程序攻击的风险。": return "Exit GreenHat Security?\nYour computer will lose real-time protection.";
                 case "仍然退出": return "Exit Anyway";
                 case "继续保护": return "Keep Protecting";
                 case "警告": return "Warning";
@@ -166,6 +165,18 @@
                 case "是否前去官网下载升级": return "Go to the official website to download the update";
                 case "取消": return "Cancel";
                 case "确定": return "OK";
+                case "打开文件所在目录": return "Open file location";
+                case "添加信任": return "Add to trusted";
+                case "加入隔离": return "Quarantine";
+                case "删除文件": return "Delete file";
+                case "右键菜单": return "Right-click Menu";
+                case "添加文件右键菜单，一键快速查杀": return "Add file right-click menu for quick scan";
+                case "已删除": return "Deleted";
+                case "已信任": return "Trusted";
+                case "已处理": return "Processed";
+                case "一键导出选中文件": return "Export Selected Files";
+                case "导出完毕": return "Export Completed";
+                case "使用文件云鉴定": return "File Cloud Appraisal";
                 default: return null;
             }
         }

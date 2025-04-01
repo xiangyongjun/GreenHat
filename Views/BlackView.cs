@@ -53,7 +53,7 @@ namespace GreenHat.Views
 
         private void InitTableData()
         {
-            List<Black> blackList = SysConfig.GetBlackList(path_input.Text);
+            List<Black> blackList = Database.GetBlackList(path_input.Text);
             blackTable = new BindingList<BlackTable>();
             foreach (Black item in blackList)
             {
@@ -79,19 +79,19 @@ namespace GreenHat.Views
             {
                 Task.Run(() =>
                 {
-                    if (SysConfig.GetSetting("文件防护").Enabled) FileMonitor.Stop();
-                    SysConfig.AddLog("其他", "恢复隔离区文件", $"操作时间：{DateTime.Now.ToString()}");
+                    if (GreenHatConfig.FileEnable) FileMonitor.Stop();
+                    Database.AddLog("其他", "恢复隔离区文件", $"操作时间：{DateTime.Now.ToString()}");
                     restore_button.Loading = true;
                     List<int> ids = new List<int>();
                     foreach (BlackTable item in blackTable)
                     {
                         if (item.Selected) ids.Add(item.Id);
                     }
-                    SysConfig.RestoreBlack(ids);
+                    Database.RestoreBlack(ids);
                     InitTableData();
                     restore_button.Loading = false;
                     AntdUI.Message.success(mainForm, $"{Localization.Get("恢复成功", "恢复成功")}！", autoClose: 3);
-                    if (SysConfig.GetSetting("文件防护").Enabled) FileMonitor.Start();
+                    if (GreenHatConfig.FileEnable) FileMonitor.Start();
                 });
             }
         }
@@ -106,14 +106,14 @@ namespace GreenHat.Views
             {
                 Task.Run(() =>
                 {
-                    SysConfig.AddLog("其他", "删除隔离区文件", $"操作时间：{DateTime.Now.ToString()}");
+                    Database.AddLog("其他", "删除隔离区文件", $"操作时间：{DateTime.Now.ToString()}");
                     remove_button.Loading = true;
                     List<int> ids = new List<int>();
                     foreach (BlackTable item in blackTable)
                     {
                         if (item.Selected) ids.Add(item.Id);
                     }
-                    SysConfig.RemoveBlack(ids);
+                    Database.RemoveBlack(ids);
                     InitTableData();
                     remove_button.Loading = false;
                     AntdUI.Message.success(mainForm, $"{Localization.Get("删除成功", "删除成功")}！", autoClose: 3);

@@ -167,6 +167,18 @@
                 case "是否前去官网下载升级": return "是否前往官網下載升級";
                 case "取消": return "取消"; 
                 case "确定": return "確定";
+                case "打开文件所在目录": return "打開文件所在目錄";
+                case "添加信任": return "添加信任";
+                case "加入隔离": return "加入隔離";
+                case "删除文件": return "刪除檔案";
+                case "右键菜单": return "右鍵菜單";
+                case "添加文件右键菜单，一键快速查杀": return "添加檔案右鍵菜單，一鍵快速掃描";
+                case "已删除": return "已刪除";
+                case "已信任": return "已信任";
+                case "已处理": return "已處理";
+                case "一键导出选中文件": return "一鍵導出檔案";
+                case "导出完毕": return "導出完畢";
+                case "使用文件云鉴定": return "使用檔案雲鑑定";
                 default: return null;
             }
         }

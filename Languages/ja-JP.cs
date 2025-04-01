@@ -158,22 +158,26 @@
                 case "实时监控拦截所有正在写入的可疑文件": return "不審ファイル監視";
                 case "实时监控系统引导扇区是否被非法篡改": return "ブートセクタ監視";
                 case "程序跟随系统开机启动": return "自動起動";
-                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）":
-                    return "独自AIエンジン";
-                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）":
-                    return "クラウド高速判定";
-                case "当前":
-                    return "現在";
-                case "版本已是最新":
-                    return "バージョンは最新です";
-                case "当前最新版本为":
-                    return "現在の最新バージョンは";
-                case "是否前去官网下载升级":
-                    return "公式サイトでアップデートしますか";
-                case "取消":
-                    return "キャンセル";
-                case "确定":
-                    return "OK";
+                case "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）": return "独自AIエンジン";
+                case "鹰眼鉴定，秒速响应（云引擎查杀时才会启用）": return "クラウド高速判定";
+                case "当前": return "現在";
+                case "版本已是最新": return "バージョンは最新です";
+                case "当前最新版本为": return "現在の最新バージョンは";
+                case "是否前去官网下载升级": return "公式サイトでアップデートしますか";
+                case "取消": return "キャンセル";
+                case "确定": return "OK";
+                case "打开文件所在目录": return "ファイルの場所を開く";
+                case "添加信任": return "信頼リストに追加";
+                case "加入隔离": return "隔離する";
+                case "删除文件": return "ファイルを削除";
+                case "右键菜单": return "右クリックメニュー";
+                case "添加文件右键菜单，一键快速查杀": return "ファイル右クリックメニューを追加し、ワンクリックで高速スキャン";
+                case "已删除": return "削除済み";
+                case "已信任": return "信頼済み";
+                case "已处理": return "処理済み";
+                case "一键导出选中文件": return "選択したファイルをエクスポート";
+                case "导出完毕": return "エクスポート完了";
+                case "使用文件云鉴定": return "ファイルクラウド鑑定";
                 default: return null;
             }
         }

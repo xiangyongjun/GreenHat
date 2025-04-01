@@ -37,6 +37,7 @@
             this.header.Description = "查看、管理各项安全防护功能";
             this.header.DividerShow = true;
             this.header.Dock = System.Windows.Forms.DockStyle.Top;
+            this.header.Enabled = false;
             this.header.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
             this.header.Location = new System.Drawing.Point(0, 0);
             this.header.Name = "header";
@@ -51,9 +52,9 @@
             // 
             this.table.EmptyHeader = true;
             this.table.EmptyText = "暂无数据";
-            this.table.Location = new System.Drawing.Point(3, 96);
+            this.table.Location = new System.Drawing.Point(3, 92);
             this.table.Name = "table";
-            this.table.Size = new System.Drawing.Size(912, 486);
+            this.table.Size = new System.Drawing.Size(912, 490);
             this.table.TabIndex = 41;
             // 
             // SettingView

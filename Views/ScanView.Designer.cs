@@ -50,6 +50,7 @@
             // 
             this.header.DividerShow = true;
             this.header.Dock = System.Windows.Forms.DockStyle.Top;
+            this.header.Enabled = false;
             this.header.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F);
             this.header.Location = new System.Drawing.Point(0, 0);
             this.header.Name = "header";
@@ -126,9 +127,9 @@
             // 
             this.time_label.BackColor = System.Drawing.Color.Transparent;
             this.time_label.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.time_label.Location = new System.Drawing.Point(760, 96);
+            this.time_label.Location = new System.Drawing.Point(715, 96);
             this.time_label.Name = "time_label";
-            this.time_label.Size = new System.Drawing.Size(155, 23);
+            this.time_label.Size = new System.Drawing.Size(200, 23);
             this.time_label.TabIndex = 39;
             this.time_label.Text = "";
             this.time_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -142,6 +143,7 @@
             this.table.Size = new System.Drawing.Size(912, 427);
             this.table.TabIndex = 40;
             this.table.CellClick += new AntdUI.Table.ClickEventHandler(this.table_CellClick);
+            this.table.CellButtonClick += new AntdUI.Table.ClickButtonEventHandler(this.table_CellButtonClick);
             // 
             // scan_timer
             // 

@@ -8,16 +8,12 @@ namespace GreenHat.Utils
         private readonly byte[] _secretKey;
         private readonly int _digits;
         private readonly int _interval;
-        private readonly string _name;
-        private readonly string _issuer;
 
         public TOTP(string secretKey, int digits = 6, int interval = 30, string name = null, string issuer = null)
         {
             _secretKey = Base32Decode(secretKey);
             _digits = digits;
             _interval = interval;
-            _name = name;
-            _issuer = issuer;
         }
 
         public string Now()

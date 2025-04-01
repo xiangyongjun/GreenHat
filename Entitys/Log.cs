@@ -9,6 +9,7 @@ namespace GreenHat.Entitys
         private string type;
         private string func;
         private string desc;
+        private string detail;
 
         [SugarColumn(IsIdentity = true, IsPrimaryKey = true)]
         public int Id { get; set; }
@@ -16,5 +17,6 @@ namespace GreenHat.Entitys
         public string Type { get => type; set => type = value; }
         public string Func { get => func; set => func = value; }
         public string Desc { get => desc; set => desc = value; }
+        public string Detail { get => detail; set => detail = value; }
     }
 }

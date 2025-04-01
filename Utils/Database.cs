@@ -6,16 +6,16 @@ using System.IO;
 
 namespace GreenHat.Utils
 {
-    internal static class SysConfig
+    internal static class Database
     {
         private static SqlSugarClient db;
 
-        static SysConfig()
+        static Database()
         {
-            string configPath = $"{AppDomain.CurrentDomain.BaseDirectory}Config.db;Pooling=True;";
+            string databasePath = $"{AppDomain.CurrentDomain.BaseDirectory}Config.db";
             db = new SqlSugarClient(new ConnectionConfig()
             {
-                ConnectionString = $"Data Source={configPath};Version=3;",
+                ConnectionString = $"Data Source={databasePath};Pooling=True;Version=3;",
                 DbType = DbType.Sqlite,
                 IsAutoCloseConnection = true,
                 InitKeyType = InitKeyType.Attribute,
@@ -25,24 +25,15 @@ namespace GreenHat.Utils
                     DefaultCacheDurationInSeconds = 60
                 }
             });
-            db.Open();
-        }
-
-        public static List<Setting> GetSettingList()
-        {
-            return db.CopyNew().Queryable<Setting>().ToList();
-        }
-
-        public static Setting GetSetting(string name)
-        {
-            return db.CopyNew().Queryable<Setting>().Where(it => it.Name == name).First();
-        }
-
-        public static bool SetSettingEnabled(string name, bool enabled)
-        {
-            Setting setting = db.Queryable<Setting>().Where(it => it.Name == name).First();
-            setting.Enabled = enabled;
-            return db.CopyNew().Updateable(setting).UpdateColumns(it => new { it.Enabled }).ExecuteCommand() > 0;
+            if (!File.Exists(databasePath))
+            {
+                db.DbMaintenance.CreateDatabase(databasePath);
+                db.CodeFirst.InitTables<Black>();
+                db.CodeFirst.InitTables<White>();
+                db.CodeFirst.InitTables<Log>();
+                db.CodeFirst.InitTables<Cloud>();
+            }
+            else db.Open();
         }
 
         public static List<Log> GetLogList(string type)
@@ -57,15 +48,21 @@ namespace GreenHat.Utils
             return db.CopyNew().Queryable<Log>().Where(it => it.Type.Contains(type) && it.Time >= startDate && it.Time <= endDate).OrderBy(it => SqlFunc.Desc(it.Time)).ToList();
         }
 
-        public static bool AddLog(string type, string func, string desc)
+        public static bool AddLog(string type, string func, string desc, string detail = "")
         {
             return db.CopyNew().Insertable(new Log()
             {
                 Time = DateTime.Now,
                 Type = type,
                 Func = func,
-                Desc = desc
+                Desc = desc,
+                Detail = detail
             }).ExecuteCommand() > 0;
+        }
+
+        public static int CountLog()
+        {
+            return db.CopyNew().Queryable<Log>().Count();
         }
 
         public static void ClearLog()
@@ -95,7 +92,7 @@ namespace GreenHat.Utils
 
         public static bool IsWhite(string path)
         {
-            return db.CopyNew().Queryable<White>().Where(it => it.Path == path).Count() > 0;
+            return db.CopyNew().Queryable<White>().Where(it => path.StartsWith(it.Path)).Count() > 0;
         }
 
         public static List<Black> GetBlackList(string path = "")
@@ -138,7 +135,7 @@ namespace GreenHat.Utils
                 Tools.DecryptFile($"{dir}{item.Id}.bak", item.Path, "GreenHat12345678");
                 File.Delete($"{dir}{item.Id}.bak");
             }
-            return db.Deleteable<Black>().In(ids).ExecuteCommand() > 0;
+            return db.CopyNew().Deleteable<Black>().In(ids).ExecuteCommand() > 0;
         }
 
         public static bool RemoveBlack(List<int> ids)
@@ -149,7 +146,7 @@ namespace GreenHat.Utils
             {
                 File.Delete($"{dir}{item.Id}.bak");
             }
-            return db.Deleteable<Black>().In(ids).ExecuteCommand() > 0;
+            return db.CopyNew().Deleteable<Black>().In(ids).ExecuteCommand() > 0;
         }
 
         public static bool IsBlack(string path)

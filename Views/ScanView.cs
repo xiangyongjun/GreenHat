@@ -85,7 +85,7 @@ namespace GreenHat.Views
         public void full_button_Click(object sender, EventArgs e)
         {
             type = Localization.Get("全盘查杀", "全盘查杀");
-            SysConfig.AddLog("病毒防护", "全盘查杀", $"开始时间：{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+            Database.AddLog("病毒防护", "全盘查杀", $"开始时间：{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
             cts = new CancellationTokenSource();
             InitializeScan(FileScan.GetDiskList());
         }
@@ -112,10 +112,12 @@ namespace GreenHat.Views
             }
         }
 
-        private void InitializeScan(List<string> paths)
+        public void InitializeScan(List<string> paths)
         {
+            if (!quick_button.Enabled) return;
+
             type = Localization.Get("自定义查杀", "自定义查杀");
-            SysConfig.AddLog("病毒防护", "自定义查杀", $"开始时间：{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
+            Database.AddLog("病毒防护", "自定义查杀", $"开始时间：{DateTime.Now:yyyy-MM-dd HH:mm:ss}");
             scan_timer.Enabled = true;
 
             cts = new CancellationTokenSource();
@@ -152,7 +154,7 @@ namespace GreenHat.Views
                 if (performance_button.Text == Localization.Get("效能模式", "效能模式"))
                     processorCount = 1;
                 else if (performance_button.Text == Localization.Get("正常模式", "正常模式"))
-                    processorCount = Math.Max(1, processorCount / 4);
+                    processorCount = Math.Max(2, processorCount / 4);
 
                 // 生产者任务
                 var fileQueue = new BlockingCollection<string>();
@@ -182,7 +184,7 @@ namespace GreenHat.Views
 
                                 Interlocked.Increment(ref total);
                                 curPath = path;
-                                if (Engine.IsVirus(path, out string[] result, true))
+                                if (Engine.IsVirus(path, out string[] result, totalTime <= 30000))
                                 {
                                     Interlocked.Increment(ref count);
                                     Task.Run(() =>
@@ -197,7 +199,6 @@ namespace GreenHat.Views
                                                 Detail = new CellLink(path, Localization.Get("查看详情", "查看详情")),
                                                 State = new CellTag(Localization.Get("待处理", "待处理"), TTypeMini.Error)
                                             });
-                                            SysConfig.AddLog("病毒防护", "发现病毒", $"文件：{path}");
                                         }
                                     });
                                 }
@@ -237,11 +238,15 @@ namespace GreenHat.Views
                 progress.Value = 1;
 
                 time_label.Text = $"{Localization.Get("已用时间", "已用时间")}：{duration:hh\\:mm\\:ss}";
-                header.Description = curPath;
+                header.Description = $"{Localization.Get("查杀结束", "查杀结束")}，{Localization.Get("找到", "找到")} {count} {Localization.Get("个威胁", "个威胁")}，{Localization.Get("用时", "用时")}：{duration:hh\\:mm\\:ss}";
                 header.SubText = $"{Localization.Get("已扫描", "已扫描")}：{total}，{Localization.Get("威胁数量", "威胁数量")}：{count}";
 
-                SysConfig.AddLog("病毒防护", type, $"查杀结束，找到 {count} 个威胁，用时：{duration:hh\\:mm\\:ss}");
+                Database.AddLog("病毒防护", type, $"查杀结束，找到 {count} 个威胁，用时：{duration:hh\\:mm\\:ss}");
 
+                mainForm.TopMost = true;
+                mainForm.Show();
+                mainForm.Focus();
+                mainForm.TopMost = false;
                 Modal.open(new Modal.Config(mainForm, Localization.Get("查杀结束", "查杀结束"), $"{Localization.Get("找到", "找到")} {count} {Localization.Get("个威胁", "个威胁")}，{Localization.Get("用时", "用时")}：{duration:hh\\:mm\\:ss}", TType.Success)
                 {
                     CloseIcon = true,
@@ -278,21 +283,67 @@ namespace GreenHat.Views
 
         private void table_CellClick(object sender, TableClickEventArgs e)
         {
-            if (e.ColumnIndex == 0 || e.RowIndex == 0) return;
+            if (e.Button != MouseButtons.Right || e.ColumnIndex == 0 || e.RowIndex == 0) return;
             ScanTable scanTable = (ScanTable)e.Record;
-            switch (e.ColumnIndex)
+            AntdUI.ContextMenuStrip.open(this, item =>
             {
-                case 1:
+                if (item.Text.Equals(Localization.Get("打开文件所在目录", "打开文件所在目录")))
+                {
                     Tools.OpenFileInExplorer(scanTable.Path);
-                    break;
-                case 2:
-                    Modal.open(new Modal.Config(mainForm, Localization.Get("查杀引擎", "查杀引擎"), scanTable.Engine, TType.Info)
+                }
+                else if (item.Text.Equals(Localization.Get("一键导出选中文件", "一键导出选中文件")))
+                {
+                    AntdUI.FolderBrowserDialog dialog = new AntdUI.FolderBrowserDialog();
+                    if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        CloseIcon = true,
-                        BtnHeight = 0
-                    });
-                    break;
-            }
+                        if (GreenHatConfig.FileEnable) FileMonitor.Stop();
+                        foreach (ScanTable scan in tableList)
+                        {
+                            try
+                            {
+                                if (!scan.Selected) continue;
+                                string filename = $@"{dialog.DirectoryPath}\{Tools.GetSHA256(scan.Path)}{Path.GetExtension(scan.Path)}";
+                                if (File.Exists(filename)) continue;
+                                File.Copy(scan.Path, filename);
+                            }
+                            catch { }
+                        }
+                        if (GreenHatConfig.FileEnable) FileMonitor.Start();
+                        AntdUI.Message.success(mainForm, $"{Localization.Get("导出完毕", "导出完毕")}！", autoClose: 3);
+                    }
+                }
+                else if (item.Text.Equals(Localization.Get("使用文件云鉴定", "使用文件云鉴定")))
+                {
+                    new CloudMarkForm(scanTable.Path).ShowDialog();
+                }
+                else if (item.Text.Equals(Localization.Get("添加信任", "添加信任")) && scanTable.State.Text.Equals(Localization.Get("待处理", "待处理")))
+                {
+                    Database.AddWhite(scanTable.Path);
+                    scanTable.State.Text = Localization.Get("已信任", "已信任");
+                    scanTable.State.Type = TTypeMini.Success;
+                }
+                else if (item.Text.Equals(Localization.Get("加入隔离", "加入隔离")) && scanTable.State.Text.Equals(Localization.Get("待处理", "待处理")))
+                {
+                    Database.AddWhite(scanTable.Path);
+                    scanTable.State.Text = Localization.Get("已隔离", "已隔离");
+                    scanTable.State.Type = TTypeMini.Success;
+                }
+                else if (item.Text.Equals(Localization.Get("删除文件", "删除文件")) && scanTable.State.Text.Equals(Localization.Get("待处理", "待处理")))
+                {
+                    Database.AddWhite(scanTable.Path);
+                    scanTable.State.Text = Localization.Get("已删除", "已删除");
+                    scanTable.State.Type = TTypeMini.Success;
+                }
+            },
+            new IContextMenuStripItem[] {
+                new ContextMenuStripItem(Localization.Get("打开文件所在目录", "打开文件所在目录")),
+                new ContextMenuStripItem(Localization.Get("一键导出选中文件", "一键导出选中文件")),
+                new ContextMenuStripItem(Localization.Get("使用文件云鉴定", "使用文件云鉴定")),
+                new ContextMenuStripItemDivider(),
+                new ContextMenuStripItem(Localization.Get("添加信任", "添加信任")),
+                new ContextMenuStripItem(Localization.Get("加入隔离", "加入隔离")),
+                new ContextMenuStripItem(Localization.Get("删除文件", "删除文件")),
+            });
         }
 
         private void black_button_Click(object sender, EventArgs e)
@@ -303,7 +354,7 @@ namespace GreenHat.Views
                 {
                     if (item.Selected && item.State.Text.Equals(Localization.Get("待处理", "待处理")))
                     {
-                        SysConfig.AddBlack(item.Path, item.Type);
+                        Database.AddBlack(item.Path, item.Type);
                         item.State.Text = Localization.Get("已隔离", "已隔离");
                         item.State.Type = TTypeMini.Warn;
                     }
@@ -320,7 +371,7 @@ namespace GreenHat.Views
                 {
                     if (item.Selected && item.State.Text.Equals(Localization.Get("待处理", "待处理")))
                     {
-                        SysConfig.AddLog("其他", "删除查杀文件", $"操作时间：{DateTime.Now.ToString()}");
+                        Database.AddLog("其他", "删除查杀文件", $"操作时间：{DateTime.Now.ToString()}");
                         File.Delete(item.Path);
                         item.State.Text = Localization.Get("已删除", "已删除");
                         item.State.Type = TTypeMini.Success;
@@ -408,6 +459,21 @@ namespace GreenHat.Views
             time_label.Text = $"{Localization.Get("已用时间", "已用时间")}：{duration:hh\\:mm\\:ss}";
             header.Description = curPath;
             header.SubText = $"{Localization.Get("已扫描", "已扫描")}：{total}，{Localization.Get("威胁数量", "威胁数量")}：{count}";
+        }
+
+        private void table_CellButtonClick(object sender, TableButtonEventArgs e)
+        {
+            ScanTable scanTable = (ScanTable)e.Record;
+            switch (e.Btn.Text)
+            {
+                case "查看详情":
+                    Modal.open(new Modal.Config(mainForm, Localization.Get("查杀引擎", "查杀引擎"), scanTable.Engine, TType.Info)
+                    {
+                        CloseIcon = true,
+                        BtnHeight = 0
+                    });
+                    break;
+            }
         }
     }
 }

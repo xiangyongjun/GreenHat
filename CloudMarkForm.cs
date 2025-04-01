@@ -20,13 +20,14 @@ namespace GreenHat
         private string curPath = "";
         private List<Cloud> cloudList;
 
-        public CloudMarkForm()
+        public CloudMarkForm(string path = "")
         {
             InitializeComponent();
             ResetInfo();
             InitData();
             InitTableColumns();
             InitTableData();
+            if (!String.IsNullOrEmpty(path)) CloudScan(path);
         }
 
         private void InitData()
@@ -59,7 +60,7 @@ namespace GreenHat
 
         private void InitTableData()
         {
-            cloudList = SysConfig.GetCloudList();
+            cloudList = Database.GetCloudList();
             if (cloudList.Count > 0)
             {
                 table.SelectedIndex = 1;
@@ -139,69 +140,74 @@ namespace GreenHat
             openFileDialog.Filter = $"{Localization.Get("所有文件", "所有文件")} (*.*)|*.*";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                Task.Run(() =>
+                CloudScan(openFileDialog.FileName);
+            }
+        }
+
+        private void CloudScan(string path)
+        {
+            Task.Run(() =>
+            {
+                try
                 {
-                    try
+                    open_button.Loading = true;
+                    clear_button.Enabled = false;
+                    string sha256 = Tools.GetSHA256(path);
+                    TOTP totp = new TOTP(Engine.GetTalonflameKey());
+                    string url = $"https://www.virusmark.com/scan_get?sha256={sha256}&token={totp.Now()}";
+                    using (HttpClient client = new HttpClient())
                     {
-                        open_button.Loading = true;
-                        clear_button.Enabled = false;
-                        string sha256 = Tools.GetSHA256(openFileDialog.FileName);
-                        TOTP totp = new TOTP(Engine.GetTalonflameKey());
-                        string url = $"https://www.virusmark.com/scan_get?sha256={sha256}&token={totp.Now()}";
-                        using (HttpClient client = new HttpClient())
+                        HttpResponseMessage response = client.GetAsync(url).Result;
+                        if (response.IsSuccessStatusCode)
                         {
-                            HttpResponseMessage response = client.GetAsync(url).Result;
-                            if (response.IsSuccessStatusCode)
+                            string responseBody = response.Content.ReadAsStringAsync().Result;
+                            JObject obj = JObject.Parse(responseBody);
+
+                            Cloud cloud = new Cloud();
+                            cloud.Name = Path.GetFileName(path);
+                            cloud.Path = path;
+                            cloud.Type = (int)obj.GetValue("score") >= 70 ? Localization.Get("病毒文件", "病毒文件") : (int)obj.GetValue("score") >= 60 ? Localization.Get("可疑文件", "可疑文件") : (int)obj.GetValue("score") == 0 ? Localization.Get("未知文件", "未知文件") : Localization.Get("安全文件", "安全文件");
+                            cloud.Score = (int)obj.GetValue("score");
+                            cloud.Tag = obj.GetValue("tag").ToString();
+                            cloud.Icon = Tools.GetIconBase64(path);
+                            cloud.Sha256 = sha256;
+                            cloud.Md5 = Tools.GetMd5(path);
+                            cloud.Time = DateTime.Now;
+                            cloud.FileSize = (int)new FileInfo(path).Length;
+                            cloud.CreateTime = File.GetCreationTime(path);
+                            if (!Database.AddCloud(cloud)) return;
+
+                            InitTableData();
+
+                            if (cloud.Score == 0 && cloud.FileSize <= 52428800)
                             {
-                                string responseBody = response.Content.ReadAsStringAsync().Result;
-                                JObject obj = JObject.Parse(responseBody);
-
-                                Cloud cloud = new Cloud();
-                                cloud.Name = Path.GetFileName(openFileDialog.FileName);
-                                cloud.Path = openFileDialog.FileName;
-                                cloud.Type = (int)obj.GetValue("score") >= 70 ? Localization.Get("病毒文件", "病毒文件") : (int)obj.GetValue("score") >= 60 ? Localization.Get("可疑文件", "可疑文件") : (int)obj.GetValue("score") == 0 ? Localization.Get("未知文件", "未知文件") : Localization.Get("安全文件", "安全文件");
-                                cloud.Score = (int)obj.GetValue("score");
-                                cloud.Tag = obj.GetValue("tag").ToString();
-                                cloud.Icon = Tools.GetIconBase64(openFileDialog.FileName);
-                                cloud.Sha256 = sha256;
-                                cloud.Md5 = Tools.GetMd5(openFileDialog.FileName);
-                                cloud.Time = DateTime.Now;
-                                cloud.FileSize = (int)new FileInfo(openFileDialog.FileName).Length;
-                                cloud.CreateTime = File.GetCreationTime(openFileDialog.FileName);
-                                if (!SysConfig.AddCloud(cloud)) return;
-
-                                InitTableData();
-
-                                if (cloud.Score == 0 && cloud.FileSize <= 52428800)
+                                AntdUI.Modal.open(new Modal.Config(this, Localization.Get("绿帽子安全防护", "绿帽子安全防护"), Localization.Get("发现新的未知文件，是否上传鉴定？", "发现新的未知文件，是否上传鉴定？"))
                                 {
-                                    AntdUI.Modal.open(new Modal.Config(this, Localization.Get("绿帽子安全防护", "绿帽子安全防护"), Localization.Get("发现新的未知文件，是否上传鉴定？", "发现新的未知文件，是否上传鉴定？"))
+                                    Icon = TType.Info,
+                                    CloseIcon = true,
+                                    Mask = false,
+                                    OkText = Localization.Get("确定上传", "确定上传"),
+                                    CancelText = Localization.Get("取消上传", "取消上传"),
+                                    OnOk = config =>
                                     {
-                                        Icon = TType.Info,
-                                        CloseIcon = true,
-                                        Mask = false,
-                                        OkText = Localization.Get("确定上传", "确定上传"),
-                                        CancelText = Localization.Get("取消上传", "取消上传"),
-                                        OnOk = config =>
-                                        {
-                                            UploadUnknownFile(openFileDialog.FileName, cloud.Sha256);
-                                            return true;
-                                        }
-                                    });
-                                }
+                                        UploadUnknownFile(path, cloud.Sha256);
+                                        return true;
+                                    }
+                                });
                             }
                         }
                     }
-                    catch
-                    {
-                        AntdUI.Message.error(this, Localization.Get("鉴定失败，可能由于网络原因！", "鉴定失败，可能由于网络原因！"), autoClose: 3);
-                    }
-                    finally
-                    {
-                        open_button.Loading = false;
-                        clear_button.Enabled = true;
-                    }
-                });
-            }
+                }
+                catch
+                {
+                    AntdUI.Message.error(this, Localization.Get("鉴定失败，可能由于网络原因！", "鉴定失败，可能由于网络原因！"), autoClose: 3);
+                }
+                finally
+                {
+                    open_button.Loading = false;
+                    clear_button.Enabled = true;
+                }
+            });
         }
 
         private async void UploadUnknownFile(string path, string sha256)
@@ -228,7 +234,8 @@ namespace GreenHat
 
         private void clear_button_Click(object sender, EventArgs e)
         {
-            SysConfig.ClearCloud();
+            Database.ClearCloud();
+            ResetInfo();
             InitTableData();
         }
     }

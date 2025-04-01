@@ -10,32 +10,88 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GreenHat
 {
     public partial class MainWindow : Window
     {
+        private string[] args;
         private bool isLight = true;
         private List<UserControl> controls = new List<UserControl>();
         private bool firstHide = false;
         private NotifyIcon trayIcon = new NotifyIcon();
 
-        public MainWindow(bool hide = false)
+        public MainWindow(string[] args)
         {
-            firstHide = hide;
-            InitializeComponent();
-            CheckEngine();
-            CheckService();
-            InitView();
-            InitData();
-            BindEventHandler();
-            GetVersion();
-            InitTray();
-            InitMonitor();
-            LoadLanguage();
-            Engine.Init();
-            SysConfig.AddLog("其他", "程序启动", $"操作时间：{DateTime.Now.ToString()}");
+            try
+            {
+                if (args.Length > 0 && args[0].Equals("--hide")) firstHide = true;
+                this.args = args;
+                InitializeComponent();
+                CheckEngine();
+                CheckRightMenu();
+                CheckService();
+                InitView();
+                InitData();
+                BindEventHandler();
+                GetVersion();
+                InitTray();
+                InitMonitor();
+                LoadLanguage();
+                StartPipeServer();
+                Engine.Init();
+                Database.AddLog("其他", "程序启动", $"操作时间：{DateTime.Now.ToString()}");
+            }
+            catch (Exception ex)
+            {
+                AntdUI.Modal.open(new Modal.Config(this, "Error", ex.Message.ToString(), TType.Error)
+                {
+                    CloseIcon = true,
+                    BtnHeight = 0
+                });
+                Environment.Exit(1);
+            }
+        }
+
+        private void StartPipeServer() 
+        {
+            NamedPipeServer.StartServer();
+            NamedPipeServer.AddCallback((data) =>
+            {
+                NamedPipeServer.SendMessage("End");
+                string[] result = data.Split('\0');
+                if (result.Length < 2) return;
+                ExcuteCommand(result);
+            });
+        }
+
+        private void ExcuteCommand(string[] command)
+        {
+            if (command.Length < 2) return;
+            switch (command[0])
+            {
+                case "Scan":
+                    Invoke(() =>
+                    {
+                        TopMost = true;
+                        Show();
+                        Focus();
+                        TopMost = false;
+                        segmented.SelectIndex = 1;
+                        segmented_SelectIndexChanged(null, new IntEventArgs(1));
+                        ScanView scanView = (ScanView)controls[1];
+                        scanView.InitializeScan(new List<string>() { command[1] });
+                    });
+                    break;
+                case "Show":
+                    TopMost = true;
+                    Show();
+                    Focus();
+                    TopMost = false;
+                    break;
+            }
         }
 
         private void CheckEngine()
@@ -50,14 +106,17 @@ namespace GreenHat
             }
         }
 
+        private void CheckRightMenu()
+        {
+            if (GreenHatConfig.RightMenuEnable) RightMenuManager.AddMenu();
+            else RightMenuManager.RemoveMenu();
+        }
+
         private void CheckService()
         {
             string servicePath = $"{AppDomain.CurrentDomain.BaseDirectory}GreenHatService.exe";
-            if (SysConfig.GetSetting("开机启动").Enabled && !Tools.ServiceExists("GreenHatService")) Tools.CreateAndStartService("GreenHatService", servicePath);
-            else if (!SysConfig.GetSetting("开机启动").Enabled && Tools.ServiceExists("GreenHatService"))
-            {
-                Tools.DeleteService("GreenHatService");
-            } 
+            if (GreenHatConfig.AutoStartEnable && !Tools.ServiceExists("GreenHatService")) Tools.CreateAndStartService("GreenHatService", servicePath);
+            else if (!GreenHatConfig.AutoStartEnable && Tools.ServiceExists("GreenHatService")) Tools.DeleteService("GreenHatService");
         }
 
         private void InitData()
@@ -65,7 +124,7 @@ namespace GreenHat
             isLight = ThemeHelper.IsSystemLightMode();
             button_color.Toggle = !isLight;
             ThemeHelper.SetColorMode(this, isLight);
-            Config.ShowInWindow = true;
+            AntdUI.Config.ShowInWindow = true;
         }
 
         private void InitView()
@@ -196,9 +255,9 @@ namespace GreenHat
 
         private void InitMonitor()
         {
-            if (SysConfig.GetSetting("进程防护").Enabled) ProcessMonitor.Start();
-            if (SysConfig.GetSetting("文件防护").Enabled) FileMonitor.Start();
-            if (SysConfig.GetSetting("引导防护").Enabled) MbrProtect.Open();
+            if (GreenHatConfig.ProcessEnable) ProcessMonitor.Start();
+            if (GreenHatConfig.FileEnable) FileMonitor.Start();
+            if (GreenHatConfig.MbrEnable) MbrProtect.Open();
         }
 
         public void GoToScan(string type)
@@ -302,6 +361,18 @@ namespace GreenHat
                 control.Refresh();
             }
             base.Refresh();
+        }
+
+        private async void MainWindow_Load(object sender, EventArgs e)
+        {
+            if (args.Length > 0)
+            {
+                if (File.Exists(args[0]) || Directory.Exists(args[0]))
+                {
+                    await Task.Delay(500);
+                    ExcuteCommand(new string[] { "Scan", args[0] });
+                }
+            }
         }
     }
 }

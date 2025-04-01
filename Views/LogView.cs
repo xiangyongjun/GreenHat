@@ -48,9 +48,10 @@ namespace GreenHat.Views
 
         public void InitTableData()
         {
+            count_label.Text = $"{Localization.Get("日志条数", "日志条数")}：{Database.CountLog()}";
             List<Log> logList = date_range.Value?.Length == 2 ?
-                SysConfig.GetLogList(type_select.SelectedValue.ToString(), date_range.Value[0], date_range.Value[1])
-                : SysConfig.GetLogList(type_select.SelectedValue.ToString());
+                Database.GetLogList(type_select.SelectedValue.ToString(), date_range.Value[0], date_range.Value[1])
+                : Database.GetLogList(type_select.SelectedValue.ToString());
             tableList = new BindingList<LogTable>();
             foreach (Log item in logList)
             {
@@ -77,7 +78,7 @@ namespace GreenHat.Views
 
         private void clear_button_Click(object sender, EventArgs e)
         {
-            SysConfig.ClearLog();
+            Database.ClearLog();
             InitTableData();
             AntdUI.Message.success(mainForm, $"{Localization.Get("清空成功", "清空成功")}！", autoClose: 3);
         }
@@ -114,6 +115,7 @@ namespace GreenHat.Views
             type_select.Items.Add(Localization.Get("病毒防护", "病毒防护"));
             type_select.Items.Add(Localization.Get("其他", "其他"));
             table.EmptyText = Localization.Get("暂无数据", "暂无数据");
+            count_label.Text = $"{Localization.Get("日志条数", "日志条数")}：{Database.CountLog()}";
             InitTableColumns();
             Task.Run(InitTableData);
             base.Refresh();

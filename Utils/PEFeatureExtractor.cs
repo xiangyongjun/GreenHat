@@ -1,15 +1,18 @@
 ﻿using PeNet;
 using PeNet.Header.Pe;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace GreenHat.utils
 {
     public class PEFeatureExtractor
     {
+        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
+        private unsafe static extern int memcmp(byte* b1, byte* b2, int count);
+
         public static PEData ExtractFeatures(string filePath)
         {
             var data = new PEData();
@@ -46,7 +49,7 @@ namespace GreenHat.utils
                 if (pe.ImageDebugDirectory != null) data.DebugCount = pe.ImageDebugDirectory.Length ;
                 if (pe.Resources?.Icons != null) data.IconCount = pe.Resources.Icons.Length;
 
-                if (pe.ImageTlsDirectory?.AddressOfCallBacks != null) data.HasTlsCallbacks = 1;
+                if (pe.ImageTlsDirectory?.AddressOfCallBacks > 0) data.HasTlsCallbacks = 1;
                 data.HasInvalidTimestamp = pe.ImageNtHeaders?.FileHeader.TimeDateStamp > DateTime.UtcNow.ToFileTime() ? 1 : 0;
                 data.HasRelocationDirectory = pe.ImageNtHeaders?.OptionalHeader.DataDirectory[5].Size > 0 ? 1 : 0;
 
@@ -102,22 +105,10 @@ namespace GreenHat.utils
                 }
 
                 // 导入函数
-                data.ImportFuncs = new HashSet<string>();
-                if (pe.ImportedFunctions != null)
-                {
-                    data.ApiCount = pe.ImportedFunctions.Length;
-                    foreach (var func in pe.ImportedFunctions)
-                    {
-                        if (string.IsNullOrEmpty(func.Name)) continue;
-                        data.ImportFuncs.Add(func.Name);
-                    }
-                }
+                if (pe.ImportedFunctions != null) data.ApiCount = pe.ImportedFunctions.Length;
 
                 // 导出函数
                 if (pe.ExportedFunctions != null) data.ExportCount = pe.ExportedFunctions.Length;
-
-                // 是否有签名
-                data.IsSigned = pe.IsAuthenticodeSigned ? 1 : 0;
 
                 // 是否是exe文件
                 data.IsExe = pe.IsExe ? 1 : 0;
@@ -132,16 +123,13 @@ namespace GreenHat.utils
                 data.Is64Bit = pe.Is64Bit ? 1 : 0;
 
                 // 签名是否信任
-                data.TrustSigned = data.IsSigned == 1 && WinTrust.VerifyFileSignature(filePath) ? 1 : 0;
+                data.TrustSigned = WinTrust.VerifyFileSignature(filePath) ? 1 : 0;
 
                 // 异常处理表数量
                 if (pe.ExceptionDirectory != null) data.ExceptionCount = pe.ExceptionDirectory.Length;
 
                 // 节区数量
                 if (pe.ImageSectionHeaders != null) data.SectionCount = pe.ImageSectionHeaders.Length;
-
-                // 是否有目录签名
-                data.HasDirSigned = WinTrust.VerifyDirSignature(filePath) ? 1 : 0;
 
                 // PE 文件基本信息
                 if (pe.ImageNtHeaders != null)
@@ -193,29 +181,35 @@ namespace GreenHat.utils
 
         public static unsafe double CalculateEntropy(byte[] data)
         {
-            int[] frequencies = new int[256];
+            const int BufferSize = 256;
+            int* frequencies = stackalloc int[BufferSize];
+            for (int i = 0; i < BufferSize; i++) frequencies[i] = 0;
             fixed (byte* pData = data)
-            fixed (int* pFreq = frequencies)
             {
                 byte* ptr = pData;
                 byte* end = ptr + data.Length;
-                while (ptr < end)
+                while (end - ptr >= 4)
                 {
-                    pFreq[*ptr++]++;
+                    frequencies[ptr[0]]++;
+                    frequencies[ptr[1]]++;
+                    frequencies[ptr[2]]++;
+                    frequencies[ptr[3]]++;
+                    ptr += 4;
                 }
+                while (ptr < end) frequencies[*ptr++]++;
             }
             double entropy = 0;
             double dataSize = data.Length;
-            fixed (int* pFreq = frequencies)
+            if (dataSize == 0) return 0;
+            double invDataSize = 1.0 / dataSize;
+            double invLog2 = 1.0 / Math.Log(2);
+            for (int i = 0; i < BufferSize; i++)
             {
-                int* pEnd = pFreq + 256;
-                for (int* p = pFreq; p < pEnd; p++)
+                int freq = frequencies[i];
+                if (freq > 0)
                 {
-                    if (*p > 0)
-                    {
-                        double pValue = (*p) / dataSize;
-                        entropy -= pValue * Math.Log(pValue, 2);
-                    }
+                    double pValue = freq * invDataSize;
+                    entropy -= pValue * (Math.Log(pValue) * invLog2);
                 }
             }
             return entropy;
@@ -225,9 +219,11 @@ namespace GreenHat.utils
         {
             byte[] target = Encoding.ASCII.GetBytes(text);
             int targetLen = target.Length;
+            if (targetLen == 0) return true;
             if (source.Length < targetLen) return false;
             int start = Math.Max(0, source.Length - searchLength);
             int end = source.Length - targetLen;
+            if (start > end) return false;
             fixed (byte* pSource = source)
             fixed (byte* pTarget = target)
             {
@@ -235,20 +231,10 @@ namespace GreenHat.utils
                 byte* pEnd = pSource + end;
                 for (byte* pCurrent = pEnd; pCurrent >= pStart; pCurrent--)
                 {
-                    bool match = true;
-                    byte* pSrc = pCurrent;
-                    byte* pTgt = pTarget;
-                    for (int j = 0; j < targetLen; j++)
+                    if (memcmp(pCurrent, pTarget, targetLen) == 0)
                     {
-                        if (*pSrc != *pTgt)
-                        {
-                            match = false;
-                            break;
-                        }
-                        pSrc++;
-                        pTgt++;
+                        return true;
                     }
-                    if (match) return true;
                 }
             }
             return false;

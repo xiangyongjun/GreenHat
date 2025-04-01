@@ -16,18 +16,12 @@ namespace GreenHat.Utils
     {
         private static string basePath = $@"{AppDomain.CurrentDomain.BaseDirectory}engine\";
 
-        private static bool greenHatEnable = false;
-        private static bool talonflameEnable = false;
-
         private static PredictionEngine<PEData, MalwarePrediction> greenHatEngine;
         private static string talonflameKey = "";
 
         public static void Init()
         {
-            greenHatEnable = SysConfig.GetSetting("绿帽子机器学习引擎").Enabled;
-            talonflameEnable = SysConfig.GetSetting("猎剑云引擎").Enabled;
-
-            if (greenHatEnable)
+            if (GreenHatConfig.GreenHatEnable)
             {
                 Task.Run(() =>
                 {
@@ -43,11 +37,11 @@ namespace GreenHat.Utils
         {
             result = new string[2] { "", "" };
             List<Task<string[]>> tasks = new List<Task<string[]>>();
-            if (greenHatEnable)
+            if (GreenHatConfig.GreenHatEnable)
             {
                 tasks.Add(Task.Run(() => new string[] { Localization.Get("绿帽子机器学习引擎", "绿帽子机器学习引擎"), GreenHatScan(path) }));
             }
-            if (isScan && talonflameEnable)
+            if (isScan && GreenHatConfig.TalonflameEnable)
             {
                 tasks.Add(Task.Run(() => new string[] { Localization.Get("猎剑云引擎", "猎剑云引擎"), TalonflameScan(path) }));
             }
@@ -77,7 +71,7 @@ namespace GreenHat.Utils
                         lock (greenHatEngine)
                         {
                             var prediction = greenHatEngine.Predict(pe);
-                            return prediction.IsMalware && prediction.Probability >= 0.8 ? $"{MalwareClassifier.Classify(pe.ImportFuncs)}.{(int)(prediction.Probability * 100)}" : null;
+                            return prediction.IsMalware && prediction.Probability >= 0.8 ? $"ML.Malware.Generic.{(int)(prediction.Probability * 100)}" : null;
                         }
                     }
                 }
@@ -100,7 +94,7 @@ namespace GreenHat.Utils
                                     var prediction = greenHatEngine.Predict(msiPe);
                                     if (prediction.IsMalware && prediction.Probability >= 0.8)
                                     {
-                                        result = $"{MalwareClassifier.Classify(msiPe.ImportFuncs)}.{(int)(prediction.Probability * 100)}";
+                                        result = $"ML.Malware.Generic.{(int)(prediction.Probability * 100)}";
                                         return false;
                                     }
                                 }
@@ -132,7 +126,7 @@ namespace GreenHat.Utils
                                 var prediction = greenHatEngine.Predict(zipPe);
                                 if (prediction.IsMalware && prediction.Probability >= 0.8)
                                 {
-                                    result = $"{MalwareClassifier.Classify(zipPe.ImportFuncs)}.{(int)(prediction.Probability * 100)}";
+                                    result = $"ML.Malware.Generic.{(int)(prediction.Probability * 100)}";
                                     return false;
                                 }
                             }
@@ -163,7 +157,7 @@ namespace GreenHat.Utils
                                 var prediction = greenHatEngine.Predict(isoPe);
                                 if (prediction.IsMalware && prediction.Probability >= 0.8)
                                 {
-                                    result = $"{MalwareClassifier.Classify(isoPe.ImportFuncs)}.{(int)(prediction.Probability * 100)}";
+                                    result = $"ML.Malware.Generic.{(int)(prediction.Probability * 100)}";
                                     return false;
                                 }
                             }  
@@ -202,8 +196,7 @@ namespace GreenHat.Utils
                     if ((int)versionInfo["version"] <= GetGreenHatModelVersion()) return;
                     Type type = new PEData().GetType();
                     FieldInfo[] fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-                    if (greenHatEngine.OutputSchema.Count - 1 < (int)versionInfo["schema"]) return;
-
+                    if (greenHatEngine.OutputSchema.Count - 4 != (int)versionInfo["schema"]) return;
                     using (HttpClient download = new HttpClient())
                     {
                         download.DefaultRequestHeaders.Add("User-Agent", "GreenHat");

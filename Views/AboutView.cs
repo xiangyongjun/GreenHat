@@ -69,7 +69,7 @@ namespace GreenHat.Views
             list.Add(new SysTable()
             {
                 Name = Localization.Get("技术栈", "技术栈"),
-                Desc = "C# - .NET Framework4.8 - Antd UI - SqlSugar"
+                Desc = "C# - .NET Framework4.8 - Antd UI - SqlSugar - ML.NET"
             });
             table.Binding(list);
         }

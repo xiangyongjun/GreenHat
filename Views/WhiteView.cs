@@ -5,6 +5,7 @@ using GreenHat.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -50,7 +51,7 @@ namespace GreenHat.Views
 
         private void InitTableData()
         {
-            List<White> whiteList = SysConfig.GetWhiteList(path_input.Text);
+            List<White> whiteList = Database.GetWhiteList(path_input.Text);
             whiteTable = new BindingList<WhiteTable>();
             foreach (White item in whiteList)
             {
@@ -77,7 +78,7 @@ namespace GreenHat.Views
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = openFileDialog.FileName;
-                SysConfig.AddWhite(filePath);
+                Database.AddWhite(filePath);
                 InitTableData();
                 AntdUI.Message.success(mainForm, $"{Localization.Get("添加成功", "添加成功")}！", autoClose: 3);
             }
@@ -96,7 +97,7 @@ namespace GreenHat.Views
                 {
                     if (item.Selected) ids.Add(item.Id);
                 }
-                SysConfig.RemoveWhite(ids);
+                Database.RemoveWhite(ids);
                 InitTableData();
                 AntdUI.Message.success(mainForm, $"{Localization.Get("删除成功", "删除成功")}！", autoClose: 3);
             }
@@ -107,22 +108,9 @@ namespace GreenHat.Views
             AntdUI.FolderBrowserDialog dialog = new AntdUI.FolderBrowserDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                Task.Run(() =>
-                {
-                    add_button.Enabled = false;
-                    remove_button.Enabled = false;
-                    dir_button.Loading = true;
-                    FileScan.Scan(new List<string>() { dialog.DirectoryPath }, (path) =>
-                    {
-                        SysConfig.AddWhite(path);
-                        return true;
-                    });
-                    add_button.Enabled = true;
-                    remove_button.Enabled = true;
-                    dir_button.Loading = false;
-                    InitTableData();
-                    AntdUI.Message.success(mainForm, $"{Localization.Get("添加成功", "添加成功")}！", autoClose: 3);
-                });
+                Database.AddWhite(dialog.DirectoryPath);
+                InitTableData();
+                AntdUI.Message.success(mainForm, $"{Localization.Get("添加成功", "添加成功")}！", autoClose: 3);
             }
         }
     }
