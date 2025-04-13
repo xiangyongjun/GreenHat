@@ -177,6 +177,8 @@
                 case "一键导出选中文件": return "선택한 파일 내보내기";
                 case "导出完毕": return "내보내기 완료";
                 case "使用文件云鉴定": return "파일 클라우드 감정";
+                case "脚本查杀引擎": return "스크립트 탐지 및 제거 엔진";
+                case "绿帽子自研的脚本查杀引擎（使用沙盒分析行为进行查杀）": return "GreenHat사 자체 개발 스크립트 탐지 엔진 (샌드박스 행동 분석을 통한 악성코드 제거)";
                 default: return null;
             }
         }

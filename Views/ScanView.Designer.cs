@@ -239,7 +239,7 @@
             this.performance_button.TabIndex = 48;
             this.performance_button.Text = "性能模式";
             this.performance_button.Trigger = AntdUI.Trigger.Hover;
-            this.performance_button.Type = AntdUI.TTypeMini.Info;
+            this.performance_button.Type = AntdUI.TTypeMini.Success;
             this.performance_button.WaveSize = 0;
             this.performance_button.SelectedValueChanged += new AntdUI.ObjectNEventHandler(this.performance_button_SelectedValueChanged);
             // 

@@ -153,7 +153,7 @@ namespace GreenHat
                     open_button.Loading = true;
                     clear_button.Enabled = false;
                     string sha256 = Tools.GetSHA256(path);
-                    TOTP totp = new TOTP(Engine.GetTalonflameKey());
+                    TOTP totp = new TOTP(GreenHatEngine.GetTalonflameKey());
                     string url = $"https://www.virusmark.com/scan_get?sha256={sha256}&token={totp.Now()}";
                     using (HttpClient client = new HttpClient())
                     {
@@ -214,7 +214,7 @@ namespace GreenHat
         {
             try
             {
-                TOTP totp = new TOTP(Engine.GetTalonflameKey());
+                TOTP totp = new TOTP(GreenHatEngine.GetTalonflameKey());
                 using (var content = new MultipartFormDataContent())
                 {
                     content.Add(new StringContent(totp.Now()), "token");

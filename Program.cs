@@ -20,7 +20,7 @@ namespace GreenHat
                 {
                     Application.ThreadExit += (sender, e) =>
                     {
-                        Engine.Dispose();
+                        GreenHatEngine.Dispose();
                     };
                     Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
                     AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);

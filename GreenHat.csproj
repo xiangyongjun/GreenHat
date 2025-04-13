@@ -13,7 +13,7 @@
 		<Copyright>Copyright © 向永俊</Copyright>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
-		<Version>2.1.1.0</Version>
+		<Version>2.1.2.0</Version>
 		<Authors>向永俊</Authors>
 		<Description>GreenHat</Description>
 		<PackageProjectUrl>https://github.com/xiangyongjun/GreenHat</PackageProjectUrl>
@@ -59,20 +59,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AntdUI" Version="1.9.7" />
+		<PackageReference Include="AntdUI" Version="1.9.10" />
 		<PackageReference Include="ComputeSharp" Version="3.1.1" />
 		<PackageReference Include="DiscUtils" Version="0.16.13" />
 		<PackageReference Include="Hardware.Info" Version="101.0.1" />
-		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.19" />
+		<PackageReference Include="HtmlAgilityPack" Version="1.12.0" />
+		<PackageReference Include="Jint" Version="4.2.2" />
+		<PackageReference Include="Microsoft.ClearScript.Windows" Version="7.5.0" />
+		<PackageReference Include="Microsoft.ClearScript.Windows.Core" Version="7.5.0" />
+		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="3.1.20" />
 		<PackageReference Include="Microsoft.ML" Version="4.0.2" />
 		<PackageReference Include="Microsoft.ML.LightGbm" Version="4.0.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="OpenMcdf" Version="2.4.1" />
 		<PackageReference Include="OpenMcdf.Extensions" Version="2.4.0" />
-		<PackageReference Include="PeNet" Version="4.1.2" />
+		<PackageReference Include="PeNet" Version="5.0.0" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SevenZipExtractor" Version="1.0.19" />
-		<PackageReference Include="SqlSugar" Version="5.1.4.187" />
+		<PackageReference Include="SqlSugar" Version="5.1.4.188" />
 		<PackageReference Include="System.Data.SQLite" Version="1.0.119" />
 	</ItemGroup>
 
@@ -122,6 +126,15 @@
 
 	<ItemGroup>
 	  <None Remove="C:\Users\iceco\.nuget\packages\sevenzipextractor\1.0.19\build\x86\7z.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <COMReference Include="{d3295d87-d604-11d4-a704-00c04fa137e4}">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>0</VersionMinor>
+	    <VersionMajor>10</VersionMajor>
+	    <Guid>d3295d87-d604-11d4-a704-00c04fa137e4</Guid>
+	  </COMReference>
 	</ItemGroup>
 
 </Project>

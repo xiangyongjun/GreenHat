@@ -177,6 +177,8 @@
                 case "一键导出选中文件": return "Export Selected Files";
                 case "导出完毕": return "Export Completed";
                 case "使用文件云鉴定": return "File Cloud Appraisal";
+                case "脚本查杀引擎": return "Script Detection and Removal Engine";
+                case "绿帽子自研的脚本查杀引擎（使用沙盒分析行为进行查杀）": return "GreenHat's Proprietary Script Detection Engine (sandbox behavior analysis for threat elimination)";
                 default: return null;
             }
         }

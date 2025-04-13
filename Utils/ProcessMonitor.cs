@@ -39,7 +39,7 @@ class ProcessMonitor
             if (string.IsNullOrEmpty(path)) return;
             Tools.SuspendProcess(process);
             string[] result;
-            if (!Database.IsWhite(path) && Engine.IsVirus(path, out result))
+            if (!Database.IsWhite(path) && GreenHatEngine.IsVirus(path, out result))
             {
                 Database.AddLog("病毒防护", "病毒拦截", $"文件：{path}");
                 InterceptQueue.Add(new InterceptForm(Localization.Get("进程实时监控", "进程实时监控"), result[0], result[1], process));

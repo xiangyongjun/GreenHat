@@ -1,5 +1,4 @@
 ﻿using AntdUI;
-using GreenHat.Models;
 using GreenHat.Utils;
 using System.Diagnostics;
 
@@ -91,6 +90,13 @@ namespace GreenHat
         private void path_label_Click(object sender, System.EventArgs e)
         {
             Tools.OpenFileInExplorer(path);
+        }
+
+        private void pass_all_button_Click(object sender, System.EventArgs e)
+        {
+            if (process != null) Tools.ResumeProcess(process);
+            InterceptQueue.Clear();
+            Close();
         }
     }
 }

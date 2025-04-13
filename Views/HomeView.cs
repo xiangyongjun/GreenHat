@@ -33,7 +33,7 @@ namespace GreenHat.Views
 
         private void Home_Load(object sender, EventArgs e)
         {
-            engine_label.Text = $"{Localization.Get("模型版本", "模型版本")}：{DateTimeOffset.FromUnixTimeSeconds(Engine.GetGreenHatModelVersion() + 28800).ToString("yyyy-MM-dd HH:mm")}";
+            engine_label.Text = $"{Localization.Get("模型版本", "模型版本")}：{DateTimeOffset.FromUnixTimeSeconds(GreenHatEngine.GetGreenHatModelVersion() + 28800).ToString("yyyy-MM-dd HH:mm")}";
             scan_button.Items.Clear();
             scan_button.Items.AddRange(new SelectItem[] {
                 new SelectItem($" {Localization.Get("快速查杀", "快速查杀")}"){
@@ -290,9 +290,9 @@ namespace GreenHat.Views
 
         private async Task UpdateEngine()
         {
-            await Engine.UpdateGreenHatEngine();
+            await GreenHatEngine.UpdateGreenHatEngine();
             await Task.Delay(100);
-            engine_label.Text = $"{Localization.Get("模型版本", "模型版本")}：{DateTimeOffset.FromUnixTimeSeconds(Engine.GetGreenHatModelVersion() + 28800).ToString("yyyy-MM-dd HH:mm")}";
+            engine_label.Text = $"{Localization.Get("模型版本", "模型版本")}：{DateTimeOffset.FromUnixTimeSeconds(GreenHatEngine.GetGreenHatModelVersion() + 28800).ToString("yyyy-MM-dd HH:mm")}";
         }
 
         public override void Refresh()

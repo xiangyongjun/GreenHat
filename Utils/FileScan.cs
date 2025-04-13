@@ -15,28 +15,21 @@ namespace GreenHat.Utils
         public static void Scan(List<string> paths, Func<string, bool> callback, int MaxDegreeOfParallelism = 1)
         {
             if (paths == null || paths.Count == 0) return;
-
-            // 使用 Parallel.ForEach 实现多线程处理
             Parallel.ForEach(paths, new ParallelOptions { MaxDegreeOfParallelism = MaxDegreeOfParallelism }, path =>
             {
                 try
                 {
                     if (string.IsNullOrEmpty(path)) return;
-
                     if (File.Exists(path))
                     {
-                        // 如果是文件，调用回调函数
                         if (!callback(path)) return;
                     }
                     else if (Directory.Exists(path))
                     {
-                        // 如果是目录，枚举文件并递归处理子目录
                         foreach (string file in Directory.EnumerateFiles(path))
                         {
                             if (!callback(file)) return;
                         }
-
-                        // 获取子目录并递归调用 Scan
                         var subDirectories = Directory.GetDirectories(path);
                         if (subDirectories.Length > 0)
                         {

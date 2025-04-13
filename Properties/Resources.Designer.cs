@@ -123,6 +123,16 @@ namespace GreenHat.Properties {
         /// <summary>
         ///   查找 System.Byte[] 类型的本地化资源。
         /// </summary>
+        internal static byte[] Script {
+            get {
+                object obj = ResourceManager.GetObject("Script", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Byte[] 类型的本地化资源。
+        /// </summary>
         internal static byte[] Talonflame {
             get {
                 object obj = ResourceManager.GetObject("Talonflame", resourceCulture);

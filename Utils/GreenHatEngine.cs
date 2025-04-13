@@ -1,5 +1,6 @@
 ﻿using AntdUI;
-using GreenHat.utils;
+using Jint;
+using Microsoft.ClearScript.Windows;
 using Microsoft.ML;
 using Newtonsoft.Json.Linq;
 using PeNet;
@@ -8,11 +9,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 
 namespace GreenHat.Utils
 {
-    internal static class Engine
+    internal static class GreenHatEngine
     {
         private static string basePath = $@"{AppDomain.CurrentDomain.BaseDirectory}engine\";
 
@@ -40,6 +43,10 @@ namespace GreenHat.Utils
             if (GreenHatConfig.GreenHatEnable)
             {
                 tasks.Add(Task.Run(() => new string[] { Localization.Get("绿帽子机器学习引擎", "绿帽子机器学习引擎"), GreenHatScan(path) }));
+            }
+            if (GreenHatConfig.ScriptEnable)
+            {
+                tasks.Add(Task.Run(() => new string[] { Localization.Get("脚本查杀引擎", "脚本查杀引擎"), ScriptScan(path) }));
             }
             if (isScan && GreenHatConfig.TalonflameEnable)
             {
@@ -160,7 +167,7 @@ namespace GreenHat.Utils
                                     result = $"ML.Malware.Generic.{(int)(prediction.Probability * 100)}";
                                     return false;
                                 }
-                            }  
+                            }
                         }
                         catch { }
                         finally
@@ -210,6 +217,83 @@ namespace GreenHat.Utils
                 }
             }
             catch { }
+        }
+
+        public static string ScriptScan(string path)
+        {
+            // 检测js文件
+            if (path.EndsWith(".js"))
+            {
+                try
+                {
+                    string code = File.ReadAllText(path);
+                    var engine = new Engine(options =>
+                    {
+                        options.TimeoutInterval(TimeSpan.FromSeconds(3));
+                    });
+                    engine.Evaluate(code);
+                }
+                catch (Exception e)
+                {
+                    HashSet<string> errors = new HashSet<string>() { "WSH is not defined", "CEMENT is not defined", "WScript is not defined", "ActiveXObject is not defined" };
+                    if (errors.Contains(e.Message.ToString())) return "SandBox.Malicious.JavaScript";
+                }
+            }
+            // 检测vbs文件
+            else if (path.EndsWith(".vbs"))
+            {
+                try
+                {
+                    string code = File.ReadAllText(path);
+                    HashSet<string> errors = new HashSet<string>() { "WScript.Shell", "Scripting.FileSystemObject", "ADODB.Stream", "Shell.Application", "ScriptControl" };
+                    foreach (string err in errors)
+                    {
+                        if (code.Contains(err)) return "SandBox.Malicious.VBScript";
+                    }
+                    var engine = new VBScriptEngine();
+                    engine.AddHostObject("CreateObject", new Func<string, object>((text) =>
+                    {
+                        if (errors.Contains(text)) throw new NotImplementedException("Malicious");
+                        return "";
+                    }));
+                    engine.AddHostObject("MsgBox", new Action(() => { }));
+                    engine.AddHostObject("InputBox", new Func<string, string>((text) => text));
+                    engine.Execute(code);
+                }
+                catch (Exception e)
+                {
+                    if (e.Message.ToString().Equals("Malicious")) return "SandBox.Malicious.VBScript";
+                }
+            }
+            // 检测hta文件
+            else if (path.EndsWith(".hta"))
+            {
+                try
+                {
+                    string code = File.ReadAllText(path);
+                    var htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(code);
+                    var dangerousPatterns = new[]
+                    {
+                        @"CreateObject\s*\(\s*""WScript\.Shell""",
+                        @"ActiveXObject\s*\(",
+                        @"\.Run\s+",
+                        @"cmd\s*/c",
+                        @"powershell\s+-",
+                        @"eval\s*\(",
+                        @"XMLHTTP\."
+                    };
+                    foreach (var script in htmlDoc.DocumentNode.SelectNodes("//script") ?? new HtmlNodeCollection(null))
+                    {
+                        foreach (var pattern in dangerousPatterns)
+                        {
+                            if (Regex.IsMatch(script.InnerText, pattern, RegexOptions.IgnoreCase)) return "SandBox.Malicious.HTA";
+                        }
+                    }
+                }
+                catch { }
+            }
+            return null;
         }
 
         public static string TalonflameScan(string path)

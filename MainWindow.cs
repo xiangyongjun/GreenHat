@@ -41,7 +41,7 @@ namespace GreenHat
                 InitMonitor();
                 LoadLanguage();
                 StartPipeServer();
-                Engine.Init();
+                GreenHatEngine.Init();
                 Database.AddLog("其他", "程序启动", $"操作时间：{DateTime.Now.ToString()}");
             }
             catch (Exception ex)
@@ -231,7 +231,7 @@ namespace GreenHat
                                 CancelText = Localization.Get("继续保护", "继续保护"),
                                 OnOk = config =>
                                 {
-                                    Engine.Dispose();
+                                    GreenHatEngine.Dispose();
                                     Process.GetCurrentProcess().Kill();
                                     return true;
                                 }

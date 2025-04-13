@@ -43,6 +43,7 @@
             this.type_label = new AntdUI.Label();
             this.engine_label = new AntdUI.Label();
             this.label6 = new AntdUI.Label();
+            this.pass_all_button = new AntdUI.Button();
             this.SuspendLayout();
             // 
             // titlebar
@@ -123,6 +124,7 @@
             this.pass_button.Size = new System.Drawing.Size(100, 32);
             this.pass_button.TabIndex = 45;
             this.pass_button.Text = "暂不处理";
+            this.pass_button.Type = AntdUI.TTypeMini.Primary;
             this.pass_button.WaveSize = 0;
             this.pass_button.Click += new System.EventHandler(this.pass_button_Click);
             // 
@@ -198,10 +200,25 @@
             this.label6.TabIndex = 50;
             this.label6.Text = "查杀引擎：";
             // 
+            // pass_all_button
+            // 
+            this.pass_all_button.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pass_all_button.IconRatio = 0F;
+            this.pass_all_button.IconSize = new System.Drawing.Size(16, 16);
+            this.pass_all_button.IconSvg = "";
+            this.pass_all_button.Location = new System.Drawing.Point(104, 263);
+            this.pass_all_button.Name = "pass_all_button";
+            this.pass_all_button.Size = new System.Drawing.Size(100, 32);
+            this.pass_all_button.TabIndex = 52;
+            this.pass_all_button.Text = "忽略所有";
+            this.pass_all_button.WaveSize = 0;
+            this.pass_all_button.Click += new System.EventHandler(this.pass_all_button_Click);
+            // 
             // InterceptForm
             // 
             this.ClientSize = new System.Drawing.Size(560, 309);
             this.ControlBox = false;
+            this.Controls.Add(this.pass_all_button);
             this.Controls.Add(this.engine_label);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.type_label);
@@ -246,5 +263,6 @@
         private AntdUI.Label type_label;
         private AntdUI.Label engine_label;
         private AntdUI.Label label6;
+        private AntdUI.Button pass_all_button;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Data;
 
-namespace GreenHat.utils
+namespace GreenHat.Utils
 {
     public class PEData
     {

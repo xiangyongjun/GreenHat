@@ -184,7 +184,7 @@ namespace GreenHat.Views
 
                                 Interlocked.Increment(ref total);
                                 curPath = path;
-                                if (Engine.IsVirus(path, out string[] result, totalTime <= 30000))
+                                if (GreenHatEngine.IsVirus(path, out string[] result, GreenHatConfig.TalonflameEnable ? totalTime <= 30000 : true))
                                 {
                                     Interlocked.Increment(ref count);
                                     Task.Run(() =>

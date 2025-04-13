@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace GreenHat.utils
+namespace GreenHat.Utils
 {
     public class PEFeatureExtractor
     {
@@ -28,17 +28,17 @@ namespace GreenHat.utils
                 data.FileEntropy = (float)CalculateEntropy(fileBytes);
 
                 // 文件详细信息
-                data.FileDescriptionLength = !String.IsNullOrEmpty(fileInfo.FileDescription) ? fileInfo.FileDescription.Length : 0;
-                data.FileVersionLength = !String.IsNullOrEmpty(fileInfo.FileVersion) ? fileInfo.FileVersion.Length : 0;
-                data.ProductNameLength = !String.IsNullOrEmpty(fileInfo.ProductName) ? fileInfo.ProductName.Length : 0;
-                data.ProductVersionLength = !String.IsNullOrEmpty(fileInfo.ProductVersion) ? fileInfo.ProductVersion.Length : 0;
-                data.CompanyNameLength = !String.IsNullOrEmpty(fileInfo.CompanyName) ? fileInfo.CompanyName.Length : 0;
-                data.LegalCopyrightLength = !String.IsNullOrEmpty(fileInfo.LegalCopyright) ? fileInfo.LegalCopyright.Length : 0;
-                data.SpecialBuildLength = !String.IsNullOrEmpty(fileInfo.SpecialBuild) ? fileInfo.SpecialBuild.Length : 0;
-                data.PrivateBuildLength = !String.IsNullOrEmpty(fileInfo.PrivateBuild) ? fileInfo.PrivateBuild.Length : 0;
-                data.CommentsLength = !String.IsNullOrEmpty(fileInfo.Comments) ? fileInfo.Comments.Length : 0;
-                data.InternalNameLength = !String.IsNullOrEmpty(fileInfo.InternalName) ? fileInfo.InternalName.Length : 0;
-                data.LegalTrademarksLength = !String.IsNullOrEmpty(fileInfo.LegalTrademarks) ? fileInfo.LegalTrademarks.Length : 0;
+                data.FileDescriptionLength = !string.IsNullOrEmpty(fileInfo.FileDescription) ? fileInfo.FileDescription.Length : 0;
+                data.FileVersionLength = !string.IsNullOrEmpty(fileInfo.FileVersion) ? fileInfo.FileVersion.Length : 0;
+                data.ProductNameLength = !string.IsNullOrEmpty(fileInfo.ProductName) ? fileInfo.ProductName.Length : 0;
+                data.ProductVersionLength = !string.IsNullOrEmpty(fileInfo.ProductVersion) ? fileInfo.ProductVersion.Length : 0;
+                data.CompanyNameLength = !string.IsNullOrEmpty(fileInfo.CompanyName) ? fileInfo.CompanyName.Length : 0;
+                data.LegalCopyrightLength = !string.IsNullOrEmpty(fileInfo.LegalCopyright) ? fileInfo.LegalCopyright.Length : 0;
+                data.SpecialBuildLength = !string.IsNullOrEmpty(fileInfo.SpecialBuild) ? fileInfo.SpecialBuild.Length : 0;
+                data.PrivateBuildLength = !string.IsNullOrEmpty(fileInfo.PrivateBuild) ? fileInfo.PrivateBuild.Length : 0;
+                data.CommentsLength = !string.IsNullOrEmpty(fileInfo.Comments) ? fileInfo.Comments.Length : 0;
+                data.InternalNameLength = !string.IsNullOrEmpty(fileInfo.InternalName) ? fileInfo.InternalName.Length : 0;
+                data.LegalTrademarksLength = !string.IsNullOrEmpty(fileInfo.LegalTrademarks) ? fileInfo.LegalTrademarks.Length : 0;
 
                 data.IsDebug = fileInfo.IsDebug ? 1 : 0;
                 data.IsPatched = fileInfo.IsPatched ? 1 : 0;
@@ -135,40 +135,40 @@ namespace GreenHat.utils
                 if (pe.ImageNtHeaders != null)
                 {
                     data.Machine = (float)pe.ImageNtHeaders.FileHeader.Machine;
-                    data.NumberOfSections = (float)pe.ImageNtHeaders.FileHeader.NumberOfSections;
-                    data.TimeDateStamp = (float)pe.ImageNtHeaders.FileHeader.TimeDateStamp;
-                    data.PointerToSymbolTable = (float)pe.ImageNtHeaders.FileHeader.PointerToSymbolTable;
-                    data.NumberOfSymbols = (float)pe.ImageNtHeaders.FileHeader.NumberOfSymbols;
-                    data.SizeOfOptionalHeader = (float)pe.ImageNtHeaders.FileHeader.SizeOfOptionalHeader;
+                    data.NumberOfSections = pe.ImageNtHeaders.FileHeader.NumberOfSections;
+                    data.TimeDateStamp = pe.ImageNtHeaders.FileHeader.TimeDateStamp;
+                    data.PointerToSymbolTable = pe.ImageNtHeaders.FileHeader.PointerToSymbolTable;
+                    data.NumberOfSymbols = pe.ImageNtHeaders.FileHeader.NumberOfSymbols;
+                    data.SizeOfOptionalHeader = pe.ImageNtHeaders.FileHeader.SizeOfOptionalHeader;
                     data.Characteristics = (float)pe.ImageNtHeaders.FileHeader.Characteristics;
                     data.Magic = (float)pe.ImageNtHeaders.OptionalHeader.Magic;
-                    data.MajorLinkerVersion = (float)pe.ImageNtHeaders.OptionalHeader.MajorLinkerVersion;
-                    data.MinorLinkerVersion = (float)pe.ImageNtHeaders.OptionalHeader.MinorLinkerVersion;
-                    data.SizeOfCode = (float)pe.ImageNtHeaders.OptionalHeader.SizeOfCode;
-                    data.SizeOfInitializedData = (float)pe.ImageNtHeaders.OptionalHeader.SizeOfInitializedData;
-                    data.SizeOfUninitializedData = (float)pe.ImageNtHeaders.OptionalHeader.SizeOfUninitializedData;
-                    data.AddressOfEntryPoint = (float)pe.ImageNtHeaders.OptionalHeader.AddressOfEntryPoint;
-                    data.BaseOfCode = (float)pe.ImageNtHeaders.OptionalHeader.BaseOfCode;
-                    data.ImageBase = (float)pe.ImageNtHeaders.OptionalHeader.ImageBase;
-                    data.SectionAlignment = (float)pe.ImageNtHeaders.OptionalHeader.SectionAlignment;
-                    data.FileAlignment = (float)pe.ImageNtHeaders.OptionalHeader.FileAlignment;
-                    data.MajorOperatingSystemVersion = (float)pe.ImageNtHeaders.OptionalHeader.MajorOperatingSystemVersion;
-                    data.MinorOperatingSystemVersion = (float)pe.ImageNtHeaders.OptionalHeader.MinorOperatingSystemVersion;
-                    data.MajorImageVersion = (float)pe.ImageNtHeaders.OptionalHeader.MajorImageVersion;
-                    data.MinorImageVersion = (float)pe.ImageNtHeaders.OptionalHeader.MinorImageVersion;
-                    data.MajorSubsystemVersion = (float)pe.ImageNtHeaders.OptionalHeader.MajorSubsystemVersion;
-                    data.MinorSubsystemVersion = (float)pe.ImageNtHeaders.OptionalHeader.MinorSubsystemVersion;
-                    data.SizeOfImage = (float)pe.ImageNtHeaders.OptionalHeader.SizeOfImage;
-                    data.SizeOfHeaders = (float)pe.ImageNtHeaders.OptionalHeader.SizeOfHeaders;
-                    data.CheckSum = (float)pe.ImageNtHeaders.OptionalHeader.CheckSum;
+                    data.MajorLinkerVersion = pe.ImageNtHeaders.OptionalHeader.MajorLinkerVersion;
+                    data.MinorLinkerVersion = pe.ImageNtHeaders.OptionalHeader.MinorLinkerVersion;
+                    data.SizeOfCode = pe.ImageNtHeaders.OptionalHeader.SizeOfCode;
+                    data.SizeOfInitializedData = pe.ImageNtHeaders.OptionalHeader.SizeOfInitializedData;
+                    data.SizeOfUninitializedData = pe.ImageNtHeaders.OptionalHeader.SizeOfUninitializedData;
+                    data.AddressOfEntryPoint = pe.ImageNtHeaders.OptionalHeader.AddressOfEntryPoint;
+                    data.BaseOfCode = pe.ImageNtHeaders.OptionalHeader.BaseOfCode;
+                    data.ImageBase = pe.ImageNtHeaders.OptionalHeader.ImageBase;
+                    data.SectionAlignment = pe.ImageNtHeaders.OptionalHeader.SectionAlignment;
+                    data.FileAlignment = pe.ImageNtHeaders.OptionalHeader.FileAlignment;
+                    data.MajorOperatingSystemVersion = pe.ImageNtHeaders.OptionalHeader.MajorOperatingSystemVersion;
+                    data.MinorOperatingSystemVersion = pe.ImageNtHeaders.OptionalHeader.MinorOperatingSystemVersion;
+                    data.MajorImageVersion = pe.ImageNtHeaders.OptionalHeader.MajorImageVersion;
+                    data.MinorImageVersion = pe.ImageNtHeaders.OptionalHeader.MinorImageVersion;
+                    data.MajorSubsystemVersion = pe.ImageNtHeaders.OptionalHeader.MajorSubsystemVersion;
+                    data.MinorSubsystemVersion = pe.ImageNtHeaders.OptionalHeader.MinorSubsystemVersion;
+                    data.SizeOfImage = pe.ImageNtHeaders.OptionalHeader.SizeOfImage;
+                    data.SizeOfHeaders = pe.ImageNtHeaders.OptionalHeader.SizeOfHeaders;
+                    data.CheckSum = pe.ImageNtHeaders.OptionalHeader.CheckSum;
                     data.Subsystem = (float)pe.ImageNtHeaders.OptionalHeader.Subsystem;
                     data.DllCharacteristics = (float)pe.ImageNtHeaders.OptionalHeader.DllCharacteristics;
-                    data.SizeOfStackReserve = (float)pe.ImageNtHeaders.OptionalHeader.SizeOfStackReserve;
-                    data.SizeOfStackCommit = (float)pe.ImageNtHeaders.OptionalHeader.SizeOfStackCommit;
-                    data.SizeOfHeapReserve = (float)pe.ImageNtHeaders.OptionalHeader.SizeOfHeapReserve;
-                    data.SizeOfHeapCommit = (float)pe.ImageNtHeaders.OptionalHeader.SizeOfHeapCommit;
-                    data.LoaderFlags = (float)pe.ImageNtHeaders.OptionalHeader.LoaderFlags;
-                    data.NumberOfRvaAndSizes = (float)pe.ImageNtHeaders.OptionalHeader.NumberOfRvaAndSizes;
+                    data.SizeOfStackReserve = pe.ImageNtHeaders.OptionalHeader.SizeOfStackReserve;
+                    data.SizeOfStackCommit = pe.ImageNtHeaders.OptionalHeader.SizeOfStackCommit;
+                    data.SizeOfHeapReserve = pe.ImageNtHeaders.OptionalHeader.SizeOfHeapReserve;
+                    data.SizeOfHeapCommit = pe.ImageNtHeaders.OptionalHeader.SizeOfHeapCommit;
+                    data.LoaderFlags = pe.ImageNtHeaders.OptionalHeader.LoaderFlags;
+                    data.NumberOfRvaAndSizes = pe.ImageNtHeaders.OptionalHeader.NumberOfRvaAndSizes;
                 }
 
                 return data;

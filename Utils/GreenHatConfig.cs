@@ -11,6 +11,7 @@ namespace GreenHat.Utils
         private static bool rightMenuEnable;
         private static bool autoStartEnable;
         private static bool greenHatEnable;
+        private static bool scriptEnable;
         private static bool talonflameEnable;
 
         static GreenHatConfig()
@@ -22,6 +23,7 @@ namespace GreenHat.Utils
             rightMenuEnable = GetBoolValue("rightMenuEnable");
             autoStartEnable = GetBoolValue("autoStartEnable");
             greenHatEnable = GetBoolValue("greenHatEnable");
+            scriptEnable = GetBoolValue("scriptEnable");
             talonflameEnable = GetBoolValue("talonflameEnable", 0);
         }
 
@@ -117,6 +119,20 @@ namespace GreenHat.Utils
                 if (GreenHatEnable == value) return;
                 greenHatEnable = value;
                 SetBoolValue("greenHatEnable", value);
+            }
+        }
+
+        public static bool ScriptEnable
+        {
+            get
+            {
+                return scriptEnable;
+            }
+            set
+            {
+                if (ScriptEnable == value) return;
+                scriptEnable = value;
+                SetBoolValue("scriptEnable", value);
             }
         }
 

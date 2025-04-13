@@ -29,5 +29,10 @@ namespace GreenHat.Utils
             set.Remove(interceptForm.GetPath());
             Task.Run(() => interceptForm.ShowDialog());
         }
+
+        public static void Clear()
+        {
+            set.Clear();
+        }
     }
 }
