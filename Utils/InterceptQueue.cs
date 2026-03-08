@@ -32,6 +32,7 @@ namespace GreenHat.Utils
 
         public static void Clear()
         {
+            queue.Clear();
             set.Clear();
         }
     }

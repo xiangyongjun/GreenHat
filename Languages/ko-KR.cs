@@ -179,6 +179,7 @@
                 case "使用文件云鉴定": return "파일 클라우드 감정";
                 case "脚本查杀引擎": return "스크립트 탐지 및 제거 엔진";
                 case "绿帽子自研的脚本查杀引擎（使用沙盒分析行为进行查杀）": return "GreenHat사 자체 개발 스크립트 탐지 엔진 (샌드박스 행동 분석을 통한 악성코드 제거)";
+                case "忽略所有": return "모두 무시";
                 default: return null;
             }
         }

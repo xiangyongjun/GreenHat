@@ -179,6 +179,7 @@
                 case "使用文件云鉴定": return "File Cloud Appraisal";
                 case "脚本查杀引擎": return "Script Detection and Removal Engine";
                 case "绿帽子自研的脚本查杀引擎（使用沙盒分析行为进行查杀）": return "GreenHat's Proprietary Script Detection Engine (sandbox behavior analysis for threat elimination)";
+                case "忽略所有": return "Ignore all";
                 default: return null;
             }
         }
