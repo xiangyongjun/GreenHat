@@ -136,7 +136,7 @@ namespace GreenHat.Views
 
         private void black_button_Click(object sender, EventArgs e)
         {
-            Modal.open(new Modal.Config(null, Localization.Get("隔离区", "隔离区"), new BlackView(mainForm))
+            Modal.open(new Modal.Config(mainForm, Localization.Get("隔离区", "隔离区"), new BlackView(mainForm))
             {
                 CloseIcon = true,
                 BtnHeight = 0,

@@ -41,7 +41,7 @@ namespace GreenHat.Views
                 },
                 new Column("Desc", Localization.Get("概要", "概要"), ColumnAlign.Left)
                 {
-                    Width = "462"
+                    Width = "442"
                 }
             };
         }

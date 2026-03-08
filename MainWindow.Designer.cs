@@ -108,7 +108,7 @@
             this.segmented.Font = new System.Drawing.Font("Microsoft YaHei UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.segmented.Full = true;
             segmentedItem1.Badge = null;
-            segmentedItem1.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem1.BadgeAlign = AntdUI.TAlign.TR;
             segmentedItem1.BadgeBack = null;
             segmentedItem1.BadgeMode = false;
             segmentedItem1.BadgeOffsetX = 0;
@@ -120,7 +120,7 @@
             segmentedItem1.ID = "0";
             segmentedItem1.Text = "主页";
             segmentedItem2.Badge = null;
-            segmentedItem2.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem2.BadgeAlign = AntdUI.TAlign.TR;
             segmentedItem2.BadgeBack = null;
             segmentedItem2.BadgeMode = false;
             segmentedItem2.BadgeOffsetX = 0;
@@ -132,7 +132,7 @@
             segmentedItem2.ID = "1";
             segmentedItem2.Text = "查杀";
             segmentedItem3.Badge = null;
-            segmentedItem3.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem3.BadgeAlign = AntdUI.TAlign.TR;
             segmentedItem3.BadgeBack = null;
             segmentedItem3.BadgeMode = false;
             segmentedItem3.BadgeOffsetX = 0;
@@ -144,7 +144,7 @@
             segmentedItem3.ID = "2";
             segmentedItem3.Text = "日志";
             segmentedItem4.Badge = null;
-            segmentedItem4.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem4.BadgeAlign = AntdUI.TAlign.TR;
             segmentedItem4.BadgeBack = null;
             segmentedItem4.BadgeMode = false;
             segmentedItem4.BadgeOffsetX = 0;
@@ -156,7 +156,7 @@
             segmentedItem4.ID = "3";
             segmentedItem4.Text = "设置";
             segmentedItem5.Badge = null;
-            segmentedItem5.BadgeAlign = AntdUI.TAlignFrom.TR;
+            segmentedItem5.BadgeAlign = AntdUI.TAlign.TR;
             segmentedItem5.BadgeBack = null;
             segmentedItem5.BadgeMode = false;
             segmentedItem5.BadgeOffsetX = 0;

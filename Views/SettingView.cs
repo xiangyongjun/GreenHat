@@ -1,10 +1,8 @@
 ﻿using AntdUI;
-using GreenHat.Entitys;
 using GreenHat.Models;
 using GreenHat.Properties;
 using GreenHat.Utils;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -82,14 +80,6 @@ namespace GreenHat.Views
                                 GreenHatEngine.Init();
                             });
                         }
-                        else if (settingTable.Name.Equals(Localization.Get("脚本查杀引擎", "脚本查杀引擎")))
-                        {
-                            GreenHatConfig.ScriptEnable = value;
-                            Task.Run(async () =>{
-                                await Task.Delay(100);
-                                GreenHatEngine.Init();
-                            });
-                        }
                         else if (settingTable.Name.Equals(Localization.Get("猎剑云引擎", "猎剑云引擎")))
                         {
                             GreenHatConfig.TalonflameEnable = value;
@@ -149,13 +139,6 @@ namespace GreenHat.Views
                 Icon = new CellImage(Bitmap.FromStream(new MemoryStream(Resources.GreenHat))),
                 Name = Localization.Get("绿帽子机器学习引擎", "绿帽子机器学习引擎"),
                 Desc = Localization.Get("绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）", "绿帽子自研的恶意软件检测机学引擎（师承科洛，感谢猎剑云提供的样本）"),
-                Enabled = GreenHatConfig.GreenHatEnable
-            });
-            list.Add(new SettingTable()
-            {
-                Icon = new CellImage(Bitmap.FromStream(new MemoryStream(Resources.Script))),
-                Name = Localization.Get("脚本查杀引擎", "脚本查杀引擎"),
-                Desc = Localization.Get("绿帽子自研的脚本查杀引擎（使用沙盒分析行为进行查杀）", "绿帽子自研的脚本查杀引擎（使用沙盒分析行为进行查杀）"),
                 Enabled = GreenHatConfig.GreenHatEnable
             });
             list.Add(new SettingTable()

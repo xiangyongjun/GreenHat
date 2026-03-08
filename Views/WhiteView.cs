@@ -44,7 +44,7 @@ namespace GreenHat.Views
                 },
                 new Column("Time", Localization.Get("加入时间", "加入时间"), ColumnAlign.Center)
                 {
-                    Width = "200"
+                    Width = "198"
                 }
             };
         }
